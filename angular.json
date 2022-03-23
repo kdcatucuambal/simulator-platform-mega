@@ -103,6 +103,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "simulator-platform-mega:build:production",
+            "firebaseProject": "simulator-platform-mega",
+            "firebaseHostingSite": "simulator-platform-mega"
+          }
         }
       }
     }

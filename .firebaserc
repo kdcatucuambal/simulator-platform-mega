@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "simulator-platform-mega": {
+      "hosting": {
+        "simulator-platform-mega": [
+          "simulator-platform-mega"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "simulator-platform-mega"
+  }
+}
