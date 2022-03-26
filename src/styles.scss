@@ -1,1 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Rbt';
+  src: url('./assets/fonts/Roboto/Roboto-Medium.ttf')
+}
+
+@font-face {
+  font-family: 'Lbt';
+  src: url('./assets/fonts/11S0BLT_.TTF')
+}
+
+@font-face {
+  font-family: 'Catamara';
+  src: url('./assets/fonts/Catamaran-Medium.ttf')
+}
+
+
+*{
+  font-family: 'Rbt','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.font-bold{
+  font-weight: bold;
+}
+
+.font-header{
+  font-family: 'Catamara' !important;
+}
+
+.font-s0blt{
+  font-family: 'Lbt';
+}
+
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+.hover\:-translate-y-4:hover {
+  --tw-translate-y: -1rem/* -16px */;
+  transform: translate(0, 0) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1);
+}
+
+.hover\:shadow-xl:hover {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-nem{
+  border-radius: 10px;
+
+  -webkit-box-shadow: 2px 2px 5px #999;
+  -moz-box-shadow: 2px 2px 5px #999;
+  box-shadow: 2px 2px 5px #999;
+
+}
+
+.effect:hover{
+  transform: translate(0px, -16px)
+}
+
+.bg-purple{
+  background-color: coral;
+}
+
+.text-justify{
+  text-align: justify;
+}
+
+.margin-after-header{
+  margin-top: 58px;
+}

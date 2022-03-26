@@ -1,0 +1,27 @@
+import {Component, Input, OnInit} from '@angular/core';
+
+export interface Card{
+  title: string,
+  description: string,
+  backgroundColor?: string,
+  textColor?: string,
+  imgUrl?: string,
+  isCourse: boolean
+}
+
+
+@Component({
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.scss']
+})
+export class CardComponent implements OnInit {
+
+  @Input('cardInfo') cardInfo: Card = {} as Card;
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

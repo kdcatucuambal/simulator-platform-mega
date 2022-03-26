@@ -1,0 +1,21 @@
+ <div class="card h-100 cursor-pointer shadow-nem effect transition-all" [ngStyle]="{
+  'background-color': cardInfo.backgroundColor,
+  'color': cardInfo.textColor}">
+<!--    <h3 class="text-center font-header pt-3">{{cardInfo.title}}</h3>-->
+   <img *ngIf="!cardInfo.isCourse" style="width: 100px; height: 100px" class="card-img-top img-fluid mx-auto my-3" [src]="cardInfo.imgUrl" alt="Card image cap">
+   <img *ngIf="cardInfo.isCourse" class="card-img-top" [src]="cardInfo.imgUrl" alt="Card image cap">
+   <span *ngIf="cardInfo.isCourse" class="badge bg-success position-absolute"><i class="bi bi-bookmark-check-fill"></i>Disponible</span>
+    <div class="card-body">
+      <h5 class="card-title text-center">{{cardInfo.title}}</h5>
+      <p *ngIf="cardInfo.isCourse" class="text-center text-warning text-border">
+        <i class="bi bi-star-fill mx-1"></i>
+        <i class="bi bi-star-fill mx-1"></i>
+        <i class="bi bi-star-fill mx-1"></i>
+        <i class="bi bi-star-fill mx-1"></i>
+        <i class="bi bi-star-fill mx-1"></i>
+      </p>
+      <p class="card-text text-justify">{{cardInfo.description}}</p>
+      <a *ngIf="cardInfo.isCourse" href="#" class="btn btn-primary">Matricúlate en este curso</a>
+      <a *ngIf="!cardInfo.isCourse" href="#" class="btn btn-primary">Pŕacticar</a>
+    </div>
+  </div>

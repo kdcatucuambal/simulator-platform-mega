@@ -6,8 +6,54 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    .fadeTop {
+      opacity: 0;
+      transform: translate(0, 10vh);
+      transition: all 2s;
+    }
+
+    .fadeRight {
+      opacity: 0;
+      transform: translate(10vh, 0vh);
+      transition: all 1s;
+    }
+
+    .fadeLeft {
+      opacity: 0;
+      transform: translate(-10vh, 0vh);
+      transition: all 1s;
+    }
+
+    .visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+
+  </style>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
 </head>
 <body>
   <app-root></app-root>
+<script>
+  window.addEventListener('scroll', function()  {
+    let elements = document.getElementsByClassName('scroll-content');
+    let screenSize = window.innerHeight;
+
+    for(var i = 0; i < elements.length; i++) {
+      let element = elements[i];
+
+      if(element.getBoundingClientRect().top < screenSize) {
+        element.classList.add('visible');
+      } else {
+        //element.classList.remove('visible');
+      }
+    }
+  });
+</script>
 </body>
 </html>
