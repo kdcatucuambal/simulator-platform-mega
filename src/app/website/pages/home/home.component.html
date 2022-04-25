@@ -1,46 +1,37 @@
-<app-loader  *ngIf="loading; else content"></app-loader>
-<ng-template #content>
-<div class="animate__animated animate__fadeIn">
-  <app-header></app-header>
 
-  <app-carousel [items]="carouselItems"></app-carousel>
+  <app-carousel [items]="carouselItems" [isAlert]="isAlert"></app-carousel>
   <div class="bg-about text-white container-fluid p-4">
-    <h1 class="p-4 text-center animate__animated animate__zoomIn">Plataforma de Simuladores <strong>MEGAPRO</strong></h1>
+    <h1 class="p-4 text-center animate__animated animate__zoomIn">{{titles.info_title.value}}</h1>
     <div class="row">
       <div class="col-6">
         <p class="text-justify animate__animated animate__zoomIn">
-          Nuestros cursos son completos e incluyen todos los Dominios del examen, aula virtual, repositorio de clases grabadas, especialistas en todas las áreas de estudio, acompañamiento hasta el día de la prueba, asesoría para el proceso de inscripción. “Megapro te acompaña desde el inicio hasta el Final.”
+          {{titles.info_title_1.value}}
         </p>
       </div>
       <div class="col-6">
      <p class="text-justify animate__animated animate__zoomIn">
-       Nuestro MEGA EQUIPO, es un grupo de profesionales altamente capacitados, especialistas en sus respectivas áreas de estudio, garantizando siempre el mejor de los resultados.
+      {{titles.info_title_2.value}}
      </p>
       </div>
     </div>
   </div>
 
   <div class="container my-5">
-    <h3 class="text-center mb-4 scroll-content fadeTop"><strong class="font-header">TEMARIO TRANSFORMAR DISPONIBLE</strong></h3>
+    <h3 class="text-center mb-4 scroll-content fadeTop"><strong class="font-header">{{titles.syllabus_title.value}}</strong></h3>
     <div class="row d-flex justify-content-center scroll-content fadeTop">
-      <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of cardsInfo" >
+      <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of topicsCard" >
         <app-card [cardInfo]="item" ></app-card>
       </div>
     </div>
   </div>
 
   <div class="container my-5">
-    <h3 class="text-center mb-4 scroll-content fadeTop font-s0blt"><strong>NUESTROS CURSOS DISPONIBLES</strong></h3>
+    <h3 class="text-center mb-4 scroll-content fadeTop font-s0blt"><strong>{{titles.courses_title.value}}</strong></h3>
     <div class="row d-flex justify-content-center scroll-content fadeTop">
-      <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of coursesInfo" >
+      <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of coursesCard" >
         <app-card [cardInfo]="item" ></app-card>
       </div>
     </div>
   </div>
 
-
-  <app-footer></app-footer>
-</div>
-
-</ng-template>
 

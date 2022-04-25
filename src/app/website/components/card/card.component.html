@@ -2,8 +2,15 @@
   'background-color': cardInfo.backgroundColor,
   'color': cardInfo.textColor}">
 <!--    <h3 class="text-center font-header pt-3">{{cardInfo.title}}</h3>-->
-   <img *ngIf="!cardInfo.isCourse" style="width: 100px; height: 100px" class="card-img-top img-fluid mx-auto my-3" [src]="cardInfo.imgUrl" alt="Card image cap">
-   <img *ngIf="cardInfo.isCourse" class="card-img-top" [src]="cardInfo.imgUrl" alt="Card image cap">
+   <img *ngIf="!cardInfo.isCourse && cardInfo.imgUrl"
+        (error)="onImageError($event)"
+        style="width: 100px; height: 100px"
+        class="card-img-top img-fluid mx-auto my-3"
+        [src]="cardInfo.imgUrl" alt="Card image cap"
+   >
+
+   <img *ngIf="cardInfo.isCourse" class="card-img-top" [src]="cardInfo.imgUrl"
+        alt="Card image cap">
    <span *ngIf="cardInfo.isCourse" class="badge bg-success position-absolute"><i class="bi bi-bookmark-check-fill"></i>Disponible</span>
     <div class="card-body">
       <h5 class="card-title text-center">{{cardInfo.title}}</h5>

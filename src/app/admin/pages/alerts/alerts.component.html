@@ -1,0 +1,117 @@
+<p-toast position="top-right"></p-toast>
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-12">
+        <app-table
+          [columns]="columns"
+          [data]="data"
+          [rows]="10"
+          [title]="'Alerta'"
+          [totalRecords]="data.length"
+          [loading]="loading"
+          [fieldId]="'id'"
+          [fieldsToFilter]="['value']"
+          (onActionOption)="onActionOption($event)"
+          [canDelete]="false"
+          [canAdd]="false"
+          [showSearch]="false"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{titleModal}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <div class="alert alert-warning text-justify" role="alert">
+              <i class="bi bi-info-circle-fill"></i> La alerta solo se muestra si esta activa
+            </div>
+          </div>
+          <div class="mb-3">
+            <label  class="form-label">Valor</label>
+            <quill-editor
+              id="txtContent"
+              class="ql-size-large"
+              [modules]="quillSetting"
+              [(ngModel)]="selected.value"
+              placeholder="Ingrese el contenido de la pregunta"
+              [disabled]="loading"
+              aria-describedby="validate-description"
+            ></quill-editor>
+              <p style="display: none" class="invalid-feedback">El texto es necesario para poder desplegarlo.</p>
+          </div>
+
+          <div class="mb-3 col-12">
+            <label  class="form-label">Severidad: <div [class]="selected.severity | alertToBg: 'd-inline-flex'" style="width: 10px; height: 10px;"></div></label>
+            <select [(ngModel)]="selected.severity" class="form-select" aria-label="Default select example">
+              <option value="alert-primary">Principal</option>
+              <option value="alert-secondary">Secundario</option>
+              <option value="alert-success">Éxito</option>
+              <option value="alert-danger">Peligro</option>
+              <option value="alert-warning">Cuidado</option>
+              <option value="alert-info">Información</option>
+            </select>
+          </div>
+
+            <div class="mb-3 col-12">
+              <label class="form-label d-block">¿Activo?</label>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autocomplete="off"
+                  (change)="onChangeRadio(false)"
+                  [disabled]="loading"
+                  [checked]="!selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio1">NO</label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autocomplete="off"
+                  (change)="onChangeRadio(true)"
+                  [disabled]="loading"
+                  [checked]="selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio2" >SI</label>
+              </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>

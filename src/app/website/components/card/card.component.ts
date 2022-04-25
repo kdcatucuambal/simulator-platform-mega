@@ -6,7 +6,9 @@ export interface Card{
   backgroundColor?: string,
   textColor?: string,
   imgUrl?: string,
-  isCourse: boolean
+  isCourse: boolean,
+  isActive?: boolean,
+  type?: string
 }
 
 
@@ -22,6 +24,10 @@ export class CardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onImageError(event){
+    console.log(event)
   }
 
 }

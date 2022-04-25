@@ -14,9 +14,9 @@
 }
 
 
-*{
-  font-family: 'Rbt','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
+//*{
+//  font-family: 'Rbt','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+//}
 
 .font-bold{
   font-weight: bold;
@@ -79,4 +79,12 @@
 
 .margin-after-header{
   margin-top: 58px;
+}
+
+.ql-container{
+  font-size: 15px !important;
+}
+
+.alert-mega > p{
+  margin-bottom: 0px !important;
 }

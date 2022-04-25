@@ -1,0 +1,122 @@
+<p-toast position="top-right"></p-toast>
+
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-12">
+        <app-table
+          [columns]="columns"
+          [data]="data"
+          [rows]="10"
+          [title]="'Listado de preguntas: ' + currentAreaName"
+          [totalRecords]="data.length"
+          [loading]="loading"
+          [fieldId]="'id'"
+          [fieldsToFilter]="['title', 'description']"
+          (onActionOption)="onActionOption($event)"
+          (onAddRegister)="onAddRegister()"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{titleModal + ' para ' + currentAreaName}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label  class="form-label">Seleccione el tema: </label>
+                <select
+                  [(ngModel)]="selected.subtopicId"
+                  class="form-select"
+                  aria-label="Default select example"
+                  [disabled]="loading"
+                  aria-describedby="validate-topic"
+                  [ngClass]="{'is-invalid': submited && !selected.subtopicId}"
+                >
+                  <option value="">Selecciona un tema</option>
+                  <option *ngFor="let subtopic of subtopics" [value]="subtopic.id">{{subtopic.subtopic}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-6">
+
+            </div>
+
+            <div class="col-12">
+              <div class="mb-3">
+                <label  class="form-label">Descripción del problema: </label>
+                <quill-editor
+                  id="txtDescription"
+                  class="ql-size-large"
+                  [modules]="quillSetting"
+                  [(ngModel)]="selected.description"
+                  placeholder="Ingrese el contenido de la pregunta"
+                  [disabled]="loading"
+                  aria-describedby="validate-description"
+                ></quill-editor>
+                <p style="display: none" class="invalid-feedback">El texto es necesario para poder desplegarlo.</p>
+              </div>
+            </div>
+
+            <div *ngFor="let option of selected.options; let i = index;trackBy:trackByIdx" class="col-6">
+              <div class="mb-3">
+                <label  class="form-label">Opción {{i + 1}}, <i><small>marcar como correcta:</small></i></label>
+                <input
+                  class="form-check-input mx-2 cursor-pointer"
+                  type="radio" name="radioNoLabel"
+                  [id]="'radioNoLabel'+i"
+                  value=""
+                  [checked]="selected.correct == (i+1)"
+                  aria-label="..."
+                  (change)="onChangeRadioOption(i + 1)"
+                >
+                <quill-editor
+                  class="ql-size-large"
+                  [modules]="quillSetting"
+                  [(ngModel)]="selected.options[i]"
+                  [placeholder]="'Ingrese la opción n° ' + (i + 1)"
+                  [disabled]="loading"
+                ></quill-editor>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>
+
+

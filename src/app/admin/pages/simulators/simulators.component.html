@@ -1,0 +1,228 @@
+<p-toast position="top-right"></p-toast>
+
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-12">
+        <app-table
+          [columns]="columns"
+          [data]="data"
+          [rows]="10"
+          [title]="'Listado de simuladores'"
+          [totalRecords]="data.length"
+          [loading]="loading"
+          [fieldId]="'id'"
+          [fieldsToFilter]="['title', 'description', 'instruction']"
+          (onActionOption)="onActionOption($event)"
+          (onAddRegister)="onAddRegister()"
+          [canSetting]="true"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{titleModal}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="mb-3 col-12">
+              <label for="title-subject" class="form-label">Título</label>
+              <div class="input-group has-validation">
+                <input type="text" [(ngModel)]="selected.title"
+                       class="form-control"
+                       id="title-subject"
+                       required
+                       aria-describedby="validate-title"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !selected.title}"
+                >
+                <div *ngIf="submited && !selected.title" id="validate-title" class="invalid-feedback">
+                  El título es necesario
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 col-12">
+              <label for="description-subject" class="form-label">Descripción</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="selected.description"
+                [rows]="4" id="description-subject"
+                aria-describedby="validate-description"
+                [disabled]="loading"
+                [ngClass]="{'is-invalid': submited && !selected.description}"
+              ></textarea>
+              <div *ngIf="submited && !selected.description" id="validate-description" class="invalid-feedback">
+                La descripción es necesaria
+              </div>
+            </div>
+            <div class="mb-3 col-12">
+              <label for="ins-simulator" class="form-label">Instrucciones</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="selected.instructions"
+                [rows]="3"
+                id="ins-simulator"
+                aria-describedby="validate-ins"
+                [disabled]="loading"
+                [ngClass]="{'is-invalid': submited && !selected.instructions}"
+              ></textarea>
+              <div *ngIf="submited && !selected.instructions" id="validate-ins" class="invalid-feedback">
+                Las instruccion para el simulador es necesaria
+              </div>
+            </div>
+            <div class="mb-3 col-12">
+              <label for="image-subject" class="form-label">Url de imagen</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="selected.imgUrl"
+                [rows]="3"
+                id="image-subject"
+                aria-describedby="validate-img"
+                [disabled]="loading"
+                [ngClass]="{'is-invalid': submited && !selected.imgUrl}"
+              ></textarea>
+              <div *ngIf="submited && !selected.imgUrl" id="validate-img" class="invalid-feedback">
+                La url de la imagen es necesaria.
+              </div>
+            </div>
+
+            <div class="mb-3 col-4">
+              <label for="hours-simulator" class="form-label">Horas: </label>
+              <div class="input-group has-validation">
+                <input type="number" [(ngModel)]="selected.hours"
+                       class="form-control"
+                       id="hours-simulator"
+                       required
+                       aria-describedby="validate-hours"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !selected.hours}"
+                >
+                <div *ngIf="submited && !selected.hours" id="validate-hours" class="invalid-feedback">
+                  El tiempo es necesario
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3 col-4">
+              <label for="minutes-simulator" class="form-label">Minutes: </label>
+              <div class="input-group has-validation">
+                <input type="number" [(ngModel)]="selected.minutes"
+                       class="form-control"
+                       id="minutes-simulator"
+                       required
+                       aria-describedby="validate-minutes"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !selected.minutes}"
+                >
+                <div *ngIf="submited && !selected.minutes" id="validate-minutes" class="invalid-feedback">
+                  El tiempo es necesario
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3 col-4">
+              <label for="seconds-simulator" class="form-label">Segundos: </label>
+              <div class="input-group has-validation">
+                <input type="number" [(ngModel)]="selected.seconds"
+                       class="form-control"
+                       id="seconds-simulator"
+                       required
+                       aria-describedby="validate-seconds"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !selected.seconds}"
+                >
+                <div *ngIf="submited && !selected.seconds" id="validate-seconds" class="invalid-feedback">
+                  El tiempo es necesario
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3 col-6">
+              <label  class="form-label">Tipo: </label>
+              <select
+                [(ngModel)]="selected.type"
+                class="form-select"
+                aria-label="Default select example"
+                [disabled]="loading"
+                aria-describedby="validate-type"
+                [ngClass]="{'is-invalid': submited && !selected.type}"
+              >
+                <option *ngFor="let type of types" [value]="type">{{type}}</option>
+              </select>
+              <div *ngIf="submited && !selected.type" id="validate-type" class="invalid-feedback">
+                Es tipo de simulador es necesario
+              </div>
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="image-subject" class="form-label d-block">¿Activo?</label>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autocomplete="off"
+                  (change)="onChangeRadio(false)"
+                  [disabled]="loading"
+                  [checked]="!selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio1">NO</label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autocomplete="off"
+                  (change)="onChangeRadio(true)"
+                  [disabled]="loading"
+                  [checked]="selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio2" >SI</label>
+              </div>
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="color-background" class="form-label">Color de presentación:</label>
+              <input type="color" id="color-background" class="form-control" [(ngModel)]="selected.backgroundColor" />
+            </div>
+            <div class="mb-3 col-6">
+              <label for="color-background" class="form-label">Color de texto:</label>
+              <input type="color" class="form-control" [(ngModel)]="selected.textColor" />
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>

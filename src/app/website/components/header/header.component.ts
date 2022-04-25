@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {AlertInfo} from "../../../models/AreaModel";
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+@Input('title') title: string = '';
+@Input('alert') alert: AlertInfo;
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.alert)
   }
 
 }

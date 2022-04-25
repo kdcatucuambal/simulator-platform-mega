@@ -14,6 +14,7 @@ export interface CarouselItem{
 export class CarouselComponent implements OnInit {
 
   @Input('items') items: CarouselItem[] = [];
+  @Input('isAlert') isAlert: boolean;
 
   constructor() { }
 

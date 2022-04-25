@@ -1,0 +1,144 @@
+<p-toast position="top-right"></p-toast>
+
+<div id="main">
+<app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-12">
+        <app-table
+          [columns]="columns"
+          [data]="data"
+          [rows]="10"
+          [title]="'Listado de cursos'"
+          [totalRecords]="data.length"
+          [loading]="loading"
+          [fieldId]="'id'"
+          [fieldsToFilter]="['title', 'description']"
+          (onActionOption)="onActionOption($event)"
+          (onAddRegister)="onAddRegister()"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{titleModal}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="mb-3 col-12">
+              <label for="title-subject" class="form-label">Título</label>
+              <div class="input-group has-validation">
+                <input type="text" [(ngModel)]="selected.title"
+                       class="form-control"
+                       id="title-subject"
+                       required
+                       aria-describedby="validate-title"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !selected.title}"
+                >
+                <div *ngIf="submited && !selected.title" id="validate-title" class="invalid-feedback">
+                  El título es necesario
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 col-12">
+              <label for="description-subject" class="form-label">Descripción</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="selected.description"
+                [rows]="4" id="description-subject"
+                aria-describedby="validate-description"
+                [disabled]="loading"
+                [ngClass]="{'is-invalid': submited && !selected.description}"
+              ></textarea>
+              <div *ngIf="submited && !selected.description" id="validate-description" class="invalid-feedback">
+                La descripción es necesaria
+              </div>
+            </div>
+            <div class="mb-3 col-12">
+              <label for="image-subject" class="form-label">Url de imagen</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="selected.imgUrl"
+                [rows]="3"
+                id="image-subject"
+                aria-describedby="validate-img"
+                [disabled]="loading"
+                [ngClass]="{'is-invalid': submited && !selected.imgUrl}"
+              ></textarea>
+              <div *ngIf="submited && !selected.imgUrl" id="validate-img" class="invalid-feedback">
+                La url de la imagen es necesaria.
+              </div>
+            </div>
+
+            <div class="mb-3 col-12">
+              <label for="image-subject" class="form-label d-block">¿Activo?</label>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autocomplete="off"
+                  (change)="onChangeRadio(false)"
+                  [disabled]="loading"
+                  [checked]="!selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio1">NO</label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autocomplete="off"
+                  (change)="onChangeRadio(true)"
+                  [disabled]="loading"
+                  [checked]="selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio2" >SI</label>
+              </div>
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="color-background" class="form-label">Color de presentación:</label>
+              <input type="color" id="color-background" class="form-control" [(ngModel)]="selected.backgroundColor" />
+            </div>
+            <div class="mb-3 col-6">
+              <label for="color-background" class="form-label">Color de texto:</label>
+              <input type="color" class="form-control" [(ngModel)]="selected.textColor" />
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>

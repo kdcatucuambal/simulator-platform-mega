@@ -1,0 +1,9 @@
+<app-loader  *ngIf="loading; else content"></app-loader>
+
+<ng-template #content>
+  <app-sidebar [data]="sideBarData"></app-sidebar>
+  <router-outlet></router-outlet>
+</ng-template>
+
+
+

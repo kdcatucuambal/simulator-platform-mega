@@ -9,7 +9,9 @@ import { CardComponent } from './components/card/card.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
-import { LoaderComponent } from './components/loader/loader.component';
+import { TestComponent } from './components/test/test.component';
+import {SharedModule} from "../shared/shared.module";
+import { LayoutSiteComponent } from './components/layout-site/layout-site.component';
 
 
 @NgModule({
@@ -21,11 +23,13 @@ import { LoaderComponent } from './components/loader/loader.component';
     HeaderComponent,
     FooterComponent,
     CarouselComponent,
-    LoaderComponent
+    TestComponent,
+    LayoutSiteComponent
   ],
   imports: [
     CommonModule,
-    WebsiteRoutingModule
+    WebsiteRoutingModule,
+    SharedModule
   ]
 })
 export class WebsiteModule { }

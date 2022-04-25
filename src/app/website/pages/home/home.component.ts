@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {CarouselItem} from "../../components/carousel/carousel.component";
 import {Card} from "../../components/card/card.component";
+import {QueryDbService} from "../../../services/firestore/query-db.service";
+import {SiteDataService, TitleModel} from "../../services/site-data.service";
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -10,87 +15,21 @@ import {Card} from "../../components/card/card.component";
 export class HomeComponent implements OnInit {
 
   carouselItems: CarouselItem[];
-  loading = false;
-  cardsInfo: Card[] = [
-    {
-      title: 'Razonamiento Numérico',
-      description: 'Realiza operaciones matemáticas y preparate para el test transformar.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://cdn-icons-png.flaticon.com/512/3074/3074046.png',
-      isCourse: false
-    },
-    {
-      title: 'Razonamiento Verbal',
-      description: 'Uno de los mejores contenidos para que puedas prácticar',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://cdn-icons-png.flaticon.com/512/3616/3616595.png',
-      isCourse: false
-    },
-    {
-      title: 'Razonamiento Lógico',
-      description: 'Realiza operaciones matemáticas y preparate para el test transformar.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://cdn-icons-png.flaticon.com/512/2958/2958882.png',
-      isCourse: false
-    },
-    {
-      title: 'Atención y concentración',
-      description: 'Uno de los mejores contenidos para que puedas prácticar',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://cdn-icons-png.flaticon.com/512/6604/6604292.png',
-      isCourse: false
-    },
-  ];
 
 
-  coursesInfo: Card[] = [
-    {
-      title: 'MEGAU 1B -  TEST TRANSFORMAR',
-      description: 'Virtual - Martes y Jueves de 19h00 a 21h00.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://megapro.com.ec/site/images/course_4.jpg',
-      isCourse: true
-    },
-    {
-      title: 'MEGAU 2 -  TEST TRANSFORMAR',
-      description: 'Virtual - Martes y Jueves de 19h00 a 21h00.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://megapro.com.ec/site/images/course_5.jpg',
-      isCourse: true
-    },
-    {
-      title: 'MEGAU 3 -  TEST TRANSFORMAR',
-      description: 'Virtual - Martes y Jueves de 19h00 a 21h00.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://megapro.com.ec/site/images/course_1.jpg',
-      isCourse: true
-    },
-    {
-      title: 'MEGAU ESPOL -  PRE POLITÉCNICO',
-      description: 'Presencial - Martes y Jueves de 19h00 a 21h00.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://megapro.com.ec/site/images/course_2.jpg',
-      isCourse: true
-    },
-    {
-      title: 'MEGAU TUTORÍAS -  CLASES PARTICULARES',
-      description: 'Presencial - Martes y Jueves de 19h00 a 21h00.',
-      backgroundColor: '#ffffff',
-      textColor: '#000000',
-      imgUrl: 'https://megapro.com.ec/site/images/course_6.jpg',
-      isCourse: true
-    }
-  ];
 
-  constructor() {
+  topicsCard: Card[] = [];
+  coursesCard: Card[] = [];
+  isAlert: boolean = false;
+
+
+  titles: TitleModel = {} as TitleModel;
+
+
+  constructor(
+    private queryDbService: QueryDbService,
+    private siteDataService: SiteDataService
+  ) {
     this.carouselItems = [
       {
         title: 'Title 1',
@@ -109,13 +48,33 @@ export class HomeComponent implements OnInit {
       }
     ]
 
-
   }
 
   ngOnInit(): void {
-    setTimeout(()=>{
-      this.loading = false;
-    }, 5000)
+
+    // this.queryDbService.getCollections(['areas', 'courses', 'titles'])
+    //   .subscribe(data => {
+    //
+    //     this.topicsCard = (data[0] as Card[]).map(topic => {
+    //       topic.isCourse = false;
+    //       return topic;
+    //     });
+    //
+    //     this.coursesCard = (data[1] as Card[]).map(course => {
+    //       course.isCourse = true;
+    //       return course;
+    //     });
+    //
+    //     this.titles = (data[2] as any).reduce((a, v)=> ({...a, [v.type]: v}), {});
+    //
+    //
+    //   })
+
+    this.coursesCard = this.siteDataService.courseList;
+    this.topicsCard = this.siteDataService.topicList;
+    this.titles = this.siteDataService.titles;
+    this.isAlert = this.siteDataService.alertValue.isActive;
+
   }
 
 }

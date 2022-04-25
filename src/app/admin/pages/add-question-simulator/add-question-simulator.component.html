@@ -1,0 +1,208 @@
+<p-toast position="top-right"></p-toast>
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+
+    <p-panel header="Información de Simulador">
+      <div class="container px-5">
+        <div class="row">
+          <div class="col-6">
+            <h5><strong>Nombre: </strong>{{simulatorInfo.title}}</h5>
+            <h5><strong>Tipo: </strong>{{simulatorInfo.type}}</h5>
+            <h5><strong>Tiempo: </strong>{{simulatorInfo.hours}} hora(s),
+              {{simulatorInfo.minutes}} minuto(s), {{simulatorInfo.seconds}} segundo(s)</h5>
+          </div>
+          <div class="col-6">
+            <h5><strong>Id cuestionario: </strong>{{simulatorInfo.id}}</h5>
+            <h5><strong>Preguntas: </strong>{{questions.length}}</h5>
+            <h5><strong>Activo: </strong>{{simulatorInfo.isActive ? 'SI' : 'NO'}}</h5>
+          </div>
+        </div>
+      </div>
+
+    </p-panel>
+
+    <div class="row mt-2">
+      <div class="col-12">
+        <p-table
+          [value]="questions"
+          [columns]="cols"
+          [reorderableColumns]="true"
+          [loading]="loading"
+          responsiveLayout="scroll"
+          styleClass="p-datatable-sm p-datatable-gridlines"
+        >
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+              <div class="row">
+                <div class="col-6 my-auto">
+                  Preguntas de este simulador
+                </div>
+                <div class="col-6">
+                  <button (click)="onAddRegister()" class="btn btn-primary float-end">Agregar pregunta</button>
+                  <button (click)="onSaveNewOrder()" class="btn btn-success float-end mx-2">Guardar orden</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th class="text-center" style="width:3rem"></th>
+              <th class="text-center" *ngFor="let col of columns" pReorderableColumn>
+                {{col.header}}
+              </th>
+              <th class="text-center">Opciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+              <td class="text-center">
+                <span class="pi pi-bars" [pReorderableRowHandle]="index"></span>
+              </td>
+              <td class="text-center" *ngFor="let col of columns">
+                {{rowData[col.field] | cutText: col['field']}}
+              </td>
+              <td class="text-center">
+                <button (click)="onActionEdit(rowData)" class="btn btn-primary btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
+                <button (click)="onActionDelete(rowData)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash3-fill"></i></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{'Title'}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label  class="form-label">Seleccione el tema: </label>
+                <select
+                  [(ngModel)]="selected.subtopicId"
+                  class="form-select"
+                  aria-label="Default select example"
+                  [disabled]="loading"
+                  aria-describedby="validate-topic"
+                  [ngClass]="{'is-invalid': submited && !areaSelected}"
+                >
+                  <option value="">Selecciona un tema</option>
+                  <option *ngFor="let topic of areas" [value]="topic.id">{{topic.title}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-6">
+
+            </div>
+
+            <div class="col-12">
+              <div class="mb-3">
+                <label  class="form-label">Descripción del problema: </label>
+                <quill-editor
+                  id="txtDescription"
+                  class="ql-size-large"
+                  [modules]="quillSetting"
+                  [(ngModel)]="selected.description"
+                  placeholder="Ingrese el contenido de la pregunta"
+                  [disabled]="loading"
+                  aria-describedby="validate-description"
+                ></quill-editor>
+                <p style="display: none" class="invalid-feedback">El texto es necesario para poder desplegarlo.</p>
+              </div>
+            </div>
+
+            <div *ngFor="let option of selected.options; let i = index;trackBy:trackByIdx" class="col-6">
+              <div class="mb-3">
+                <label  class="form-label">Opción {{i + 1}}, <i><small>marcar como correcta:</small></i></label>
+                <input
+                  class="form-check-input mx-2 cursor-pointer"
+                  type="radio" name="radioNoLabel"
+                  [id]="'radioNoLabel'+i"
+                  value=""
+                  [checked]="selected.correct == (i+1)"
+                  aria-label="..."
+                  (change)="onChangeRadioOption(i + 1)"
+                >
+                <quill-editor
+                  class="ql-size-large"
+                  [modules]="quillSetting"
+                  [(ngModel)]="selected.options[i]"
+                  [placeholder]="'Ingrese la opción n° ' + (i + 1)"
+                  [disabled]="loading"
+                ></quill-editor>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>
+
+
+<button
+  #openDeleteModal
+  [hidden]="true"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#deleteModal">
+</button>
+<!-- Modal delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Desea eliminar el registro?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          #closeDeleteModal
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">NO</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onConfirmDelete()"
+        >SI</button>
+      </div>
+    </div>
+  </div>
+</div>

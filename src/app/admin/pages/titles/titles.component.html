@@ -1,0 +1,80 @@
+<p-toast position="top-right"></p-toast>
+
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-12">
+        <app-table
+          [columns]="columns"
+          [data]="data"
+          [rows]="10"
+          [title]="'Textos de la aplicación'"
+          [totalRecords]="data.length"
+          [loading]="loading"
+          [fieldId]="'id'"
+          [fieldsToFilter]="['value']"
+          (onActionOption)="onActionOption($event)"
+          [canDelete]="false"
+          [canAdd]="false"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{titleModal}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="mb-3 col-12">
+              <div class="alert alert-warning text-justify" role="alert">
+                <i class="bi bi-info-circle-fill"></i> {{selected.info}}
+              </div>
+              <label for="description-subject" class="form-label">Valor</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="selected.value"
+                [rows]="8" id="description-subject"
+                aria-describedby="validate-description"
+                [disabled]="loading"
+                [ngClass]="{'is-invalid': submited && !selected.value}"
+              ></textarea>
+              <div *ngIf="submited && !selected.value" id="validate-description" class="invalid-feedback">
+                El texto es necesario para poder desplegarlo.
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>
