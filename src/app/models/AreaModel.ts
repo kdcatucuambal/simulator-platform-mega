@@ -6,7 +6,8 @@ export interface Area{
   isActive?: boolean,
   backgroundColor: string,
   textColor: string,
-  type: string
+  type: string,
+  questions?: number
 }
 
 export interface Course extends  Area{
@@ -17,7 +18,7 @@ export interface CarouselInfo extends Omit<Area, 'textColor' | 'backgroundColor'
 
 }
 
-export interface SimulatorInfo extends Course{
+export interface SimulatorInfo extends Omit<Course, 'questions'>{
   minutes: number,
   hours: number,
   seconds: number,

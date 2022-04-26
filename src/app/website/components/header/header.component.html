@@ -26,9 +26,10 @@
   </div>
 </nav>
 
+<div class="margin-after-header"></div>
   <div
     *ngIf="alert.isActive"
-    [className]="'margin-after-header alert d-flex justify-content-center mb-0 ' + alert.severity"
+    [className]="'alert d-flex justify-content-center mb-0 ' + alert.severity"
     role="alert"
   >
     <span class="alert-mega" [innerHTML]="alert.value"></span>

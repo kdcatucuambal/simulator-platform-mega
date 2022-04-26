@@ -27,7 +27,6 @@ export class LayoutSiteComponent implements OnInit {
       if (!value){
         this.mainTitle = this.siteDataService.titles.main_title.value;
         this.alert = this.siteDataService.alertValue;
-        console.log(this.alert)
         this.loading = false;
       }
     }

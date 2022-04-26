@@ -7,6 +7,7 @@ import {Column, OutputType} from "../../../shared/components/table/table.compone
 import {ValidateService} from "../../../services/validate/validate.service";
 import {MessageService} from "primeng/api";
 import {QuillModules} from "ngx-quill";
+import {QuestionsAdminService} from "./services/questions-admin.service";
 
 
 @Component({
@@ -72,7 +73,8 @@ export class QuestionsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private queryDbService: QueryDbService,
     private validateService: ValidateService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private questionsAdminService: QuestionsAdminService
   ) {
   }
 
@@ -132,8 +134,8 @@ export class QuestionsComponent implements OnInit {
     this.selected = {...rowInfo.rowData}
     if (rowInfo.type === 'delete') {
       this.loading = true;
-      this.queryDbService
-        .deleteDoc(this.questionsId, `${rowInfo.rowData.id}`)
+      this.questionsAdminService
+        .delete(this.questionsId, `${rowInfo.rowData.id}`)
         .subscribe(() => {
           this.data = this.data.filter(item => item.id != rowInfo.rowData.id);
           this.loading = false;
@@ -178,6 +180,7 @@ export class QuestionsComponent implements OnInit {
     this.selected.isActive = value;
   }
 
+
   onSave() {
     Object
       .keys(this.selected)
@@ -193,18 +196,19 @@ export class QuestionsComponent implements OnInit {
     this.loading = true;
     this.btnCloseModal.nativeElement.click();
     if (id == '') {
-      this.queryDbService.addDoc(this.questionsId, rest)
-        .subscribe((response) => {
-          this.data.push({
-            id: response.id,
-            ...rest
-          });
-          this.loading = false;
-          this.showToast('success', 'Información', 'Dato creado correctamente');
+
+      this.questionsAdminService.add(this.questionsId, rest).subscribe((response)=>{
+        this.data.push({
+          id: response.id,
+          ...rest
         });
+        this.loading = false;
+        this.showToast('success', 'Información', 'Dato creado correctamente');
+      })
+
     } else {
-      this.queryDbService
-        .updateDoc(this.questionsId, `${id}`, rest)
+      this.questionsAdminService
+        .update(this.questionsId, `${id}`, rest)
         .subscribe(() => {
           this.data = this.data.map(item => {
             if (item.id == id) {

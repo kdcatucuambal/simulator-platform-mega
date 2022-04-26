@@ -1,29 +1,40 @@
 <div class="container-fluid">
   <div class="row d-flex justify-content-center mt-5 mb-5">
     <div class="col-lg-5 col-12">
-      <div class="card shadow-sm animate__animated animate__zoomIn">
+      <div class="card shadow-sm animate__animated animate__flash">
         <img
-          style="height: 200px; width: 200px"
+          style="height: 70px; width: 70px"
           class="card-img-top mx-auto my-2"
-          src="https://scontent.fuio28-1.fna.fbcdn.net/v/t1.6435-9/123936357_2506238279668827_903183720942390849_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=174925&_nc_ohc=HqY50Qs-qpQAX_eH9v6&_nc_ht=scontent.fuio28-1.fna&oh=00_AT_KTN6NCUag_3mGM9CHMJ_nEhN03w2Rh1zeu6EgAEdf_g&oe=6266B9AE"
+          src="https://cdn-icons-png.flaticon.com/512/1828/1828504.png"
           alt="">
         <div class="card-body">
-          <h5 class="card-title text-center">PLATAFORMA MEGAPRO</h5>
-          <h6 class="card-subtitle text-center small text-secondary">Iniciar sesión administración de la plataforma</h6>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Usuario</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Ingrese su usuario" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">El usuario es asignado por el administrador de Megapro.</div>
+          <h6 class="card-subtitle text-center small text-secondary">Iniciar sesión</h6>
+          <div class="row">
+            <div class="col-6">
+              <button class="btn btn-secondary w-100 my-2"><i class="bi bi-google"></i> Continuar con Google</button>
+            </div>
+          <div class="col-6">
+            <button class="btn btn-primary w-100 my-2"><i class="bi bi-facebook"></i> Continuar con Facebook</button>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Clave</label>
-            <input [type]="inputType" placeholder="Ingrese su clave" class="form-control" id="exampleInputPassword1">
           </div>
+          <h6 class="card-subtitle text-center small text-secondary mt-4 mb-4">O puedes iniciar con: </h6>
+
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="Ingrese su usuario">
+            <label for="floatingInput">Usuario</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input [type]="inputType" class="form-control" id="password" placeholder="Ingrese su contraseña">
+            <label for="floatingInput">Contraseña</label>
+          </div>
+
           <div class="mb-3 form-check">
             <input type="checkbox" (change)="onShowPassword()" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Mostrar clave</label>
           </div>
           <button class="btn btn-primary w-100">Iniciar</button>
+          <button class="mt-2 btn btn-link">¿Aún no tienes cuenta?</button>
         </div>
       </div>
     </div>
