@@ -12,14 +12,9 @@ export class SidebarComponent implements OnInit {
 
  @Input('data') sideBarData: SideBar[] = [];
 
-
-  constructor(
-
-  ) {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-
   }
 
 }

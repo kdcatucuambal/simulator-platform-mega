@@ -1,0 +1,28 @@
+<div class="card mt-4 shadow-sm">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h6 class="text-dark">Pregunta 1</h6>
+      </div>
+      <div class="col-6">
+        <h4 *ngIf="btnStatus == 'btn-correct'"><span class="animate__animated animate__bounceInLeft badge bg-success float-end"><i class="bi bi-check-square-fill"></i> Correcto</span></h4>
+      </div>
+      <div class="col-12">
+        <quill-view-html class="text-justify" [content]="question.description"></quill-view-html>
+      </div>
+      <div class="col-12">
+        <div class="container">
+          <div class="row">
+            <div *ngFor="let option of question.options; let i = index" class="col-6 my-2">
+              <button (click)="onClickOption(i)"
+                      class="btn {{flags[i] ?  btnStatus : 'btn-option'}} w-100">
+                <quill-view-html [content]="question.options[i]"></quill-view-html>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

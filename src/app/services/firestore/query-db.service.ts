@@ -4,7 +4,7 @@ import Firestore = firebase.firestore.Firestore;
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {forkJoin, from, lastValueFrom, map, Observable, of, switchMap, tap} from "rxjs";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
-import {Area, QuestionInfo} from "../../models/AreaModel";
+import {Area} from "../../models/AreaModel";
 
 
 @Injectable({
@@ -72,7 +72,7 @@ export class QueryDbService {
     //TODO: Implement
   }
 
-  getDocRef(collectionName: string, id: string){
+  getDocRef(collectionName: string, id: string) {
     return this.db.collection(collectionName).doc(id);
   }
 
@@ -93,7 +93,6 @@ export class QueryDbService {
     }
     return forkJoin(observables$)
   }
-
 
 
   getCollectionsWhere(
@@ -120,39 +119,29 @@ export class QueryDbService {
 
 
   async saveQuestionAndUpdateSizeTransaction(collectionName: string, dataToSave: any) {
-
-   return await this.db.runTransaction(async (transaction) => {
-
+    return await this.db.runTransaction(async (transaction) => {
       const sfDocRef = this.db.collection('areas').doc(collectionName);
       const sfDoc = await transaction.get(sfDocRef);
-
       if (!sfDoc.exists) {
         throw "Document does not exist!";
       }
-
-     const data = sfDoc.data() as Area;
-     const size = data.questions + 1;
-
+      const data = sfDoc.data() as Area;
+      const size = data.questions + 1;
       const responseAddDoc$ = this.addDoc(collectionName, {...dataToSave, index: size}).pipe(
         tap(() => {
           transaction.update(sfDocRef, {questions: size})
         })
       );
-
       return lastValueFrom(responseAddDoc$);
     });
   }
-
-  get dbRef(){
-    return this.db;
-  }
-
-
-
 
   executeBath() {
     return this.db.batch();
   }
 
+  get dbRef() {
+    return this.db;
+  }
 
 }

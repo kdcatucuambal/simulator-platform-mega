@@ -1,3 +1,11 @@
-<div class="container bg-primary">
+<br>
+<br>
+<br>
 
-</div>
+<app-paginator
+  [initialPage]="1"
+  (changePage)="onChangePage($event)"
+  [itemsPerPage]="itemsPerPage"
+  [totalItems]="total"
+  [maxPages]="5"
+></app-paginator>

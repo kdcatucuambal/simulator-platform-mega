@@ -1,0 +1,36 @@
+:host ::ng-deep .ql-editor > p{
+  text-align: justify !important;
+  cursor: pointer;
+}
+
+
+:host ::ng-deep .btn-correct{
+  border-radius: 0.25rem !important;
+  border: 1px solid transparent !important;
+  color: #000 !important;
+  box-shadow: 0 0 0 0.10rem rgb(27, 120, 6) !important;
+  border-color: green !important;
+}
+
+:host ::ng-deep .btn-incorrect{
+  border-radius: 0.15rem !important;
+  border: 1px solid transparent !important;
+  color: #000 !important;
+  box-shadow: 0 0 0 0.15rem rgba(255, 0, 0, 0.85) !important;
+  border-color: darkred !important;
+}
+
+
+:host ::ng-deep .border-correct{
+  border: 2px solid green;
+}
+:host ::ng-deep .border-def{
+  border: 1px solid gray;
+}
+
+.btn-option{
+  border-radius: 0.25rem !important;
+  border: 1px solid transparent !important;
+  color: #000 !important;
+  box-shadow: 0 0 0 0.15rem rgb(211 212 213 / 35%) !important;
+}
