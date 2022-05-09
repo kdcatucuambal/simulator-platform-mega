@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CarouselItem} from "../../components/carousel/carousel.component";
 import {Card} from "../../components/card/card.component";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {SiteDataService, TitleModel} from "../../services/site-data.service";
-
-
+import {AlertInfo, Area} from "../../../models/AreaModel";
+import {TestLayoutService} from "../../services/test-layout.service";
 
 
 @Component({
@@ -17,18 +16,16 @@ export class HomeComponent implements OnInit {
   carouselItems: CarouselItem[];
 
 
-
   topicsCard: Card[] = [];
   coursesCard: Card[] = [];
   isAlert: boolean = false;
+  loading = true;
 
-
-  titles: TitleModel = {} as TitleModel;
-
+  //titles: TitleModel = {} as TitleModel;
+  titles: any = null;
 
   constructor(
     private queryDbService: QueryDbService,
-    private siteDataService: SiteDataService
   ) {
     this.carouselItems = [
       {
@@ -47,34 +44,29 @@ export class HomeComponent implements OnInit {
         imgUrl: 'https://seduc.edomex.gob.mx/sites/seduc.edomex.gob.mx/files/images/padres_familia/inscripciones_superior/cambio%20seduc%20padres%20de%20familia_inscripciones%20a%20superior.jpg'
       }
     ]
-
   }
 
   ngOnInit(): void {
 
-    // this.queryDbService.getCollections(['areas', 'courses', 'titles'])
-    //   .subscribe(data => {
-    //
-    //     this.topicsCard = (data[0] as Card[]).map(topic => {
-    //       topic.isCourse = false;
-    //       return topic;
-    //     });
-    //
-    //     this.coursesCard = (data[1] as Card[]).map(course => {
-    //       course.isCourse = true;
-    //       return course;
-    //     });
-    //
-    //     this.titles = (data[2] as any).reduce((a, v)=> ({...a, [v.type]: v}), {});
-    //
-    //
-    //   })
+    this.queryDbService.getCollections(['titles', 'areas', 'courses', 'alerts'])
+      .subscribe(data => {
+        this.titles = (data[0] as any).reduce((a, v) => ({...a, [v.type]: v}), {});
 
-    this.coursesCard = this.siteDataService.courseList;
-    this.topicsCard = this.siteDataService.topicList;
-    this.titles = this.siteDataService.titles;
-    this.isAlert = this.siteDataService.alertValue.isActive;
+        this.topicsCard = (data[1] as Area[]).map<Card>(topic => {
+          const path = `/practice/${topic.id}`
+          return {...topic, isCourse: false, path};
+        });
 
+        this.coursesCard = (data[2] as Card[]).map(course => {
+          course.isCourse = true;
+          return course;
+        });
+
+        this.isAlert = ((data[3] as AlertInfo[])[0]).isActive;
+
+        this.loading = false;
+
+      });
   }
 
 }

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {Observable, switchMap, throwError} from "rxjs";
+import { switchMap, throwError} from "rxjs";
 import {Area, QuestionInfo, SubTopicInfo} from "../../../models/AreaModel";
 import {Column, OutputType} from "../../../shared/components/table/table.component";
 import {ValidateService} from "../../../services/validate/validate.service";
@@ -28,7 +28,7 @@ export class QuestionsComponent implements OnInit {
         [{ list: 'ordered'}, { list: 'bullet' }],
         ['formula'],
         ['clean'],
-        ['image']
+        ['image'],
       ],
       handlers: {
         image: imageHandler
@@ -104,6 +104,8 @@ export class QuestionsComponent implements OnInit {
       this.currentAreaName = areaFound.title;
       this.loading = false;
     })
+
+
   }
 
   onSearch() {

@@ -1,4 +1,4 @@
-<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+<ul *ngIf="pager.pages && pager.pages.length" class="pagination justify-content-center">
   <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
     <a (click)="setPage(1)" class="page-link cursor-pointer">««</a>
   </li>

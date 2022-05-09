@@ -13,7 +13,7 @@
 }
 
 .border-buttons{
-  border-right: 1px solid gray;
+  border-right: 2px solid rgb(0, 0, 0, 0.20);
 }
 
 
@@ -110,3 +110,33 @@
   box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
   font-weight: bold;
 }
+
+.sidebar-simulator{
+  background-color: rgb(255, 255, 255);
+}
+:host ::ng-deep .btn-current{
+    width: 32px !important;
+    height: 32px !important;
+    margin: 2px !important;
+    border-radius: 0.25rem !important;
+    background-color: #035fd1 !important;
+    color: white !important;
+    -webkit-box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
+    font-weight: bold;
+}
+
+:host ::ng-deep .btn-responded{
+  width: 32px !important;
+  height: 32px !important;
+  margin: 2px !important;
+  border-radius: 0.25rem !important;
+  background-color: #1b7806 !important;
+  color: white !important;
+  -webkit-box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 3px 7px -4px rgba(0, 0, 0, 0.75);
+  font-weight: bold;
+}
+

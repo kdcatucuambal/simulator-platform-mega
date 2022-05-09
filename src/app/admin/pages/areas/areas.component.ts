@@ -32,7 +32,8 @@ export class AreasComponent implements OnInit {
     imgUrl: '',
     textColor: '#000000',
     type: 'course',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    questions: 0
   };
   search = '';
   areas: Area[] = [];
@@ -106,7 +107,8 @@ export class AreasComponent implements OnInit {
       imgUrl: '',
       textColor: '#000000',
       type: 'course',
-      backgroundColor: '#ffffff'
+      backgroundColor: '#ffffff',
+      questions: 0
     };
     this.submited = false;
     this.titleModal = 'Nuevo registro';

@@ -1,0 +1,12 @@
+<app-header></app-header>
+<div class="container-fluid">
+  <h2 class="text-center"><strong>Nuestros Simuladores</strong></h2>
+  <div class="row d-flex justify-content-center mt-5 mb-5">
+
+    <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of items" >
+      <app-card [cardInfo]="item" ></app-card>
+    </div>
+
+  </div>
+</div>
+<app-footer></app-footer>

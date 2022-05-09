@@ -19,28 +19,28 @@
     crossorigin="anonymous"
   ></script>
   <style>
-    .fadeTop {
-      opacity: 0;
-      transform: translate(0, 10vh);
-      transition: all 2s;
-    }
+    /*.fadeTop {*/
+    /*  opacity: 0;*/
+    /*  transform: translate(0, 10vh);*/
+    /*  transition: all 2s;*/
+    /*}*/
 
-    .fadeRight {
-      opacity: 0;
-      transform: translate(10vh, 0vh);
-      transition: all 1s;
-    }
+    /*.fadeRight {*/
+    /*  opacity: 0;*/
+    /*  transform: translate(10vh, 0vh);*/
+    /*  transition: all 1s;*/
+    /*}*/
 
-    .fadeLeft {
-      opacity: 0;
-      transform: translate(-10vh, 0vh);
-      transition: all 1s;
-    }
+    /*.fadeLeft {*/
+    /*  opacity: 0;*/
+    /*  transform: translate(-10vh, 0vh);*/
+    /*  transition: all 1s;*/
+    /*}*/
 
-    .visible {
-      opacity: 1;
-      transform: translate(0, 0);
-    }
+    /*.visible {*/
+    /*  opacity: 1;*/
+    /*  transform: translate(0, 0);*/
+    /*}*/
 
 
   </style>
@@ -51,22 +51,22 @@
 </head>
 <body>
   <app-root></app-root>
-<script>
-  window.addEventListener('scroll', function()  {
-    let elements = document.getElementsByClassName('scroll-content');
-    let screenSize = window.innerHeight;
+<!--<script>-->
+<!--  window.addEventListener('scroll', function()  {-->
+<!--    let elements = document.getElementsByClassName('scroll-content');-->
+<!--    let screenSize = window.innerHeight;-->
 
-    for(var i = 0; i < elements.length; i++) {
-      let element = elements[i];
+<!--    for(var i = 0; i < elements.length; i++) {-->
+<!--      let element = elements[i];-->
 
-      if(element.getBoundingClientRect().top < screenSize) {
-        element.classList.add('visible');
-      } else {
-        //element.classList.remove('visible');
-      }
-    }
-  });
-</script>
+<!--      if(element.getBoundingClientRect().top < screenSize) {-->
+<!--        element.classList.add('visible');-->
+<!--      } else {-->
+<!--        //element.classList.remove('visible');-->
+<!--      }-->
+<!--    }-->
+<!--  });-->
+<!--</script>-->
 
 <script>
   /* global bootstrap: false */
@@ -79,26 +79,26 @@
   })()
 </script>
 
-<script>
-  (function () {
-    'use strict'
+<!--<script>-->
+<!--  (function () {-->
+<!--    'use strict'-->
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
+<!--    // Fetch all the forms we want to apply custom Bootstrap validation styles to-->
+<!--    var forms = document.querySelectorAll('.needs-validation')-->
 
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
+<!--    // Loop over them and prevent submission-->
+<!--    Array.prototype.slice.call(forms)-->
+<!--      .forEach(function (form) {-->
+<!--        form.addEventListener('submit', function (event) {-->
+<!--          if (!form.checkValidity()) {-->
+<!--            event.preventDefault()-->
+<!--            event.stopPropagation()-->
+<!--          }-->
 
-          form.classList.add('was-validated')
-        }, false)
-      })
-  })()
-</script>
+<!--          form.classList.add('was-validated')-->
+<!--        }, false)-->
+<!--      })-->
+<!--  })()-->
+<!--</script>-->
 </body>
 </html>

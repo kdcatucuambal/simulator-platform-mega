@@ -1,1 +1,105 @@
-<p>register works!</p>
+<app-header></app-header>
+<div class="container-fluid">
+  <div class="row d-flex justify-content-center mt-5 mb-5">
+    <div class="col-lg-8 col-12">
+      <div class="card shadow-sm animate__animated animate__flash">
+        <img
+          style="height: 70px; width: 70px"
+          class="card-img-top mx-auto my-2"
+          src="https://cdn-icons-png.flaticon.com/512/1828/1828504.png"
+          alt="">
+
+
+        <div class="card-body">
+          <h6 class="card-subtitle text-center small text-secondary">Registarse Plataforma Megapro</h6>
+          <div class="alert alert-warning mt-2" role="alert">
+            <ul class="mb-0">
+              <li>Una vez realizado el registro contactate con Megapro para <strong>activar tu cuenta</strong>.</li>
+              <li>Para <strong>acceder</strong> a la plataforma utiliza tu <strong>usuario (email) y
+                contraseña.</strong></li>
+              <li>Para cualquier duda escríbenos a <strong>registromegapro@gmail.com</strong></li>
+            </ul>
+          </div>
+
+          <div *ngIf="saveSuccess" class="alert alert-success mt-2" role="alert">
+            Tu registro se ha realizado de manera <strong>satisfactoria.</strong>
+            Ponte en contacto con Megapro para pode realizar el seguimiento de activación.
+          </div>
+
+          <div *ngIf="!saveSuccess" class="row my-4">
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="carId"
+                  placeholder="Ingrese su cédula"
+                  [maxLength]="10"
+                  aria-describedby="validate-cardId"
+                  [(ngModel)]="user.identificationCard"
+                  [ngClass]="{'is-invalid': submited && !user.identificationCard || errorSave}"
+                >
+                <label for="carId">Cédula *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo"
+                       [(ngModel)]="user.email"  [ngClass]="{'is-invalid': submited && !user.email || errorSave}">
+                <label for="email">Correo *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name-register" placeholder="Ingrese su nombre"
+                       [(ngModel)]="user.name"  [ngClass]="{'is-invalid': submited && !user.name || errorSave}">
+                <label for="name-register">Nombre *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="lastname-register" placeholder="Ingrese su apellido"
+                       [(ngModel)]="user.lastname"  [ngClass]="{'is-invalid': submited && !user.lastname || errorSave}">
+                <label for="lastname-register">Apellido *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="phone-register" placeholder="Ingrese su teléfono"
+                       [(ngModel)]="user.phone"  [ngClass]="{'is-invalid': submited && !user.phone || errorSave}">
+                <label for="phone-register">Celular *</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="city-register" placeholder="Ingrese su contraseña"
+                       [(ngModel)]="user.password"  [ngClass]="{'is-invalid': submited && !user.password || errorSave}">
+                <label for="city-register">Contraseña *</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                        [(ngModel)]="courseSelected"  [ngClass]="{'is-invalid': submited && !courseSelected || errorSave}">
+                  <option selected value="">Seleccione un curso</option>
+                  <option *ngFor="let course of courses" [id]="course.id"
+                          [value]="course.id">{{course.title + ' - ' + course.description}}</option>
+                </select>
+                <label for="floatingSelect">Curso a inscribirse *</label>
+              </div>
+            </div>
+
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="submited">
+            {{message}}
+          </div>
+          <button *ngIf="!saveSuccess" class="btn btn-primary w-100" (click)="createUser()">Registrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

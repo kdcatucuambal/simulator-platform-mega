@@ -34,10 +34,8 @@ export class SimulatorsComponent implements OnInit {
     textColor: '#000000',
     type: 'Simulador',
     backgroundColor: '#ffffff',
-    hours: 0,
     instructions: '',
     minutes: 0,
-    seconds: 0,
     questions: ''
   };
 
@@ -120,10 +118,8 @@ export class SimulatorsComponent implements OnInit {
       textColor: '#000000',
       type: 'Simulador',
       backgroundColor: '#ffffff',
-      hours: 0,
       instructions: '',
       minutes: 0,
-      seconds: 0,
       questions: ''
     };
     this.submited = false;

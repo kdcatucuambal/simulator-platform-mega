@@ -1,37 +1,46 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand animate__animated animate__zoomIn" href="#">{{title}}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand animate__animated animate__zoomIn" [routerLink]="'/inicio'"><strong><span class="text-primary">M</span>EGAPRO | ACCESO A LA EDUCACIÓN SUPERIOR</strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active text-danger animate__animated animate__zoomIn" aria-current="page" href="#"><i class="bi bi-house-fill"></i> <strong> Inicio</strong></a>
+        <li class="nav-item mx-3">
+          <a class="nav-link active text-primary animate__animated animate__zoomIn"
+             style="font-size: 17px" [routerLink]="'/nuestros-simuladores'"><i class="bi bi-pc-display-horizontal"></i> Simuladores</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active text-primary animate__animated animate__zoomIn" style="font-size: 17px" href="#"><i class="bi bi-pc-display-horizontal"></i> <strong> Simuladores</strong></a>
+        <li class="nav-item mx-3">
+          <a class="nav-link active text-primary animate__animated animate__zoomIn"
+             href="#temario" target=""><i class="bi bi-card-checklist"></i> Ejercicios</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active text-success animate__animated animate__zoomIn" href="#"><i class="bi bi-card-checklist"></i> <strong> Practicar</strong></a>
+        <li class="nav-item mx-3">
+          <a class="nav-link active text-primary animate__animated animate__zoomIn"
+             href="#"><i class="bi bi-card-list"></i> Cursos</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active text-danger animate__animated animate__zoomIn" href="#"><i class="bi bi-person-plus-fill"></i> <strong> Registrarse</strong></a>
+        <li *ngIf="!loggedIn" class="nav-item mx-3">
+          <a class="btn btn-success active animate__animated animate__zoomIn"
+             [routerLink]="'/login'"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active text-secondary animate__animated animate__zoomIn" [routerLink]="'/site/login'"><i class="bi bi-box-arrow-in-right"></i> <strong> Iniciar Sesión</strong></a>
+        <li *ngIf="loggedIn" class="nav-item dropdown">
+          <button class="btn btn-link nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+             aria-expanded="false"><span class="bg-primary text-white rounded-circle p-2"><strong>{{letterUser}}</strong></span></button>
+          <ul class="dropdown-menu">
+            <li><button class="dropdown-item bi-person-badge"> Perfil</button></li>
+            <li><button (click)="onLogout()" class="dropdown-item bi-arrow-left"> Salir</button></li>
+          </ul>
         </li>
       </ul>
     </div>
+
   </div>
 </nav>
-
-<div class="margin-after-header"></div>
-  <div
-    *ngIf="alert.isActive"
-    [className]="'alert d-flex justify-content-center mb-0 ' + alert.severity"
-    role="alert"
-  >
-    <span class="alert-mega" [innerHTML]="alert.value"></span>
-  </div>
+<!--  <div-->
+<!--    *ngIf="alert.isActive"-->
+<!--    [className]="'alert d-flex justify-content-center mb-0 ' + alert.severity"-->
+<!--    role="alert"-->
+<!--  >-->
+<!--    <span class="alert-mega" [innerHTML]="alert.value"></span>-->
+<!--  </div>-->
 

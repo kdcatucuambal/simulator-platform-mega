@@ -11,7 +11,6 @@ export class ValidateService {
   object(value: any, fields: string[] = []) {
     const keys = fields.length > 0 ? fields : Object.keys(value);
     for (const key of keys) {
-      console.log(key)
       if (!value[key]) {
         return false;
       }
@@ -25,5 +24,11 @@ export class ValidateService {
       return text.trim().replace(/\s{2,}/g, ' ');
   }
 
+
+
+  validateEmail(elementValue){
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(elementValue);
+  }
 
 }

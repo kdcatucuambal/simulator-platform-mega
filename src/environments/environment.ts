@@ -5,12 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyBiP2PbYgtbdQk42czcJLgEfuNjqj4YoOk",
-    authDomain: "testingapp-kevin.firebaseapp.com",
-    projectId: "testingapp-kevin",
-    storageBucket: "testingapp-kevin.appspot.com",
-    messagingSenderId: "825166593408",
-    appId: "1:825166593408:web:1ba28876e4651f66129565"
+    apiKey: "AIzaSyBDoCDO0f5XqxMvqlNfy12OpJ4oK2viw3Q",
+    authDomain: "plataforma-megapro.firebaseapp.com",
+    projectId: "plataforma-megapro",
+    storageBucket: "plataforma-megapro.appspot.com",
+    messagingSenderId: "971281009956",
+    appId: "1:971281009956:web:926f9374bc5bb3aedb37b1",
+    measurementId: "G-SP7XVKV8SN"
   }
 };
 

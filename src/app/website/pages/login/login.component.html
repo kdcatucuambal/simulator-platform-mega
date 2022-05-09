@@ -1,41 +1,55 @@
+<app-header></app-header>
 <div class="container-fluid">
   <div class="row d-flex justify-content-center mt-5 mb-5">
     <div class="col-lg-5 col-12">
-      <div class="card shadow-sm animate__animated animate__flash">
+      <div class="card shadow-sm animate__animated animate__fadeInDown">
         <img
-          style="height: 70px; width: 70px"
-          class="card-img-top mx-auto my-2"
-          src="https://cdn-icons-png.flaticon.com/512/1828/1828504.png"
+          (click)="onLogout()"
+          style="height: 90px; width: 90px"
+          class="card-img-top mx-auto mt-2 "
+          src="https://cdn-icons-png.flaticon.com/512/752/752688.png"
           alt="">
+
         <div class="card-body">
-          <h6 class="card-subtitle text-center small text-secondary">Iniciar sesión</h6>
+          <h6 class="card-title text-center text-secondary mb-2">Plataforma Megapro</h6>
+          <h6 class="card-subtitle text-center small text-secondary my-2">Iniciar sesión</h6>
           <div class="row">
-            <div class="col-6">
-              <button class="btn btn-secondary w-100 my-2"><i class="bi bi-google"></i> Continuar con Google</button>
-            </div>
-          <div class="col-6">
-            <button class="btn btn-primary w-100 my-2"><i class="bi bi-facebook"></i> Continuar con Facebook</button>
-          </div>
-          </div>
-          <h6 class="card-subtitle text-center small text-secondary mt-4 mb-4">O puedes iniciar con: </h6>
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="Ingrese su usuario">
-            <label for="floatingInput">Usuario</label>
           </div>
           <div class="form-floating mb-3">
-            <input [type]="inputType" class="form-control" id="password" placeholder="Ingrese su contraseña">
-            <label for="floatingInput">Contraseña</label>
+            <input type="email" class="form-control" id="floatingInput"
+                   placeholder="Ingrese su usuario" [(ngModel)]="email"
+                   aria-describedby="validate-email"
+                   [ngClass]="{'is-invalid': submited && !email}"
+            >
+            <label for="floatingInput" [ngClass]="{'text-danger': submited && !email}">Usuario</label>
+            <span *ngIf="submited && !email" class="text-danger"><small>Usuario requerido (correo válido)</small></span>
+          </div>
+          <div class="form-floating mb-3">
+            <input [type]="inputType" class="form-control" id="password"
+                   placeholder="Ingrese su contraseña" [(ngModel)]="password"
+                   aria-describedby="validate-password"
+                   [ngClass]="{'is-invalid': submited && !password}"
+            >
+            <label for="floatingInput" [ngClass]="{'text-danger': submited && !password}">Contraseña</label>
+            <span *ngIf="submited && !password" class="text-danger"><small>Contraseña requerida (min. 6 dígitos)</small></span>
           </div>
           <div class="mb-3 form-check">
             <input type="checkbox" (change)="onShowPassword()" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Mostrar clave</label>
           </div>
-          <button class="btn btn-primary w-100">Iniciar</button>
-          <button class="mt-2 btn btn-link">¿Aún no tienes cuenta?</button>
+
+          <div *ngIf="loginError" class="alert alert-danger" role="alert">
+            <strong>Ocurrió un error: </strong> Asegurate de que tu cuenta exista y este activa. Ponte en contacto con
+            Megapro para obtener información.
+          </div>
+          <button class="btn btn-primary w-100" (click)="onLogin()"
+                  [disabled]="loading">{{loading ? 'Iniciando ...' : 'Iniciar' }}</button>
+          <button class="mt-2 btn btn-link mx-auto" [routerLink]="'/register'">¿Aún no tienes cuenta?</button>
+          <button class="mt-2 btn btn-link mx-auto">¿Olvidaste tu contraseña?</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
+<app-footer></app-footer>

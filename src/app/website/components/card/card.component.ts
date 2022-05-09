@@ -8,7 +8,9 @@ export interface Card{
   imgUrl?: string,
   isCourse: boolean,
   isActive?: boolean,
-  type?: string
+  type?: string,
+  path?: string,
+  id?: string
 }
 
 

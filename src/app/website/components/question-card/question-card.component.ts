@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {QuestionInfo} from "../../../models/AreaModel";
 
 @Component({
   selector: 'app-question-card',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class QuestionCardComponent implements OnInit {
 
 
-  @Input('question') question: any;
+  @Input('question') question: QuestionInfo;
 
   btnClicked: number = 0;
   btnStatus = '';

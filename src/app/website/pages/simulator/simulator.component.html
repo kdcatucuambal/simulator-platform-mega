@@ -1,5 +1,58 @@
+
+<app-loader *ngIf="loading"></app-loader>
+<app-sidebar-simulator
+  [questions]="questions"
+  [timeLabel]="label"
+  [breaks]="breaks"
+  [username]="username"
+></app-sidebar-simulator>
 <div id="main">
-  <div class="container-fluid">
-    <button class="btn btn-light" (click)="onSidebar()">☰</button>
+
+  <app-header-simulator (onEventFinish)="finishSimuator()" [title]="title"></app-header-simulator>
+
+<div *ngIf="!loading && render == 0" class="container-fluid">
+  <div class="row my-5">
+    <div class="col-8 mx-auto">
+      <h3 class="font-bold">Simuladores MEGAPRO</h3>
+      <h4 class="font-bold">Instrucciones</h4>
+      <p class="text-justify">{{simulator.description}}</p>
+      <p class="text-justify">{{simulator.instructions}}</p>
+      <p><strong>Para empezar pulsa en iniciar</strong></p>
+      <button class="btn btn-primary w-50 mx-auto" (click)="onInitSimulator()">Iniciar</button>
+    </div>
+  </div>
+</div>
+
+
+  <div *ngIf="!loading && render == 1" class="container-fluid">
+    <div class="row">
+      <div class="col-11 p-0 mx-auto"><h2 class="my-4 font-bold">Pregunta {{currentQuestion.index}} - {{currentQuestion.topicName}}</h2></div>
+    </div>
+    <div class="row">
+      <div class="col-11 mx-auto px-0 py-3">
+        <quill-view-html class="p-0 bg-primary" [content]="currentQuestion.description"></quill-view-html>
+      </div>
+    </div>
+    <div class="row p-0">
+      <div *ngFor="let option of currentQuestion.options; let i = index"
+        class="col-11 mx-auto my-1 py-3 border border-1 cursor-pointer"
+           (click)="onSelectOption(i)"
+      >
+        <div class="row p-0">
+          <div class="col-auto d-flex align-items-center">
+            <div class="border border-2 rounded-circle d-inline-flex align-items-center" style="width: 22px; height: 22px">
+              <div class="rounded-circle mx-auto {{options[i] ? 'bg-primary': 'bg-white'}}" style="width: 10px; height: 10px"></div>
+          </div>
+        </div>
+          <quill-view-html class="col ps-0 m-0 d-flex align-items-center" [content]="option"></quill-view-html>
+      </div>
+      </div>
+    </div>
+
+    <div class="row p-0 mt-3 mb-5">
+      <div class="col-11 p-0 mx-auto">
+        <button (click)="onNextQuestion()" class="btn btn-primary m-0"> <span class="font-bold">{{textBtnNavigate}}  </span><span class="bi-arrow-right-square-fill"></span> </button>
+      </div>
+    </div>
   </div>
 </div>

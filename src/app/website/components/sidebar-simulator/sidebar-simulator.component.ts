@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {QuestionInfo} from "../../../models/AreaModel";
+
 
 @Component({
   selector: 'app-sidebar-simulator',
@@ -7,15 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarSimulatorComponent implements OnInit {
 
-  items:number[] = [];
+  @Input() questions: QuestionInfo[] = [];
+  @Input() timeLabel = '00:00:00';
+  @Output() onChangeQuestion = new EventEmitter<any>();
+  currentQuestion: QuestionInfo = null;
+  @Input() breaks = [];
+  @Input() username = '';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
-    console.log('hello')
-    for (let i = 0; i < 105; i++) {
-      this.items.push(i + 1);
-    }
+
   }
 
 

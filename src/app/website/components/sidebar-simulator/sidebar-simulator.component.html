@@ -1,10 +1,21 @@
-<div  id="mySidebar" class="sidebar bg-light margin-after-header border-buttons">
-  <div class="flex-shrink-0 p-3 text-nav vh-100">
-    <h6 class="text-center">Kevin Catucuamba</h6>
-
-    <div class="div">
-      <button *ngFor="let item of items" class="btn p-0 btn-custom">{{item}}</button>
+<div id="mySidebar" class="sidebar bg-white shadow-sm sidebar-simulator border-buttons">
+  <div class="flex-shrink-0 p-1 text-nav vh-100">
+    <div class="d-flex justify-content-center my-3">
+      <img style="width: 100px; height: 100px" class="img-fluid" src="https://i.imgur.com/nLSi7w6.jpg" alt="">
     </div>
+    <h6 class="text-center my-3 text-uppercase font-bold"><span class="bi-person-fill"></span>{{username}}</h6>
+    <div class="d-flex justify-content-center">
+      <h6 class="font-bold my-3"><span class="bi-alarm-fill"> </span>{{' '+timeLabel}}</h6>
+    </div>
+
+    <div *ngIf="questions && questions.length > 0" class="container-fluid p-0 mt-2">
+      <span  *ngFor="let question of questions">
+        <h6 class="mt-3" *ngIf="breaks.includes(question.index)">{{question.topicName}}</h6>
+        <button class="btn p-0 {{question.btnStatus}}">{{question.index}}</button>
+      </span>
+
+    </div>
+
 
   </div>
 </div>

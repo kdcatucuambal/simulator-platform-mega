@@ -1,4 +1,6 @@
-
+<app-loader *ngIf="loading"></app-loader>
+<app-header></app-header>
+<ng-template [ngIf]="!loading">
   <app-carousel [items]="carouselItems" [isAlert]="isAlert"></app-carousel>
   <div class="bg-about text-white container-fluid p-4">
     <h1 class="p-4 text-center animate__animated animate__zoomIn">{{titles.info_title.value}}</h1>
@@ -9,29 +11,28 @@
         </p>
       </div>
       <div class="col-6">
-     <p class="text-justify animate__animated animate__zoomIn">
-      {{titles.info_title_2.value}}
-     </p>
+        <p class="text-justify animate__animated animate__zoomIn">
+          {{titles.info_title_2.value}}
+        </p>
       </div>
     </div>
   </div>
-
-  <div class="container my-5">
-    <h3 class="text-center mb-4 scroll-content fadeTop"><strong class="font-header">{{titles.syllabus_title.value}}</strong></h3>
+  <div id="temario" class="container my-5">
+    <h3 class="text-center mb-4 scroll-content fadeTop"><strong>{{titles.syllabus_title.value}}</strong></h3>
     <div class="row d-flex justify-content-center scroll-content fadeTop">
       <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of topicsCard" >
         <app-card [cardInfo]="item" ></app-card>
       </div>
     </div>
   </div>
-
   <div class="container my-5">
-    <h3 class="text-center mb-4 scroll-content fadeTop font-s0blt"><strong>{{titles.courses_title.value}}</strong></h3>
+    <h3 class="text-center mb-4 scroll-content fadeTop"><strong>{{titles.courses_title.value}}</strong></h3>
     <div class="row d-flex justify-content-center scroll-content fadeTop">
       <div class="col-sm-6 col-lg-4 col-12 mb-4" *ngFor="let item of coursesCard" >
         <app-card [cardInfo]="item" ></app-card>
       </div>
     </div>
   </div>
-
+  <app-footer></app-footer>
+</ng-template>
 

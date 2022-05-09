@@ -39,7 +39,8 @@ import { SimulatorsComponent } from './pages/simulators/simulators.component';
     SimulatorsComponent
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,

@@ -21,15 +21,18 @@ export class PaginatorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-      this.setPage(this.initialPage);
+      this.setPage(this.initialPage, false);
   }
 
-  setPage(page: number) {
+  setPage(page: number, emit = true) {
     if (page != this.pager.currentPage){
       this.pager = paginate(this.totalItems, page, this.itemsPerPage, this.maxPages);
-      this.changePage.emit(this.pager);
+      if (emit){
+        this.changePage.emit(this.pager);
+      }
     }
   }
+
 }
 
 

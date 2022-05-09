@@ -18,7 +18,6 @@ export class QueryDbService {
     private angularFirestore: AngularFirestore
   ) {
     this.db = angularFirestore.firestore;
-
   }
 
   addDoc<T>(collectionName: string, data: T) {
@@ -51,11 +50,12 @@ export class QueryDbService {
     )
   }
 
+
   getDocsWhere<T>(
     collectionName: string,
     field: string,
     operator: WhereFilterOp,
-    value: string): Observable<T[]> {
+    value: any): Observable<T[]> {
     const promiseRef = this.db.collection(collectionName).where(field, operator, value).get();
     return from(promiseRef).pipe(
       map(actions => {
@@ -68,8 +68,25 @@ export class QueryDbService {
     )
   }
 
-  getPiecesOfDocs<T>(skip = 1, take = 5) {
-    //TODO: Implement
+  getPiecesOfCollection<T>(
+    collectionName: string,
+    skip = 1,
+    take = 5) {
+    const promiseRef = this.db.collection(collectionName)
+      .where('index', '>=', skip)
+      .orderBy('index', 'asc')
+      .limit(take)
+      .get();
+
+    return from(promiseRef).pipe(
+      map(actions => {
+        return actions.docs.map(item => {
+          const data = item.data();
+          const id = item.id;
+          return {id, ...data} as unknown as T
+        })
+      })
+    )
   }
 
   getDocRef(collectionName: string, id: string) {

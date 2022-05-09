@@ -20,8 +20,6 @@ export interface CarouselInfo extends Omit<Area, 'textColor' | 'backgroundColor'
 
 export interface SimulatorInfo extends Omit<Course, 'questions'>{
   minutes: number,
-  hours: number,
-  seconds: number,
   instructions: string,
   questions: string
 }
@@ -51,7 +49,7 @@ export interface SubTopicInfo{
 
 export interface QuestionInfo{
   id: string,
-  index: number
+  index?: number
   description: string,
   descriptionWithoutFormat: string,
   correct: number,
@@ -62,5 +60,21 @@ export interface QuestionInfo{
   likes: number,
   score: number
   votes: string[]
-  isActive: boolean
+  isActive: boolean,
+  btnStatus?: string,
+  selectedOption?: number
+}
+
+export interface User{
+  identificationCard: string,
+  name: string,
+  lastname: string,
+  email: string,
+  isActive: boolean,
+  phone: string,
+  role: 'admin' | 'student',
+  observation: string,
+  password?: string,
+  course?: Course,
+  created: Date
 }

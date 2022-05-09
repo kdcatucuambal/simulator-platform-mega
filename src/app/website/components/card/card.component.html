@@ -21,8 +21,8 @@
         <i class="bi bi-star-fill mx-1"></i>
         <i class="bi bi-star-fill mx-1"></i>
       </p>
-      <p class="card-text text-justify">{{cardInfo.description}}</p>
+      <p class="text-justify">{{cardInfo.description}}</p>
       <a *ngIf="cardInfo.isCourse" href="#" class="btn btn-primary">Matricúlate en este curso</a>
-      <a *ngIf="!cardInfo.isCourse" href="#" class="btn btn-primary">Pŕacticar</a>
+      <button *ngIf="!cardInfo.isCourse" [routerLink]="[cardInfo.path]" class="btn btn-primary">Pŕacticar</button>
     </div>
   </div>

@@ -100,25 +100,9 @@
               </div>
             </div>
 
-            <div class="mb-3 col-4">
-              <label for="hours-simulator" class="form-label">Horas: </label>
-              <div class="input-group has-validation">
-                <input type="number" [(ngModel)]="selected.hours"
-                       class="form-control"
-                       id="hours-simulator"
-                       required
-                       aria-describedby="validate-hours"
-                       [disabled]="loading"
-                       [ngClass]="{'is-invalid': submited && !selected.hours}"
-                >
-                <div *ngIf="submited && !selected.hours" id="validate-hours" class="invalid-feedback">
-                  El tiempo es necesario
-                </div>
-              </div>
-            </div>
 
-            <div class="mb-3 col-4">
-              <label for="minutes-simulator" class="form-label">Minutes: </label>
+            <div class="mb-3 col-12">
+              <label for="minutes-simulator" class="form-label">Tiempo en minutos: </label>
               <div class="input-group has-validation">
                 <input type="number" [(ngModel)]="selected.minutes"
                        class="form-control"
@@ -134,22 +118,7 @@
               </div>
             </div>
 
-            <div class="mb-3 col-4">
-              <label for="seconds-simulator" class="form-label">Segundos: </label>
-              <div class="input-group has-validation">
-                <input type="number" [(ngModel)]="selected.seconds"
-                       class="form-control"
-                       id="seconds-simulator"
-                       required
-                       aria-describedby="validate-seconds"
-                       [disabled]="loading"
-                       [ngClass]="{'is-invalid': submited && !selected.seconds}"
-                >
-                <div *ngIf="submited && !selected.seconds" id="validate-seconds" class="invalid-feedback">
-                  El tiempo es necesario
-                </div>
-              </div>
-            </div>
+
 
             <div class="mb-3 col-6">
               <label  class="form-label">Tipo: </label>
