@@ -28,6 +28,10 @@ import { SimulatorsInfoComponent } from './pages/simulators-info/simulators-info
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import {ChartModule} from "primeng/chart";
+import { ResultsComponent } from './pages/results/results.component';
+import {NgxQRCodeModule} from "@techiediaries/ngx-qrcode";
+import { StatusResultPipe } from './pipes/status-result.pipe';
 
 
 @NgModule({
@@ -53,7 +57,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
     LoaderLazyComponent,
     SimulatorsInfoComponent,
     ResetPasswordComponent,
-    ProfileComponent
+    ProfileComponent,
+    ResultsComponent,
+    StatusResultPipe
   ],
   imports: [
     CommonModule,
@@ -68,7 +74,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
     }),
     ProgressSpinnerModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ChartModule,
+    NgxQRCodeModule
   ]
 })
 export class WebsiteModule { }

@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {TestLayoutService} from "../../services/test-layout.service";
-import {User} from "../../../models/AreaModel";
 import {AuthService} from "../../../services/firestore/auth.service";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {Router} from "@angular/router";

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {QueryDbService} from "./query-db.service";
 import {User} from "../../models/AreaModel";
-import {BehaviorSubject, catchError, finalize, from, map, Observable, switchMap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, finalize, from, map, Observable, skip, switchMap, throwError} from "rxjs";
 
 
 @Injectable({
@@ -11,7 +11,7 @@ import {BehaviorSubject, catchError, finalize, from, map, Observable, switchMap,
 export class AuthService {
 
   private currentUserData_: User = null;
-  private loggedIn = new BehaviorSubject<boolean>(false)
+  private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(
     private fireAuth: AngularFireAuth,
@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   get isLogged() {
-    return this.loggedIn.asObservable();
+    return this.loggedIn.asObservable().pipe(skip(1));
   }
 
   getCurrentUser() {
@@ -80,7 +80,7 @@ export class AuthService {
             }
           })
       } else {
-        console.log('No')
+        this.loggedIn.next(false);
       }
     })
   }

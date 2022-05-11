@@ -3,7 +3,7 @@ import {CarouselItem} from "../../components/carousel/carousel.component";
 import {Card} from "../../components/card/card.component";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {AlertInfo, Area} from "../../../models/AreaModel";
-import {TestLayoutService} from "../../services/test-layout.service";
+
 
 
 @Component({
@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
   isAlert: boolean = false;
   loading = true;
 
-  //titles: TitleModel = {} as TitleModel;
   titles: any = null;
 
   constructor(
@@ -53,7 +52,7 @@ export class HomeComponent implements OnInit {
         this.titles = (data[0] as any).reduce((a, v) => ({...a, [v.type]: v}), {});
 
         this.topicsCard = (data[1] as Area[]).map<Card>(topic => {
-          const path = `/practice/${topic.id}`
+          const path = `/practicar/${topic.id}`;
           return {...topic, isCourse: false, path};
         });
 

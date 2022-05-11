@@ -13,21 +13,25 @@
         </li>
         <li class="nav-item mx-3">
           <a class="nav-link active text-primary animate__animated animate__zoomIn"
-             href="#temario" target=""><i class="bi bi-card-checklist"></i> Ejercicios</a>
+             href="/ejercicios" target=""><i class="bi bi-card-checklist"></i> Ejercicios</a>
         </li>
         <li class="nav-item mx-3">
           <a class="nav-link active text-primary animate__animated animate__zoomIn"
-             href="#"><i class="bi bi-card-list"></i> Cursos</a>
+             href="#"><i class="bi bi-card-list"></i> Registro</a>
         </li>
-        <li *ngIf="!loggedIn" class="nav-item mx-3">
-          <a class="btn btn-success active animate__animated animate__zoomIn"
+
+        <li *ngIf="isChecking" class="nav-item mx-3">
+          <a class="btn btn-outline-light bg-white active animate__animated animate__fadeIn"><i class="bi bi-minecart-loaded"></i> ... </a>
+        </li>
+        <li *ngIf="!loggedIn && !isChecking" class="nav-item mx-3">
+          <a class="btn btn-success active animate__animated animate__fadeIn"
              [routerLink]="'/login'"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
         </li>
-        <li *ngIf="loggedIn" class="nav-item dropdown">
-          <button class="btn btn-link nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+        <li *ngIf="loggedIn && !isChecking" class="nav-item dropdown">
+          <button class="btn btn-link nav-link dropdown-toggle animate__animated animate__fadeIn" data-bs-toggle="dropdown" href="#" role="button"
              aria-expanded="false"><span class="bg-primary text-white rounded-circle p-2"><strong>{{letterUser}}</strong></span></button>
           <ul class="dropdown-menu">
-            <li><button class="dropdown-item bi-person-badge"> Perfil</button></li>
+            <li><button class="dropdown-item bi-person-badge"[routerLink]="['/perfil']"> Perfil</button></li>
             <li><button (click)="onLogout()" class="dropdown-item bi-arrow-left"> Salir</button></li>
           </ul>
         </li>

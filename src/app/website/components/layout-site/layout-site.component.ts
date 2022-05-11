@@ -14,32 +14,13 @@ import {QueryDbService} from "../../../services/firestore/query-db.service";
 })
 export class LayoutSiteComponent implements OnInit {
 
-  loading = true;
-
-
-  mainTitle = '';
-  alert: AlertInfo = {} as AlertInfo;
 
   constructor(
-    private testService: TestLayoutService,
-    private queryDbService: QueryDbService
+
   ) { }
 
   ngOnInit(): void {
 
-    this.queryDbService.getAllDocs('titles').subscribe(data => {
-      console.log(data)
-      this.loading = false;
-    });
-
-    console.log('layout')
-
-    this.testService.isChanged
-      .pipe(skip(1))
-      .subscribe(data => {
-      console.log('service emit: ', data)
-      this.loading = data;
-    });
 
   }
 

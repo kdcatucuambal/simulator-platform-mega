@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   @Input('alert') alert: AlertInfo;
   loggedIn = false;
   letterUser = '';
+  isChecking = true;
 
   constructor(
     private authService: AuthService,
@@ -22,12 +23,16 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('header component')
     this.authService.isLogged.subscribe(value => {
       this.loggedIn = value;
-      const {name, lastname} = this.authService.currentUserData;
-      this.letterUser = name[0].toLocaleUpperCase() + lastname[0].toLocaleUpperCase();
-    })
+      this.isChecking = false;
+      if (this.loggedIn){
+        const {name, lastname} = this.authService.currentUserData;
+        this.letterUser = name[0].toLocaleUpperCase() + lastname[0].toLocaleUpperCase();
+      }
+    });
+
+    this.checkUser();
   }
 
   onLogout(){
@@ -36,5 +41,15 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  checkUser(){
+    const user = this.authService.currentUserData;
+    console.log('check user', user);
+    if (user){
+      const {name, lastname} = user;
+      this.letterUser = name[0].toLocaleUpperCase() + lastname[0].toLocaleUpperCase();
+      this.loggedIn = true;
+      this.isChecking = false;
+    }
+  }
 
 }

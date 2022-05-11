@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {switchMap} from "rxjs";
+import {Observable, switchMap} from "rxjs";
 import {TimerService} from "../../services/timer.service";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {Area, QuestionInfo, SimulatorInfo} from "../../../models/AreaModel";
 import {AuthService} from "../../../services/firestore/auth.service";
 import {SimulatorResultService} from "../../services/simulator-result.service";
-import {log} from "util";
+import {OnExit} from "../../../guards/exit.guard";
 
 export interface IQuestion {
   description: string,
@@ -24,7 +24,7 @@ export interface IQuestion {
   templateUrl: './simulator.component.html',
   styleUrls: ['./simulator.component.scss']
 })
-export class SimulatorComponent implements OnInit {
+export class SimulatorComponent implements OnInit, OnExit {
 
   simulatorId = '';
   currentQuestion: QuestionInfo = null;
@@ -66,7 +66,6 @@ export class SimulatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.activatedRoute.paramMap.pipe(
       switchMap((params) => {
         this.simulatorId = params.get('id');
@@ -101,7 +100,6 @@ export class SimulatorComponent implements OnInit {
 
     if (this.currentQuestion.index == this.questions.length){
       this.finishSimuator();
-      this.router.navigateByUrl('simulador-resultado').then();
       return;
     }
 
@@ -142,27 +140,47 @@ export class SimulatorComponent implements OnInit {
   }
 
   initTimer() {
-    this.timerService.onTimer().subscribe(data => {
-      this.label = data.label;
-    },
-      ()=> {},
-      ()=>console.log('completed'))
+
+    this.timerService.onTimer().subscribe({
+      next: (data) => {
+        this.label = data.label;
+      },
+      error: (err) => {
+        console.log(err)
+      },
+      complete: () => {
+
+        this.router.navigateByUrl('/resultados').then();
+      }
+    });
+
   }
 
   finishSimuator(){
     this.simulatorResultService.questions = this.questions;
+    this.simulator.time = new Date();
     this.simulatorResultService.simulator = this.simulator;
     this.timerService.finishTime();
   }
 
   getBreaks(){
     const topics = [];
+    let account = 0;
     for (const [i, question] of this.questions.entries()) {
       if (!topics.includes(question.topicName)){
         topics.push(question.topicName);
         this.breaks.push(i + 1);
+        account = 0;
+      }else{
+        account++;
       }
     }
+    this.simulatorResultService.topics = topics;
+  }
+
+  onExit(): Observable<boolean> | Promise<boolean> | boolean {
+    return confirm("¿Está seguro que quiere salir?");
   }
 
 }
+

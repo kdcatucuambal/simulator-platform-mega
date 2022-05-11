@@ -1,0 +1,89 @@
+<nav class="navbar navbar-light bg-white shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">RESULTADOS MINISIMULADOR TESTI</a>
+  </div>
+</nav>
+
+<div class="container my-3">
+  <div class="row">
+    <div class="col-10 mx-auto">
+      <div class="card shadow-sm">
+        <div class="card-header">RESUMEN DE RESULTADOS</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6 my-auto">
+              <p><strong>Cédula: </strong> 1050309275</p>
+              <p><strong>Estudiante: </strong> Kevin Catucuamba</p>
+              <p><strong>Correo: </strong> catucuambakevin@gmail.com</p>
+              <p><strong>Teléfono: </strong> 0991744850</p>
+              <p><strong>Finalizado: </strong> {{simulator.time | date: 'yyyy-MM-dd; HH:mm:ss'}}</p>
+              <p><strong></strong></p>
+            </div>
+            <div class="col-6">
+              <div class="d-flex justify-content-center">
+                <ngx-qrcode
+                  [elementType]="elementType"
+                  [value]="value"
+                  cssClass="acClass"
+                  [errorCorrectionLevel]="errorCorrectionLevel"
+                ></ngx-qrcode>
+              </div>
+              <p class="text-center p-0 my-0 fw-bold"><small>Plataforma Megapro</small></p>
+              <p class="text-center p-0 my-0 fw-bold"><small>Guayaquil - Ecuador</small></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h4 class="text-center font-bold fst-italic">TUS ACIERTOS: </h4>
+              <h1 class="text-center font-bold fst-italic">{{grade}}/{{questions.length}}</h1>
+            </div>
+            <div class="col-12">
+              <p-chart type="bar" [data]="basicData"></p-chart>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary float-end mt-2" (click)="onExit()">Salir y finalizar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-10 mx-auto">
+      <div class="card shadow-sm">
+        <div class="card-header">RESUMEN DE CUESTIONARIO</div>
+        <div class="card-body">
+          <div class="row">
+            <div *ngFor="let q of questions; let i = index" class="col-12 mb-3">
+              <div class="card shadow-sm">
+                <div class="row">
+                  <div class="col-6">
+                    <p class="ms-3 my-0 pb-0 pt-2 font-bold">Pregunta {{i + 1}} | {{q.topicName}}</p>
+                  </div>
+                  <div class="col-6 d-flex align-items-center">
+                    <span *ngIf="q.selectedOption == q.correct" class="badge bg-success ms-auto me-1">CORRECTO</span>
+                    <span *ngIf="q.selectedOption == -1" class="badge bg-warning ms-auto me-1">SIN CONTESTAR</span>
+                    <span *ngIf="q.selectedOption != -1 && q.selectedOption !== q.correct"
+                          class="badge bg-danger ms-auto me-1">INCORRECTO</span>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <quill-view-html [content]="q.description"></quill-view-html>
+                </div>
+                <div class="col-12">
+                  <p class="ms-3 my-0 pb-0 pt-2 fst-italic">Opciones: </p>
+                  <div *ngFor="let o of q.options;  let i = index"
+                       [class]="(i + 1) | statusResult:q.correct:q.selectedOption"
+                  >
+                    <quill-view-html [content]="o"></quill-view-html>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -21,7 +21,8 @@ export interface CarouselInfo extends Omit<Area, 'textColor' | 'backgroundColor'
 export interface SimulatorInfo extends Omit<Course, 'questions'>{
   minutes: number,
   instructions: string,
-  questions: string
+  questions: string,
+  time?: Date
 }
 
 export interface TitleInfo{
@@ -76,5 +77,14 @@ export interface User{
   observation: string,
   password?: string,
   course?: Course,
-  created: Date
+  created: Date,
+  results?: SimulatorResult[]
+}
+
+
+
+export interface SimulatorResult{
+  name: string,
+  grade: number,
+  total: number,
 }

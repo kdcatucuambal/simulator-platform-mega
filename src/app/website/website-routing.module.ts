@@ -4,7 +4,6 @@ import {HomeComponent} from "./pages/home/home.component";
 import {LoginComponent} from "./pages/login/login.component";
 import {LayoutSiteComponent} from "./components/layout-site/layout-site.component";
 import {PracticeComponent} from "./pages/practice/practice.component";
-import {TestComponent} from "./components/test/test.component";
 import {SimulatorComponent} from "./pages/simulator/simulator.component";
 import {LayoutSimulatorComponent} from "./components/layout-simulator/layout-simulator.component";
 import {RegisterComponent} from "./pages/register/register.component";
@@ -12,8 +11,7 @@ import {ResetPasswordComponent} from "./pages/reset-password/reset-password.comp
 import {AuthGuard} from "../guards/auth.guard";
 import {SimulatorsInfoComponent} from "./pages/simulators-info/simulators-info.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
-
-
+import {ResultsComponent} from "./pages/results/results.component";
 
 const routes: Routes = [
   {
@@ -22,47 +20,44 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'site',
+    path: '',
     component: LayoutSiteComponent,
     children: [
       {
-        path: 'home',
+        path: 'inicio',
         component: HomeComponent
       },
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'practicar/:id',
+        component: PracticeComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'registro',
+        component: RegisterComponent
+      },
+      {
+        path: 'restablecer-clave',
+        component: ResetPasswordComponent
+      },
+      {
+        path: 'nuestros-simuladores',
+        component: SimulatorsInfoComponent
+      },
+      {
+        path: 'perfil',
+        component: ProfileComponent
       }
     ]
   },
+
   {
-    path: 'inicio',
-    component: HomeComponent
-  },
-  {
-    path: 'practicar/:id',
-    component: PracticeComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'registro',
-    component: RegisterComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'restablecer-clave',
-    component: ResetPasswordComponent
-  },
-  {
-    path: 'nuestros-simuladores',
-    component: SimulatorsInfoComponent
-  },
-  {
-    path: 'perfil',
-    component: ProfileComponent
+    path: 'resultados',
+    component: ResultsComponent
   },
   {
     path: 'simulador',
