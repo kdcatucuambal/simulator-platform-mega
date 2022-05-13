@@ -10,6 +10,7 @@ import {AlertsComponent} from "./pages/alerts/alerts.component";
 import {SubTopicsComponent} from "./pages/sub-topics/sub-topics.component";
 import {LayoutComponent} from "./components/layout/layout.component";
 import {SimulatorsComponent} from "./pages/simulators/simulators.component";
+import {ResourcesComponent} from "./pages/resources/resources.component";
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'simulators',
         component: SimulatorsComponent
+      },
+      {
+        path: 'resources',
+        component: ResourcesComponent
       },
       {
         path: 'questions',

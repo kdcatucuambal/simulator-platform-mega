@@ -20,6 +20,7 @@ import { AlertToBgPipe } from './pipes/alert-to-bg.pipe';
 import { SubTopicsComponent } from './pages/sub-topics/sub-topics.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SimulatorsComponent } from './pages/simulators/simulators.component';
+import { ResourcesComponent } from './pages/resources/resources.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SimulatorsComponent } from './pages/simulators/simulators.component';
     AlertToBgPipe,
     SubTopicsComponent,
     LayoutComponent,
-    SimulatorsComponent
+    SimulatorsComponent,
+    ResourcesComponent
   ],
   exports: [
     HeaderComponent,

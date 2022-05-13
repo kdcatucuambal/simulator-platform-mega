@@ -5,7 +5,6 @@ import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {AlertInfo, Area} from "../../../models/AreaModel";
 
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

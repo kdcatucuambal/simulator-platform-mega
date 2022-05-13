@@ -12,6 +12,7 @@ import {AuthGuard} from "../guards/auth.guard";
 import {SimulatorsInfoComponent} from "./pages/simulators-info/simulators-info.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {ResultsComponent} from "./pages/results/results.component";
+import {TestComponent} from "./components/test/test.component";
 
 const routes: Routes = [
   {
@@ -70,6 +71,10 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'test',
+    component: TestComponent
+  }
 ];
 
 @NgModule({

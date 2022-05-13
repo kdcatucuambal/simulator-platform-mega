@@ -1,11 +1,7 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {Pager} from "../paginator/paginator.helper";
+import {Component, OnInit} from '@angular/core';
+import {StorageService} from "../../../services/firestore/storage.service";
 
-interface TestQuestion {
-  description: string,
-  options: string[],
-  correct: number
-}
+
 
 @Component({
   selector: 'app-test',
@@ -14,24 +10,29 @@ interface TestQuestion {
 })
 export class TestComponent implements OnInit {
 
-  total = 120;
-  itemsPerPage = 5;
-  buttons = 5;
-  pager: Pager;
 
-  constructor() {
 
+  constructor(
+    private storageService: StorageService
+  ) {
   }
 
   ngOnInit(): void {
+  }
+
+  onChangeFile(event){
+    const [file] = event.target.files as File[];
+  }
+
+  onUpload(){
+
 
   }
 
-
-  onChangePage(pager: Pager) {
-   this.pager = pager;
-    console.log(this.pager)
+  deleteFile(){
+    this.storageService.deleteFile('wwEBUZGjzg6w22EzWO3U', '6aNaaY4nq4WomMEC1iP5Mb').subscribe(()=>{
+      console.log('deleted')
+    });
   }
-
 
 }

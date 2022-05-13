@@ -67,6 +67,7 @@ export interface QuestionInfo{
 }
 
 export interface User{
+  id?: string,
   identificationCard: string,
   name: string,
   lastname: string,
@@ -78,13 +79,22 @@ export interface User{
   password?: string,
   course?: Course,
   created: Date,
-  results?: SimulatorResult[]
+  statisticsByTopic?: InfoByTopic[],
+  statisticsBySimulator?: InfoBySimulator[]
 }
 
 
 
-export interface SimulatorResult{
-  name: string,
-  grade: number,
+export interface InfoByTopic{
+  topicId: string,
+  hitPercentage: number
+}
+
+export interface InfoBySimulator{
+  simulatorId: string,
+  hits: number,
   total: number,
+  attemps: number,
+  average: number
 }
+

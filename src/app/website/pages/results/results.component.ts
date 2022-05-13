@@ -35,8 +35,9 @@ export class ResultsComponent implements OnInit {
     this.simulator = this.simulatorResultService.simulator;
     const {totalCorrectsPerTopics, totalQuestionsPerTopics, grade} = this.simulatorResultService.getInfoFromResult();
     this.grade = grade;
+    const labels = this.simulatorResultService.topics.map(item => item.name);
     this.basicData = {
-      labels: this.simulatorResultService.topics,
+      labels,
       datasets: [
         {
           label: 'Todos los aciertos',

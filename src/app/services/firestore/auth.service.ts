@@ -3,6 +3,7 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {QueryDbService} from "./query-db.service";
 import {User} from "../../models/AreaModel";
 import {BehaviorSubject, catchError, finalize, from, map, Observable, skip, switchMap, throwError} from "rxjs";
+import {SimulatorResultService} from "../../website/services/simulator-result.service";
 
 
 @Injectable({
@@ -38,13 +39,13 @@ export class AuthService {
           }
           return user;
         }),
-        catchError((err)=>this.handlerError(err))
-        );
+        catchError((err) => this.handlerError(err))
+      );
   }
 
   logout() {
     return from(this.fireAuth.signOut()).pipe(
-      finalize(()=>this.loggedIn.next(false))
+      finalize(() => this.loggedIn.next(false))
     );
   }
 
@@ -96,8 +97,14 @@ export class AuthService {
   }
 
   private handlerError(err: any): Observable<never> {
-    let errorMessage = 'An error ocurred '  + err
+    let errorMessage = 'An error ocurred ' + err
     return throwError(() => errorMessage)
+  }
+
+  saveResults(){
+    const {statisticsBySimulator, statisticsByTopic, id} = this.currentUserData;
+   // this.simulatorResultService.topics;
+    this.queryDbService.updateDoc('users', id, this.currentUserData);
   }
 
 }

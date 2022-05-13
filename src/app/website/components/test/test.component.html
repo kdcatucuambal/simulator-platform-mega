@@ -1,11 +1,8 @@
-<br>
-<br>
-<br>
+<h1>Test component</h1>
 
-<app-paginator
-  [initialPage]="1"
-  (changePage)="onChangePage($event)"
-  [itemsPerPage]="itemsPerPage"
-  [totalItems]="total"
-  [maxPages]="5"
-></app-paginator>
+<h4>Load your file</h4>
+<input type="file" (change)="onChangeFile($event)">
+<button class="btn btn-primary" (click)="onUpload()">Upload</button>
+
+
+<button (click)="deleteFile()">Delete test</button>

@@ -5,7 +5,7 @@ import {TimerService} from "../../services/timer.service";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {Area, QuestionInfo, SimulatorInfo} from "../../../models/AreaModel";
 import {AuthService} from "../../../services/firestore/auth.service";
-import {SimulatorResultService} from "../../services/simulator-result.service";
+import {SimulatorResultService, TopicsSaved} from "../../services/simulator-result.service";
 import {OnExit} from "../../../guards/exit.guard";
 
 export interface IQuestion {
@@ -72,10 +72,11 @@ export class SimulatorComponent implements OnInit, OnExit {
         return this.queryDbService.getAllDocs<Area>('areas');
       }),
       switchMap(areas => {
-        this.areas = areas;
+        this.areas = areas as Area[];
         return this.queryDbService.getDocById<SimulatorInfo>('simulators', this.simulatorId);
       })
     ).subscribe((data) => {
+      this.saveLocalStorageTopics();
       this.simulator = data;
       this.title = this.simulator.title;
       this.questiondsId = this.simulator.questions;
@@ -94,11 +95,11 @@ export class SimulatorComponent implements OnInit, OnExit {
 
   onNextQuestion() {
 
-    if (this.currentQuestion.index == this.questions.length - 1){
+    if (this.currentQuestion.index == this.questions.length - 1) {
       this.textBtnNavigate = 'FINALIZAR SIMULADOR';
     }
 
-    if (this.currentQuestion.index == this.questions.length){
+    if (this.currentQuestion.index == this.questions.length) {
       this.finishSimuator();
       return;
     }
@@ -149,6 +150,12 @@ export class SimulatorComponent implements OnInit, OnExit {
         console.log(err)
       },
       complete: () => {
+        const {
+          totalCorrectsPerTopics,
+          totalQuestionsPerTopics,
+          grade
+        } = this.simulatorResultService.getInfoFromResult();
+
 
         this.router.navigateByUrl('/resultados').then();
       }
@@ -156,30 +163,42 @@ export class SimulatorComponent implements OnInit, OnExit {
 
   }
 
-  finishSimuator(){
+  finishSimuator() {
     this.simulatorResultService.questions = this.questions;
     this.simulator.time = new Date();
     this.simulatorResultService.simulator = this.simulator;
     this.timerService.finishTime();
   }
 
-  getBreaks(){
+  getBreaks() {
     const topics = [];
     let account = 0;
     for (const [i, question] of this.questions.entries()) {
-      if (!topics.includes(question.topicName)){
+      if (!topics.includes(question.topicName)) {
         topics.push(question.topicName);
         this.breaks.push(i + 1);
         account = 0;
-      }else{
+      } else {
         account++;
       }
     }
-    this.simulatorResultService.topics = topics;
+    const topicFiltered = this.areas.filter(item => topics.includes(item.title));
+    this.simulatorResultService.topics = topicFiltered.map<TopicsSaved>(item => {
+      return {id: item.id, name: item.title}
+    });
   }
 
   onExit(): Observable<boolean> | Promise<boolean> | boolean {
     return confirm("¿Está seguro que quiere salir?");
+  }
+
+  saveLocalStorageTopics() {
+    const topics = [];
+    this.areas.forEach(item => {
+      topics.push({id: item.id, name: item.title});
+    });
+    const topicsString = JSON.stringify(topics);
+    localStorage.setItem('pmg-topics', topicsString);
   }
 
 }

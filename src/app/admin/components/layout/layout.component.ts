@@ -27,7 +27,7 @@ export class LayoutComponent implements OnInit {
         {title: 'Cursos', link: 'courses'},
         {title: 'Carousel', link: 'carousel'},
         {title: 'Alerta', link: 'alerts'},
-        {title: 'Títulos', link: 'titles'}
+        {title: 'Títulos', link: 'titles'},
       ],
       icon: 'mx-2 bi bi-type'
     },
@@ -35,6 +35,13 @@ export class LayoutComponent implements OnInit {
       header: 'Simulador',
       options: [
         {title: 'Simuladores', link: 'simulators'}
+      ],
+      icon: 'mx-2 bi bi-laptop-fill'
+    },
+    {
+      header: 'Recursos',
+      options: [
+        {title: 'Administrar', link: 'resources'}
       ],
       icon: 'mx-2 bi bi-laptop-fill'
     }
