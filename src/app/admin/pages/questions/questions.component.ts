@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import { switchMap, throwError} from "rxjs";
-import {Area, QuestionInfo, SubTopicInfo} from "../../../models/AreaModel";
+import {Area, QuestionInfo, SubTopicInfo} from "../../../models/Models";
 import {Column, OutputType} from "../../../shared/components/table/table.component";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {MessageService} from "primeng/api";

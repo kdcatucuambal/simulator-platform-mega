@@ -4,7 +4,9 @@ import Firestore = firebase.firestore.Firestore;
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {forkJoin, from, lastValueFrom, map, Observable, of, switchMap, tap} from "rxjs";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
-import {Area} from "../../models/AreaModel";
+import {Area, QuestionInfo, TopicForRandomSimulator} from "../../models/Models";
+import {getRandomNumberList} from "../../utils/app.util";
+
 
 
 @Injectable({
@@ -21,6 +23,7 @@ export class QueryDbService {
   }
 
   addDoc<T>(collectionName: string, data: T) {
+    console.log('adding doc')
     const promiseRef = this.db.collection(collectionName).add(data);
     return from(promiseRef);
   }
@@ -119,7 +122,7 @@ export class QueryDbService {
       whereData?: {
         field: string,
         operator: WhereFilterOp,
-        value: string
+        value: any
       }
     }[]) {
     const observables$: Observable<any>[] = [];
@@ -134,6 +137,19 @@ export class QueryDbService {
     return forkJoin(observables$)
   }
 
+  getQuestionsForRandomSimulator(data: TopicForRandomSimulator[]){
+    const observevables$: Observable<any>[] = [];
+    for (const item of data) {
+      const qRandoms = this.getQuestionsRandoms(item.topicId, item.topicSize, item.numberOfQuestions);
+      observevables$.push(qRandoms);
+    }
+    return forkJoin(observevables$);
+  }
+
+  getQuestionsRandoms(subjectId: string, to: number, numberOfQuestions: number){
+    const randoms = getRandomNumberList(1, to, numberOfQuestions);
+    return this.getDocsWhere<QuestionInfo>(subjectId, 'index', 'in', randoms);
+  }
 
   async saveQuestionAndUpdateSizeTransaction(collectionName: string, dataToSave: any) {
     return await this.db.runTransaction(async (transaction) => {

@@ -1,6 +1,15 @@
 <app-loader *ngIf="loading"></app-loader>
 <ng-template [ngIf]="!loading">
-  <app-carousel [items]="carouselItems" [isAlert]="isAlert"></app-carousel>
+
+  <div
+    *ngIf="alert && alert.isActive"
+    [className]="'alert d-flex justify-content-center mb-0 ' + alert.severity"
+    role="alert"
+  >
+    <span class="alert-mega" [innerHTML]="alert.value"></span>
+  </div>
+
+  <app-carousel [items]="carouselItems"></app-carousel>
   <div class="bg-about text-white container-fluid p-4">
     <h1 class="p-4 text-center animate__animated animate__zoomIn">{{titles.info_title.value}}</h1>
     <div class="row">

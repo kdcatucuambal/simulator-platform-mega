@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {QuestionInfo, SimulatorInfo} from "../../../models/AreaModel";
+import {QuestionInfo, SimulatorInfo, User} from "../../../models/Models";
 import {NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels} from "@techiediaries/ngx-qrcode";
 import {SimulatorResultService} from "../../services/simulator-result.service";
 import {Router} from "@angular/router";
@@ -17,8 +17,20 @@ export class ResultsComponent implements OnInit {
   elementType = NgxQrcodeElementTypes.URL;
   url = 'https://plataforma-megapro/';
   errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
-  value = this.url + '/1050309275/2';
+  value = null;
   basicData = null;
+  user: User = {
+    id: '',
+    isActive: false,
+    name: '',
+    created: null,
+    email: '',
+    lastname: '',
+    identificationCard: '',
+    observation: '',
+    phone: '',
+    role: 'admin',
+  }
 
   constructor(
     private simulatorResultService: SimulatorResultService,
@@ -33,8 +45,11 @@ export class ResultsComponent implements OnInit {
   getData() {
     this.questions = this.simulatorResultService.questions;
     this.simulator = this.simulatorResultService.simulator;
+    this.user = this.simulatorResultService.userInfo;
+    console.log(this.user)
     const {totalCorrectsPerTopics, totalQuestionsPerTopics, grade} = this.simulatorResultService.getInfoFromResult();
     this.grade = grade;
+    this.value = `${this.url}-${this.user.identificationCard}-${this.grade}`
     const labels = this.simulatorResultService.topics.map(item => item.name);
     this.basicData = {
       labels,
@@ -57,6 +72,5 @@ export class ResultsComponent implements OnInit {
     this.simulatorResultService.cleanData();
     this.router.navigateByUrl('/inicio').then();
   }
-
 
 }

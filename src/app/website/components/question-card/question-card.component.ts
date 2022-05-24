@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {QuestionInfo} from "../../../models/AreaModel";
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {QuestionInfo} from "../../../models/Models";
 
 @Component({
   selector: 'app-question-card',
@@ -10,6 +10,9 @@ export class QuestionCardComponent implements OnInit {
 
 
   @Input('question') question: QuestionInfo;
+  @Output('onVote') voteEmmiter = new EventEmitter();
+  likes = 0;
+  dislikes = 0;
 
   btnClicked: number = 0;
   btnStatus = '';
@@ -39,6 +42,10 @@ export class QuestionCardComponent implements OnInit {
     for (let index = 0; index < quantity; index++) {
       this.flags[index] = false;
     }
+  }
+
+  onVote(value: boolean){
+    this.voteEmmiter.emit({value, question: this.question});
   }
 
 }

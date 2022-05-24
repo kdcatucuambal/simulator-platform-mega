@@ -22,7 +22,8 @@ export interface SimulatorInfo extends Omit<Course, 'questions'>{
   minutes: number,
   instructions: string,
   questions: string,
-  time?: Date
+  time?: Date,
+  topics?: TopicForRandomSimulator[]
 }
 
 export interface TitleInfo{
@@ -83,6 +84,25 @@ export interface User{
   statisticsBySimulator?: InfoBySimulator[]
 }
 
+export interface RandomSimulator{
+  backgroundColor: string,
+  description: string,
+  imgUrl: string,
+  instructions: string,
+  isActive: boolean,
+  minutes: number,
+  textColor: string,
+  title: string,
+  topics: TopicForRandomSimulator[];
+  id?: string
+}
+
+export interface TopicForRandomSimulator{
+  topicId: string,
+  topicName?: string,
+  topicSize?: number,
+  numberOfQuestions: number
+}
 
 
 export interface InfoByTopic{

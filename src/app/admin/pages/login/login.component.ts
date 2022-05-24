@@ -1,10 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Column, OutputType} from "../../../shared/components/table/table.component";
-import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {Area} from "../../../models/AreaModel";
+import {Component, OnInit} from '@angular/core';
 import {ValidateService} from "../../../services/validate/validate.service";
-
-
+import {AuthService} from "../../../services/firestore/auth.service";
 
 
 @Component({
@@ -15,10 +11,15 @@ import {ValidateService} from "../../../services/validate/validate.service";
 export class LoginComponent implements OnInit {
 
   inputType = 'password';
+  loading = false;
+  submited = false;
 
+  email = '';
+  password = '';
 
   constructor(
-
+    private validateService: ValidateService,
+    private authService: AuthService
   ) {
 
   }
@@ -26,12 +27,67 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onShowPassword(){
-    if (this.inputType == 'password'){
+  onLogin() {
+
+    this.email = this.email.trim();
+    this.password = this.password.trim();
+    const isEmailValid = this.validateService.validateEmail(this.email);
+    const isPasswordValid = this.password.length >= 6;
+
+    if (!isEmailValid) {
+      this.email = '';
+      this.submited = true;
+      return;
+    }
+
+    if (!isPasswordValid) {
+      this.password = '';
+      this.submited = true;
+      return;
+    }
+
+    this.authService.login(this.email, this.password).subscribe(data => {
+      console.log(data);
+      console.log('loggin');
+    })
+
+  }
+
+  onLogout(){
+    this.authService.logout();
+  }
+
+  onShowPassword() {
+    if (this.inputType == 'password') {
       this.inputType = 'text';
-    }else{
+    } else {
       this.inputType = 'password';
     }
+  }
+
+  createAdmin() {
+    this.authService.register({
+      email: 'registromegapro@gmail.com',
+      name: 'Megapro',
+      phone: '099445455555',
+      lastname: 'Admin',
+      created: new Date(),
+      password: 'plataforma_megapro2022',
+      identificationCard: '10056210321',
+      isActive: true,
+      role: 'admin',
+      observation: ''
+    }).subscribe({
+      next: (() => {
+        console.log('created ')
+      }),
+      error: (err) => {
+        console.log(err)
+      },
+      complete: () => {
+        console.log('complete')
+      }
+    })
   }
 
 

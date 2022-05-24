@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Column, OutputType} from "../../../shared/components/table/table.component";
-import {SimulatorInfo} from "../../../models/AreaModel";
+import {SimulatorInfo} from "../../../models/Models";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {MessageService} from "primeng/api";
@@ -96,16 +96,15 @@ export class SimulatorsComponent implements OnInit {
         })
     }
 
-    if (rowInfo.type === 'edit'){
+    if (rowInfo.type === 'edit') {
       this.submited = false;
       this.titleModal = 'Editar Simulador';
       this.btnOpenModal.nativeElement.click();
     }
 
-    if (rowInfo.type === 'redirect'){
+    if (rowInfo.type === 'redirect') {
       this.router.navigate(['/admin/simulator-setting', rowInfo.rowData.id]).then();
     }
-
   }
 
   onAddRegister() {
@@ -146,12 +145,10 @@ export class SimulatorsComponent implements OnInit {
       .forEach(k =>
         this.selected[k] = typeof this.selected[k] == 'string' ? this.selected[k].trim() : this.selected[k]);
     const {id, ...rest} = this.selected;
-
     if (!this.validateService.object(rest, ['description', 'title', 'imgUrl', 'instructions', 'type'])) {
       this.submited = true;
       return;
     }
-
     this.loading = true;
     this.btnCloseModal.nativeElement.click();
     if (id == '') {
@@ -184,15 +181,16 @@ export class SimulatorsComponent implements OnInit {
             'Dato actualizado correctamente');
         })
     }
-
   }
 
   onFilter(event: SimulatorInfo[]) {
     this.data = event;
   }
 
-
-  showToast(severity = 'success', summary = 'Acción realizada', detail = 'Acción realizada') {
+  showToast(
+    severity = 'success',
+    summary = 'Acción realizada',
+    detail = 'Acción realizada') {
     this.messageService.add(
       {
         severity,

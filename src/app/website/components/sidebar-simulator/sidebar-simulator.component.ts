@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {QuestionInfo} from "../../../models/AreaModel";
+import {QuestionInfo} from "../../../models/Models";
 
 
 @Component({

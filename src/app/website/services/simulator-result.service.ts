@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {QuestionInfo, SimulatorInfo} from "../../models/AreaModel";
+import {QuestionInfo, SimulatorInfo, User} from "../../models/Models";
 import * as CryptoJS from 'crypto-js';
 
 export interface TopicsSaved {
@@ -14,8 +14,7 @@ export class SimulatorResultService {
 
   private secretKey = 'simulatorservicemgp'
 
-  constructor() {
-  }
+  constructor() {}
 
   set questions(questions: QuestionInfo[]) {
     const questionsValue = JSON.stringify(questions);
@@ -60,11 +59,23 @@ export class SimulatorResultService {
     return {totalQuestionsPerTopics, totalCorrectsPerTopics, grade};
   }
 
+  set userInfo(user: User){
+    console.log(user)
+    const userValue = JSON.stringify(user);
+    const userEncrypted = CryptoJS.AES.encrypt(userValue, this.secretKey).toString();
+    localStorage.setItem('pmg-user-data', userEncrypted);
+  }
+
+  get userInfo(){
+    const value = CryptoJS.AES.decrypt(localStorage.getItem('pmg-user-data'), this.secretKey);
+    return JSON.parse(value.toString(CryptoJS.enc.Utf8)) as User;
+  }
 
   cleanData() {
     localStorage.removeItem('pmg-questions');
     localStorage.removeItem('pmg-topics');
     localStorage.removeItem('pmg-simulator');
+    localStorage.removeItem('pmg-user-data');
   }
 
 }

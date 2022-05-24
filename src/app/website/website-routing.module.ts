@@ -13,6 +13,8 @@ import {SimulatorsInfoComponent} from "./pages/simulators-info/simulators-info.c
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {ResultsComponent} from "./pages/results/results.component";
 import {TestComponent} from "./components/test/test.component";
+import {GuardLoginGuard} from "../guards/guard-login.guard";
+import {ExercisesComponent} from "./pages/exercises/exercises.component";
 
 const routes: Routes = [
   {
@@ -30,7 +32,8 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [GuardLoginGuard]
       },
       {
         path: 'practicar/:id',
@@ -39,11 +42,13 @@ const routes: Routes = [
       },
       {
         path: 'registro',
-        component: RegisterComponent
+        component: RegisterComponent,
+        canActivate: [GuardLoginGuard]
       },
       {
         path: 'restablecer-clave',
-        component: ResetPasswordComponent
+        component: ResetPasswordComponent,
+        canActivate: [GuardLoginGuard]
       },
       {
         path: 'nuestros-simuladores',
@@ -51,14 +56,20 @@ const routes: Routes = [
       },
       {
         path: 'perfil',
-        component: ProfileComponent
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'ejercicios',
+        component: ExercisesComponent
       }
     ]
   },
 
   {
     path: 'resultados',
-    component: ResultsComponent
+    component: ResultsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'simulador',
@@ -66,7 +77,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: ':id',
+        path: ':id/:random',
         component: SimulatorComponent
       }
     ]

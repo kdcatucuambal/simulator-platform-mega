@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {Course, User} from "../../../models/AreaModel";
+import {Course, User} from "../../../models/Models";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {AuthService} from "../../../services/firestore/auth.service";
 
@@ -23,7 +23,9 @@ export class RegisterComponent implements OnInit {
     lastname: '',
     name: '',
     course: null,
-    created: null
+    created: null,
+    statisticsByTopic: [],
+    statisticsBySimulator: []
   }
   courseSelected = '';
   submited = false;
@@ -91,16 +93,21 @@ export class RegisterComponent implements OnInit {
 
    this.user.created = new Date();
 
-   this.authService.register(this.user).subscribe(()=>{
-     this.saveSuccess = true;
-     this.submited = false;
-     this.errorSave = false;
-   }, (err)=>{
-     console.log('error')
-     this.message = 'Al parecer este correo ya se encuentra registrado. Ponte en contacto con Megapro para obtener información.'
-     this.submited = true;
-     this.errorSave = true;
-   });
+
+   this.authService.register(this.user).subscribe({
+     next: (d)=>{
+       this.saveSuccess = true;
+       this.submited = false;
+       this.errorSave = false;
+       console.log('registered')
+       console.log(d)
+     },
+     error: (e)=>{
+       this.message = 'Al parecer este correo ya se encuentra registrado. Ponte en contacto con Megapro para obtener información.'
+       this.submited = true;
+       this.errorSave = true;
+     }
+   })
 
   }
 

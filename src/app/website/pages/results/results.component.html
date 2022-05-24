@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-white shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">RESULTADOS MINISIMULADOR TESTI</a>
+    <a class="navbar-brand" href="#">{{simulator.title}}</a>
   </div>
 </nav>
 
@@ -12,16 +12,16 @@
         <div class="card-body">
           <div class="row">
             <div class="col-6 my-auto">
-              <p><strong>Cédula: </strong> 1050309275</p>
-              <p><strong>Estudiante: </strong> Kevin Catucuamba</p>
-              <p><strong>Correo: </strong> catucuambakevin@gmail.com</p>
-              <p><strong>Teléfono: </strong> 0991744850</p>
+              <p><strong>Cédula: </strong> {{user.identificationCard}}</p>
+              <p><strong>Estudiante: </strong> {{user.name + ' ' + user.lastname}}</p>
+              <p><strong>Correo: </strong> {{user.email}}</p>
+              <p><strong>Teléfono: </strong> {{user.phone}}</p>
               <p><strong>Finalizado: </strong> {{simulator.time | date: 'yyyy-MM-dd; HH:mm:ss'}}</p>
               <p><strong></strong></p>
             </div>
             <div class="col-6">
               <div class="d-flex justify-content-center">
-                <ngx-qrcode
+                <ngx-qrcode *ngIf="value"
                   [elementType]="elementType"
                   [value]="value"
                   cssClass="acClass"

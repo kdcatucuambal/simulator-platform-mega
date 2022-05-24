@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SideBar} from "../layout/layout.component";
-
+import {AuthService} from "../../../services/firestore/auth.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -12,9 +13,20 @@ export class SidebarComponent implements OnInit {
 
  @Input('data') sideBarData: SideBar[] = [];
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+
+  }
 
   ngOnInit(): void {
+  }
+
+  onLogout(){
+    this.authService.logout().subscribe(() => {
+      window.location.href = '/login';
+    })
   }
 
 }

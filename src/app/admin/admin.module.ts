@@ -21,6 +21,9 @@ import { SubTopicsComponent } from './pages/sub-topics/sub-topics.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SimulatorsComponent } from './pages/simulators/simulators.component';
 import { ResourcesComponent } from './pages/resources/resources.component';
+import { RandomSimulatorComponent } from './pages/random-simulator/random-simulator.component';
+import {PanelModule} from "primeng/panel";
+import {TableModule} from "primeng/table";
 
 @NgModule({
   declarations: [
@@ -38,7 +41,8 @@ import { ResourcesComponent } from './pages/resources/resources.component';
     SubTopicsComponent,
     LayoutComponent,
     SimulatorsComponent,
-    ResourcesComponent
+    ResourcesComponent,
+    RandomSimulatorComponent
   ],
   exports: [
     HeaderComponent,
@@ -57,7 +61,9 @@ import { ResourcesComponent } from './pages/resources/resources.component';
           handlers: {}
         }
       }
-    })
+    }),
+    PanelModule,
+    TableModule
   ]
 })
 export class AdminModule {

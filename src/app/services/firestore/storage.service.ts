@@ -5,7 +5,6 @@ import {QueryDbService} from "./query-db.service";
 import * as shortUUID from "short-uuid";
 import firebase from "firebase/compat";
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
-import {DocumentData} from "@angular/fire/compat/firestore";
 
 
 export interface FileInfo{

@@ -43,8 +43,8 @@
           </div>
           <button class="btn btn-primary w-100" (click)="onLogin()"
                   [disabled]="loading">{{loading ? 'Iniciando ...' : 'Iniciar' }}</button>
-          <button class="mt-2 btn btn-link mx-auto" [routerLink]="'/register'">¿Aún no tienes cuenta?</button>
-          <button class="mt-2 btn btn-link mx-auto">¿Olvidaste tu contraseña?</button>
+          <button class="mt-2 btn btn-link mx-auto" [routerLink]="'/registro'">¿Aún no tienes cuenta?</button>
+          <button class="mt-2 btn btn-link mx-auto" [routerLink]="'/restablecer-clave'">¿Olvidaste tu contraseña?</button>
         </div>
       </div>
     </div>

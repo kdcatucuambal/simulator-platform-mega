@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {SimulatorInfo} from "../../../models/AreaModel";
+import {RandomSimulator, SimulatorInfo} from "../../../models/Models";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {Card} from "../../components/card/card.component";
-import {AuthService} from "../../../services/firestore/auth.service";
+
 
 @Component({
   selector: 'app-simulators-info',
@@ -18,24 +18,50 @@ export class SimulatorsInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.queryDbService
-      .getDocsWhere<SimulatorInfo>('simulators', 'isActive', '==', true)
-      .subscribe(data => {
-        this.items =  data.map<Card>((simulator)=>{
-          return {
-            backgroundColor: simulator.backgroundColor,
-            id: simulator.id,
-            imgUrl: simulator.imgUrl,
-            isActive: simulator.isActive,
-            description: simulator.description,
-            path: `/simulador/${simulator.id}`,
-            textColor: simulator.textColor,
-            type: '',
-            title: simulator.title,
-            isCourse: false
-          }
-        })
-      })
+
+    this.queryDbService.getCollectionsWhere(
+      [
+        {collectionName: 'simulators', where: true, whereData: {field: 'isActive', operator: '==', value: true}},
+        {collectionName: 'random-simulator', where: true, whereData: {field: 'isActive', operator: '==', value: true}}
+      ]
+    ).subscribe(data => {
+      this.items =  (data[0] as SimulatorInfo[]).map<Card>(simulator => {
+        return {
+          backgroundColor: simulator.backgroundColor,
+          id: simulator.id,
+          imgUrl: simulator.imgUrl,
+          isActive: simulator.isActive,
+          description: simulator.description,
+          path: `/simulador/${simulator.id}/default`,
+          textColor: simulator.textColor,
+          type: '',
+          title: simulator.title,
+          isCourse: false
+        }
+      });
+
+      const rndSimulator = data[1] as RandomSimulator[];
+      if (rndSimulator.length == 1){
+        const simulator = rndSimulator[0];
+        this.items.unshift({
+          backgroundColor: simulator.backgroundColor,
+          id: simulator.id,
+          imgUrl: simulator.imgUrl,
+          isActive: simulator.isActive,
+          description: simulator.description,
+          path: `/simulador/${simulator.id}/random`,
+          textColor: simulator.textColor,
+          type: '',
+          title: simulator.title,
+          isCourse: false
+        });
+      }
+
+
+    })
+
+
+
   }
 
 }

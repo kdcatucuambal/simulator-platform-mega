@@ -21,7 +21,10 @@
             </div>
           </div>
         </div>
-
+      </div>
+      <div class="col-12 d-flex justify-content-center mt-3">
+        <button class="btn btn-success mx-1" (click)="onVote(true)"> {{question.votes | likes:true}} <i class="bi bi-hand-thumbs-up-fill"></i></button>
+        <button class="btn btn-danger mx-1" (click)="onVote(false)"> {{question.votes | likes:false}} <i class="bi bi-hand-thumbs-down-fill"></i></button>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
 import {TimerService} from "../../services/timer.service";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {Area, QuestionInfo, SimulatorInfo} from "../../../models/AreaModel";
+import {Area, QuestionInfo, SimulatorInfo} from "../../../models/Models";
 import {AuthService} from "../../../services/firestore/auth.service";
 import {SimulatorResultService, TopicsSaved} from "../../services/simulator-result.service";
 import {OnExit} from "../../../guards/exit.guard";
@@ -53,6 +53,7 @@ export class SimulatorComponent implements OnInit, OnExit {
   breaks = [];
   username = '';
   textBtnNavigate = 'FINALIZAR PREGUNTA Y CONTINUAR';
+  rnd = '';
 
 
   constructor(
@@ -69,21 +70,26 @@ export class SimulatorComponent implements OnInit, OnExit {
     this.activatedRoute.paramMap.pipe(
       switchMap((params) => {
         this.simulatorId = params.get('id');
+        this.rnd = params.get('random');
         return this.queryDbService.getAllDocs<Area>('areas');
       }),
       switchMap(areas => {
         this.areas = areas as Area[];
+        if (this.rnd == 'random'){
+          return this.queryDbService.getDocById<SimulatorInfo>('random-simulator', this.simulatorId);
+        }
         return this.queryDbService.getDocById<SimulatorInfo>('simulators', this.simulatorId);
       })
     ).subscribe((data) => {
       this.saveLocalStorageTopics();
-      this.simulator = data;
+      this.simulator = data as SimulatorInfo;
       this.title = this.simulator.title;
       this.questiondsId = this.simulator.questions;
       const user = this.authService.currentUserData.name + ' ' + this.authService.currentUserData.lastname;
       this.username = user.toLocaleUpperCase();
       this.loading = false;
     });
+
   }
 
   onSelectOption(index) {
@@ -121,13 +127,26 @@ export class SimulatorComponent implements OnInit, OnExit {
   onInitSimulator() {
     this.loading = true;
     this.render = 1;
-    this.queryDbService
-      .getDocById<{ questions: QuestionInfo[] }>('simulatorsquestions', this.questiondsId)
-      .subscribe(data => {
-        this.questions = data.questions.map((question, index) => {
+    if (this.rnd == 'random'){
+
+      this.simulator.topics = this.simulator.topics.map(item => {
+        const topicFound = this.areas.find(i => i.id == item.topicId);
+        return {...item, topicSize: topicFound.questions};
+      })
+
+      this.queryDbService.getQuestionsForRandomSimulator(this.simulator.topics).subscribe(data => {
+        const questions = [];
+        for (const [index, qs] of data.entries()) {
+          //qs.topicName = this.areas.find((item)=> item.id == this.simulator.topics[index].topicId).title;
+          const qs_  = qs.map(item => {
+            item.topicName = this.areas.find((item)=> item.id == this.simulator.topics[index].topicId).title;
+            return item;
+          })
+          questions.push(...qs_);
+        }
+        this.questions = questions.map((question, index) => {
           question.selectedOption = -1;
           question.index = index + 1;
-          question.topicName = this.areas.find((item) => item.id == question.subtopicId).title;
           question.btnStatus = 'btn-custom';
           return question;
         });
@@ -138,7 +157,29 @@ export class SimulatorComponent implements OnInit, OnExit {
         this.initTimer();
         this.loading = false;
       })
+    }else{
+      this.queryDbService
+        .getDocById<{ questions: QuestionInfo[] }>('simulatorsquestions', this.questiondsId)
+        .subscribe(data => {
+          this.questions = data.questions.map((question, index) => {
+            question.selectedOption = -1;
+            question.index = index + 1;
+            question.topicName = this.areas.find((item) => item.id == question.subtopicId).title;
+            question.btnStatus = 'btn-custom';
+            return question;
+          });
+          this.currentQuestion = this.questions[0];
+          this.currentQuestion.btnStatus = 'btn-current';
+          this.getBreaks();
+          this.timerService.init(this.simulator.minutes, 'minutes');
+          this.initTimer();
+          this.loading = false;
+        })
+    }
+
+
   }
+
 
   initTimer() {
 
@@ -155,9 +196,17 @@ export class SimulatorComponent implements OnInit, OnExit {
           totalQuestionsPerTopics,
           grade
         } = this.simulatorResultService.getInfoFromResult();
-
-
-        this.router.navigateByUrl('/resultados').then();
+        this.loading = true;
+        this.authService.saveResults(
+          totalCorrectsPerTopics,
+          totalQuestionsPerTopics,
+          grade,
+          this.simulatorId,
+          this.simulatorResultService.topics
+          ).subscribe(() => {
+          this.loading = false;
+          this.router.navigateByUrl('/resultados').then();
+        });
       }
     });
 
@@ -167,6 +216,7 @@ export class SimulatorComponent implements OnInit, OnExit {
     this.simulatorResultService.questions = this.questions;
     this.simulator.time = new Date();
     this.simulatorResultService.simulator = this.simulator;
+    this.simulatorResultService.userInfo = this.authService.currentUserData;
     this.timerService.finishTime();
   }
 

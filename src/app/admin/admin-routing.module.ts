@@ -11,16 +11,15 @@ import {SubTopicsComponent} from "./pages/sub-topics/sub-topics.component";
 import {LayoutComponent} from "./components/layout/layout.component";
 import {SimulatorsComponent} from "./pages/simulators/simulators.component";
 import {ResourcesComponent} from "./pages/resources/resources.component";
+import {AdminAuthGuard} from "../guards/admin-auth.guard";
+import {RandomSimulatorComponent} from "./pages/random-simulator/random-simulator.component";
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AdminAuthGuard],
     children: [
-      {
-        path: 'login',
-        component: LoginComponent
-      },
       {
         path: 'home',
         component: HomeComponent
@@ -54,6 +53,10 @@ const routes: Routes = [
         component: SimulatorsComponent
       },
       {
+        path: 'random-simulator',
+        component: RandomSimulatorComponent
+      },
+      {
         path: 'resources',
         component: ResourcesComponent
       },
@@ -66,6 +69,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/add-question-simulator/add-question-simulator.module').then(m => m.AddQuestionSimulatorModule)
       }
     ]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 

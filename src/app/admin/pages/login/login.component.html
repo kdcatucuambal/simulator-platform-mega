@@ -1,35 +1,51 @@
 <div class="container-fluid">
   <div class="row d-flex justify-content-center mt-5">
     <div class="col-lg-5 col-12">
-      <div class="card shadow-lg">
+      <div class="card shadow-sm">
         <img
           style="height: 200px; width: 200px"
           class="card-img-top mx-auto my-2"
-          src="https://scontent.fuio28-1.fna.fbcdn.net/v/t1.6435-9/123936357_2506238279668827_903183720942390849_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=174925&_nc_ohc=HqY50Qs-qpQAX_eH9v6&_nc_ht=scontent.fuio28-1.fna&oh=00_AT_KTN6NCUag_3mGM9CHMJ_nEhN03w2Rh1zeu6EgAEdf_g&oe=6266B9AE"
+          src="https://cdn-icons-png.flaticon.com/512/752/752688.png"
           alt="">
         <div class="card-body">
           <h5 class="card-title text-center">PLATAFORMA MEGAPRO</h5>
           <h6 class="card-subtitle text-center small text-secondary">Iniciar sesión administración de la plataforma</h6>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Usuario</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Ingrese su usuario" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">El usuario es asignado por el administrador de Megapro.</div>
+            <input type="email" class="form-control" id="exampleInputEmail1"
+                   placeholder="Ingrese su usuario"
+                   aria-describedby="validate-email"
+                   [(ngModel)]="email"
+                   [ngClass]="{'is-invalid': submited && !email}"
+            >
+            <div *ngIf="submited && !email" id="validate-email" class="invalid-feedback">
+              El email debe ser válido
+            </div>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Clave</label>
-            <input [type]="inputType" placeholder="Ingrese su clave" class="form-control" id="exampleInputPassword1">
+            <input [type]="inputType" placeholder="Ingrese su clave"
+                   class="form-control" id="exampleInputPassword1"
+                   [(ngModel)]="password"
+                   [ngClass]="{'is-invalid': submited && !password}"
+            >
+            <div *ngIf="submited && !password" id="validate-password" class="invalid-feedback">
+              La clave debe ser válida
+            </div>
           </div>
           <div class="mb-3 form-check">
             <input type="checkbox" (change)="onShowPassword()" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Mostrar clave</label>
           </div>
-          <button class="btn btn-primary w-100">Iniciar</button>
+          <button class="btn btn-primary w-100" (click)="onLogin()">Iniciar</button>
         </div>
       </div>
     </div>
   </div>
 
 </div>
+
+<button (click)="onLogout()">Logout</button>
 
 
 

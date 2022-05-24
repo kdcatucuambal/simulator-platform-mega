@@ -1,3 +1,5 @@
+<app-loader *ngIf="loading"></app-loader>
+<ng-template [ngIf]="!loading">
 <div class="container-fluid">
   <div class="row my-4">
     <div class="col-12 mx-auto">
@@ -5,34 +7,159 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12 d-flex justify-content-center">
-              <span class="bg-primary shadow-sm h1 text-white rounded-circle p-2"><strong>KC</strong></span>
+              <span class="bg-primary shadow-sm h1 text-white rounded-circle p-2"><strong>{{initialLetters}}</strong></span>
             </div>
-            <h3 class="font-bold my-2 text-center">KEVIN CATUCUAMBA</h3>
-
+            <h3 class="font-bold my-2 text-center">{{labelName}}</h3>
             <div class="col-12 col-sm-6 border border-1 pt-2">
-              <p><strong>Cédula: </strong>1050309275</p>
-              <p><strong>Estudiante: </strong>Kevin Catucuamba</p>
-              <p><strong>Email: </strong> catucuambakevin@gmail.com</p>
-              <p><strong>Teléfono: </strong> 0991744850</p>
+              <p><strong>Cédula: </strong>{{userProfile.identificationCard}}</p>
+              <p><strong>Estudiante: </strong>{{userProfile.name + ' ' + userProfile.lastname}}</p>
+              <p><strong>Email: </strong>{{userProfile.email}}</p>
+              <p><strong>Teléfono: </strong>{{userProfile.phone}}</p>
               <p><strong>Estado: </strong><span class="badge bg-success">Activo</span></p>
             </div>
             <div class="col-12 col-sm-6 border border-1 pt-2">
-              <p><strong>Creado: </strong>23 de julio 2022, 08:30</p>
-              <p><strong>Curso: </strong>TEST TRANSFORMAR MEGAFLASH</p>
-              <p><strong>Información: </strong>LUNES A VIERNES PRESENCIAL - GUAYAQUIL</p>
+              <p><strong>Creado: </strong>{{userProfile.created | date:'MM-d-y, h:mm:ss a':''}}</p>
+              <p><strong>Curso: </strong>{{userProfile.course ? userProfile.course.title : ''}}</p>
+              <p><strong>Información: </strong>{{userProfile.course ? userProfile.course.description : ''}}</p>
               <p><strong>Puntuación: </strong>7.4 / 10</p>
-              <a class="btn btn-link btn-sm">Actualizar información</a>
+              <a class="btn btn-link btn-sm" (click)="onOpenModal()">Actualizar información</a>
             </div>
-
-            <div class="col-12">
-              <p-chart type="bar" [data]="basicData"></p-chart>
+            <div class="col-12 p-5">
+              <h4 class="font-bold text-center">Porcentaje de aciertos por tema</h4>
+              <p-chart
+                type="bar"
+                [data]="basicData"
+                [responsive]="true"
+                height="350px"
+              ></p-chart>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
   </div>
 </div>
+
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Actualizar información</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="title-subject" class="form-label">Cédula</label>
+              <div class="input-group has-validation">
+                <input type="text" [(ngModel)]="updateUser.identificationCard"
+                       class="form-control"
+                       id="title-subject"
+                       required
+                       aria-describedby="validate-title"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !updateUser.identificationCard}"
+                >
+                <div *ngIf="submited && !updateUser.identificationCard" id="validate-title" class="invalid-feedback">
+                  La cédula es necesaria
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="title-subject" class="form-label">Correo</label>
+              <div class="input-group has-validation">
+                <input type="text"
+                       [value]="updateUser.email"
+                       class="form-control"
+                       id="email-update"
+                       required
+                       aria-describedby="validate-title"
+                       [disabled]="true"
+                >
+              </div>
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="title-subject" class="form-label">Nombre</label>
+              <div class="input-group has-validation">
+                <input type="text" [(ngModel)]="updateUser.name"
+                       class="form-control"
+                       id="name-update"
+                       required
+                       aria-describedby="validate-name-update"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !updateUser.name}"
+                >
+                <div *ngIf="submited && !updateUser.name" id="validate-name-update" class="invalid-feedback">
+                  El nombre es requerido
+                </div>
+              </div>
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="title-subject" class="form-label">Apellido</label>
+              <div class="input-group has-validation">
+                <input type="text" [(ngModel)]="updateUser.lastname"
+                       class="form-control"
+                       id="lastname-update"
+                       required
+                       aria-describedby="validate-lastname-update"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !updateUser.lastname}"
+                >
+                <div *ngIf="submited && !updateUser.lastname" id="validate-lastname-update" class="invalid-feedback">
+                  El apellido es necesario
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 col-6">
+              <label for="phone-update" class="form-label">Teléfono</label>
+              <div class="input-group has-validation">
+                <input type="text" [(ngModel)]="updateUser.phone"
+                       class="form-control"
+                       id="phone-update"
+                       required
+                       aria-describedby="validate-phone-update"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !updateUser.phone}"
+                >
+                <div *ngIf="submited && !updateUser.phone" id="validate-phone-update" class="invalid-feedback">
+                  El teléfono es necesario
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onUpdateUser()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div> {{loading ? 'Actualizando' : 'Actualizar'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    #openModal
+    [hidden]="true"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop">
+  </button>
+
 <app-footer></app-footer>
+</ng-template>

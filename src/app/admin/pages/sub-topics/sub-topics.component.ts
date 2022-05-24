@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Column, OutputType} from "../../../shared/components/table/table.component";
-import {Area, SubTopicInfo} from "../../../models/AreaModel";
+import {Area, SubTopicInfo} from "../../../models/Models";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {MessageService} from "primeng/api";

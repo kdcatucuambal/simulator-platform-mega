@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {Area} from "../../../models/AreaModel";
+import {Area} from "../../../models/Models";
 
 export interface SideBar {
   header: string,
@@ -34,7 +34,8 @@ export class LayoutComponent implements OnInit {
     {
       header: 'Simulador',
       options: [
-        {title: 'Simuladores', link: 'simulators'}
+        {title: 'Simuladores', link: 'simulators'},
+        {title: 'Aleatorio', link: 'random-simulator'}
       ],
       icon: 'mx-2 bi bi-laptop-fill'
     },

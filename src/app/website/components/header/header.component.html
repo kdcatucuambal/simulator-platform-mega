@@ -13,11 +13,11 @@
         </li>
         <li class="nav-item mx-3">
           <a class="nav-link active text-primary animate__animated animate__zoomIn"
-             href="/ejercicios" target=""><i class="bi bi-card-checklist"></i> Ejercicios</a>
+             [routerLink]="['/ejercicios']"><i class="bi bi-card-checklist"></i> Ejercicios</a>
         </li>
         <li class="nav-item mx-3">
           <a class="nav-link active text-primary animate__animated animate__zoomIn"
-             href="#"><i class="bi bi-card-list"></i> Registro</a>
+             [routerLink]="['/registro']"><i class="bi bi-card-list"></i> Registro</a>
         </li>
 
         <li *ngIf="isChecking" class="nav-item mx-3">
@@ -31,7 +31,8 @@
           <button class="btn btn-link nav-link dropdown-toggle animate__animated animate__fadeIn" data-bs-toggle="dropdown" href="#" role="button"
              aria-expanded="false"><span class="bg-primary text-white rounded-circle p-2"><strong>{{letterUser}}</strong></span></button>
           <ul class="dropdown-menu">
-            <li><button class="dropdown-item bi-person-badge"[routerLink]="['/perfil']"> Perfil</button></li>
+            <li><button class="dropdown-item bi-person-badge" [routerLink]="['/perfil']"> Perfil</button></li>
+            <li *ngIf="loggedIn && role == 'admin'"><button class="dropdown-item bi-person-badge" [routerLink]="['/admin/home']"> Admin</button></li>
             <li><button (click)="onLogout()" class="dropdown-item bi-arrow-left"> Salir</button></li>
           </ul>
         </li>
@@ -40,11 +41,4 @@
 
   </div>
 </nav>
-<!--  <div-->
-<!--    *ngIf="alert.isActive"-->
-<!--    [className]="'alert d-flex justify-content-center mb-0 ' + alert.severity"-->
-<!--    role="alert"-->
-<!--  >-->
-<!--    <span class="alert-mega" [innerHTML]="alert.value"></span>-->
-<!--  </div>-->
 

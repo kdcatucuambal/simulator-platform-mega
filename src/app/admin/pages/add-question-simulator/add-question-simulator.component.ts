@@ -3,7 +3,7 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 import {generate} from "short-uuid"
 import {of, switchMap} from "rxjs";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import {Area, QuestionInfo, SimulatorInfo} from "../../../models/AreaModel";
+import {Area, QuestionInfo, SimulatorInfo} from "../../../models/Models";
 import {QuestionHandlerService} from "./services/question-handler.service";
 import {QuillModules} from "ngx-quill";
 import {ValidateService} from "../../../services/validate/validate.service";

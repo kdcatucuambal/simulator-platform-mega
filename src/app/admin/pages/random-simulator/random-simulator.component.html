@@ -1,0 +1,301 @@
+<p-toast position="top-right"></p-toast>
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+
+    <p-panel header="Configuración de simulador aleatorio">
+      <div class="container">
+        <div class="row">
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="title-random" class="form-label">Título</label>
+            <div class="input-group has-validation">
+              <input type="text" [(ngModel)]="data.title"
+                     class="form-control"
+                     id="title-random"
+                     required
+                     aria-describedby="validate-title-random"
+                     [placeholder]="'Título del simulador'"
+                     [disabled]="loading"
+                     [ngClass]="{'is-invalid': submited && !data.title}"
+              >
+              <div *ngIf="submited && !data.title" id="validate-title-random" class="invalid-feedback">
+                El título es necesario
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="time-random" class="form-label">Tiempo</label>
+            <div class="input-group has-validation">
+              <input type="number" [(ngModel)]="data.minutes"
+                     class="form-control"
+                     id="time-random"
+                     required
+                     aria-describedby="validate-time-random"
+                     [disabled]="loading"
+                     [ngClass]="{'is-invalid': submited && !data.minutes}"
+              >
+              <div *ngIf="submited && !data.title" id="validate-time-random" class="invalid-feedback">
+                El tiempo es necesario
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="desc-random" class="form-label">Descripción</label>
+            <textarea
+              class="form-control"
+              [(ngModel)]="data.description"
+              [rows]="3"
+              id="desc-random"
+              aria-describedby="validate-desc-random"
+              [disabled]="loading"
+              [ngClass]="{'is-invalid': submited && !data.description}"
+            ></textarea>
+            <div *ngIf="submited && !data.description" id="validate-desc-random" class="invalid-feedback">
+              La descripción es necesaria
+            </div>
+          </div>
+
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="instr-random" class="form-label">Instrucciones</label>
+            <textarea
+              class="form-control"
+              [(ngModel)]="data.instructions"
+              [rows]="3"
+              id="instr-random"
+              aria-describedby="validate-instr-random"
+              [disabled]="loading"
+              [ngClass]="{'is-invalid': submited && !data.instructions}"
+            ></textarea>
+            <div *ngIf="submited && !data.instructions" id="validate-instr-random" class="invalid-feedback">
+              Las instrucciones es necesaria
+            </div>
+          </div>
+
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="img-random" class="form-label">Url de imagen</label>
+            <textarea
+              class="form-control"
+              [(ngModel)]="data.imgUrl"
+              [rows]="3"
+              id="img-random"
+              aria-describedby="validate-img-random"
+              [disabled]="loading"
+              [ngClass]="{'is-invalid': submited && !data.imgUrl}"
+            ></textarea>
+            <div *ngIf="submited && !data.imgUrl" id="validate-img-random" class="invalid-feedback">
+              La url de la imagen es necesaria
+            </div>
+          </div>
+
+          <div class="mb-3 col-12 col-sm-6">
+            <label class="form-label d-block">¿Activo?</label>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio1"
+                autocomplete="off"
+                (change)="onChangeRadio(false)"
+                [disabled]="loading"
+                [checked]="!data.isActive">
+              <label class="btn btn-outline-primary" for="btnradio1">NO</label>
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio2"
+                autocomplete="off"
+                (change)="onChangeRadio(true)"
+                [disabled]="loading"
+                [checked]="data.isActive">
+              <label class="btn btn-outline-primary" for="btnradio2">SI</label>
+            </div>
+          </div>
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="color-background" class="form-label">Color de presentación:</label>
+            <input type="color" id="color-background" class="form-control" [(ngModel)]="data.backgroundColor" />
+          </div>
+          <div class="mb-3 col-12 col-sm-6">
+            <label for="color-background" class="form-label">Color de texto:</label>
+            <input type="color" class="form-control" [(ngModel)]="data.textColor" />
+          </div>
+          <div class="my-2 col-12">
+            <button class="btn btn-primary float-end" (click)="onSave()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+
+    <div class="row mt-2">
+      <div class="col-12 mb-4">
+        <p-table
+          [value]="data.topics"
+          [columns]="columns"
+          [reorderableColumns]="true"
+          [loading]="loading"
+          responsiveLayout="scroll"
+          styleClass="p-datatable-sm p-datatable-gridlines"
+        >
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+              <div class="row">
+                <div class="col-6 my-auto">
+                  Temas seleccionados
+                </div>
+                <div class="col-6">
+                  <button (click)="onAddRegister()" class="btn btn-primary float-end">Agregar tema</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th class="text-center" style="width:3rem"></th>
+              <th class="text-center" *ngFor="let col of columns" pReorderableColumn>
+                {{col.header}}
+              </th>
+              <th class="text-center">Opciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+              <td class="text-center">
+                <span class="pi pi-bars" [pReorderableRowHandle]="index"></span>
+              </td>
+              <td class="text-center" *ngFor="let col of columns">
+                {{rowData[col.field] | cutText: col['field']}}
+              </td>
+              <td class="text-center">
+                <button (click)="onActionEdit(rowData)" class="btn btn-primary btn-sm mx-1"><i
+                  class="bi bi-pencil-square"></i></button>
+                <button (click)="onActionDelete(rowData)" class="btn btn-danger btn-sm mx-1"><i
+                  class="bi bi-trash3-fill"></i></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{'Agregar tema al simulador'}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="mb-3 col-12">
+              <label  class="form-label">Temario: </label>
+              <select
+                [(ngModel)]="subjectSelected.topicId"
+                class="form-select"
+                aria-label="Default select example"
+                [disabled]="loading || subjectSelected.topicName != ''"
+                aria-describedby="validate-topic"
+                [ngClass]="{'is-invalid': submited && !subjectSelected.topicId}"
+              >
+                <option value="">Selecciona un tema</option>
+                <option *ngFor="let topic of topics" [value]="topic.id">{{topic.title}}</option>
+              </select>
+              <div *ngIf="submited && !subjectSelected.topicId" id="validate-topic" class="invalid-feedback">
+                {{errorMessage}}
+              </div>
+            </div>
+
+
+            <div class="mb-3 col-12">
+              <label for="questions-random" class="form-label">Cantidad de preguntas a mostrar</label>
+              <div class="input-group has-validation">
+                <input type="number"
+                       [(ngModel)]="subjectSelected.numberOfQuestions"
+                       class="form-control"
+                       id="questions-random"
+                       [min]="2"
+                       [max]="10"
+                       required
+                       aria-describedby="validate-questions-random"
+                       [disabled]="loading"
+                       [ngClass]="{'is-invalid': submited && !subjectSelected.numberOfQuestions}"
+                >
+                <div *ngIf="submited && !subjectSelected.numberOfQuestions" id="validate-questions-random" class="invalid-feedback">
+                  {{errorMessage}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSaveTopic()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>
+
+
+<button
+  #openDeleteModal
+  [hidden]="true"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#deleteModal">
+</button>
+<!-- Modal delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Desea eliminar el registro?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          #closeDeleteModal
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">NO
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onConfirmDelete()"
+        >SI
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AlertInfo} from "../../../models/AreaModel";
+import {AlertInfo} from "../../../models/Models";
 import {AuthService} from "../../../services/firestore/auth.service";
 import {Router} from "@angular/router";
 
@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   loggedIn = false;
   letterUser = '';
   isChecking = true;
+  role = '';
 
   constructor(
     private authService: AuthService,
@@ -26,8 +27,9 @@ export class HeaderComponent implements OnInit {
     this.authService.isLogged.subscribe(value => {
       this.loggedIn = value;
       this.isChecking = false;
-      if (this.loggedIn){
-        const {name, lastname} = this.authService.currentUserData;
+      if (this.loggedIn) {
+        const {name, lastname, role} = this.authService.currentUserData;
+        this.role = role;
         this.letterUser = name[0].toLocaleUpperCase() + lastname[0].toLocaleUpperCase();
       }
     });
@@ -35,16 +37,15 @@ export class HeaderComponent implements OnInit {
     this.checkUser();
   }
 
-  onLogout(){
-    this.authService.logout().subscribe(()=>{
-      this.router.navigateByUrl('/home');
+  onLogout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigateByUrl('/inicio');
     });
   }
 
-  checkUser(){
+  checkUser() {
     const user = this.authService.currentUserData;
-    console.log('check user', user);
-    if (user){
+    if (user) {
       const {name, lastname} = user;
       this.letterUser = name[0].toLocaleUpperCase() + lastname[0].toLocaleUpperCase();
       this.loggedIn = true;

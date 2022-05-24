@@ -32,6 +32,8 @@ import {ChartModule} from "primeng/chart";
 import { ResultsComponent } from './pages/results/results.component';
 import {NgxQRCodeModule} from "@techiediaries/ngx-qrcode";
 import { StatusResultPipe } from './pipes/status-result.pipe';
+import { LikesPipe } from './pipes/likes.pipe';
+import { ExercisesComponent } from './pages/exercises/exercises.component';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import { StatusResultPipe } from './pipes/status-result.pipe';
     ResetPasswordComponent,
     ProfileComponent,
     ResultsComponent,
-    StatusResultPipe
+    StatusResultPipe,
+    LikesPipe,
+    ExercisesComponent
   ],
   imports: [
     CommonModule,

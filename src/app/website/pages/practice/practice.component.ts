@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {switchMap} from "rxjs";
 import {Pager} from "../../components/paginator/paginator.helper";
-import {QuestionInfo} from "../../../models/AreaModel";
+import {QuestionInfo} from "../../../models/Models";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
+import {AuthService} from "../../../services/firestore/auth.service";
 
 
 
@@ -27,7 +28,8 @@ export class PracticeComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private queryDbService: QueryDbService
+    private queryDbService: QueryDbService,
+    private authService: AuthService
   ) {
   }
 
@@ -38,7 +40,7 @@ export class PracticeComponent implements OnInit {
         return this.queryDbService.getPiecesOfCollection<QuestionInfo>(this.topicId);
       }),
       switchMap(data => {
-        this.questions = data;
+        this.questions = data as QuestionInfo[];
         return this.queryDbService.getDocById('areas', this.topicId);
       })
     ).subscribe((currentTopic: any) => {
@@ -59,6 +61,39 @@ export class PracticeComponent implements OnInit {
       this.loading = false;
       this.currentPage = pager.currentPage;
     });
+  }
+
+  onSaveVote(data: {value: boolean, question: QuestionInfo}){
+    console.log("practice: ", data.value)
+    const currentAuthId = this.authService.currentUserData.id;
+
+    const exist = data.question.votes.find((element) => {
+     const [id] = element.split(':');
+     if (currentAuthId == id){
+       return element;
+     }
+     return null;
+    });
+
+    let vote = '';
+
+    if (exist){
+      data.question.votes = data.question.votes.map(item => {
+        const [id] = item.split(':');
+        if (id == currentAuthId){
+          return `${currentAuthId}:${data.value}`;
+        }
+        return item;
+      })
+      //update
+    }else{
+      //add and save
+      vote = `${currentAuthId}:${data.value}`;
+       data.question.votes = [...data.question.votes, vote];
+    }
+
+    this.queryDbService
+      .updateDoc(this.topicId, data.question.id, {votes: data.question.votes}).subscribe();
   }
 
 }

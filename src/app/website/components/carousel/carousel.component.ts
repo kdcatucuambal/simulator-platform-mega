@@ -1,10 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {CarouselInfo} from "../../../models/Models";
 
-export interface CarouselItem{
-  imgUrl: string,
-  title: string,
-  subtitle: string
-}
+
 
 @Component({
   selector: 'app-carousel',
@@ -13,8 +10,7 @@ export interface CarouselItem{
 })
 export class CarouselComponent implements OnInit {
 
-  @Input('items') items: CarouselItem[] = [];
-  @Input('isAlert') isAlert: boolean;
+  @Input('items') items: CarouselInfo[] = [];
 
   constructor() { }
 

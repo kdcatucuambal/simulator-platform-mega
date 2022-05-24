@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {QueryDbService} from "../../../../services/firestore/query-db.service";
-import {Area, QuestionInfo} from "../../../../models/AreaModel";
+import {Area, QuestionInfo} from "../../../../models/Models";
 import {from, lastValueFrom, Observable, switchMap, tap} from "rxjs";
 
 @Injectable({
