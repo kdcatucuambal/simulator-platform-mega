@@ -24,6 +24,8 @@ import { ResourcesComponent } from './pages/resources/resources.component';
 import { RandomSimulatorComponent } from './pages/random-simulator/random-simulator.component';
 import {PanelModule} from "primeng/panel";
 import {TableModule} from "primeng/table";
+import { StudentsComponent } from './pages/students/students.component';
+import {ChartModule} from "primeng/chart";
 
 @NgModule({
   declarations: [
@@ -42,29 +44,31 @@ import {TableModule} from "primeng/table";
     LayoutComponent,
     SimulatorsComponent,
     ResourcesComponent,
-    RandomSimulatorComponent
+    RandomSimulatorComponent,
+    StudentsComponent
   ],
   exports: [
     HeaderComponent,
     FooterComponent
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ToastModule,
-    QuillModule.forRoot({
-      modules: {
-        toolbar: {
-          handlers: {}
-        }
-      }
-    }),
-    PanelModule,
-    TableModule
-  ]
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ToastModule,
+        QuillModule.forRoot({
+            modules: {
+                toolbar: {
+                    handlers: {}
+                }
+            }
+        }),
+        PanelModule,
+        TableModule,
+        ChartModule
+    ]
 })
 export class AdminModule {
 }

@@ -36,6 +36,8 @@ export class TableComponent implements OnInit {
   @Input('canAdd') canAdd = true;
   @Input('canEdit') canEdit = true;
   @Input('canSetting') canSetting = false;
+  @Input('canView') canView = false;
+  @Input('canReset') canReset = false;
   @Input('showSearch') showSearch = true;
   search: string = '';
   itemRef: any = null;

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Column, OutputType} from "../../../shared/components/table/table.component";
-import {SimulatorInfo} from "../../../models/Models";
+import {SimulatorInfo, User} from "../../../models/Models";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {MessageService} from "primeng/api";
@@ -18,6 +18,9 @@ export class SimulatorsComponent implements OnInit {
   submited = false;
   @ViewChild('closeModal') btnCloseModal!: ElementRef<HTMLButtonElement>;
   @ViewChild('openModal') btnOpenModal!: ElementRef<HTMLButtonElement>;
+
+  @ViewChild('closeModalResult') btnCloseModalResult!: ElementRef<HTMLButtonElement>;
+  @ViewChild('openModalResult') btnOpenModalResult!: ElementRef<HTMLButtonElement>;
   columns: Column[] = [
     {header: 'Código', field: 'id', type: 'text'},
     {header: 'Título', field: 'title', type: 'text'},
@@ -45,6 +48,9 @@ export class SimulatorsComponent implements OnInit {
   titleModal = 'Nuevo Simulador';
 
   types = ['Simulador', 'Mini-simulador'];
+
+  users: User[] = [];
+  usersResult = [];
 
   constructor(
     private queryDbService: QueryDbService,
@@ -105,6 +111,12 @@ export class SimulatorsComponent implements OnInit {
     if (rowInfo.type === 'redirect') {
       this.router.navigate(['/admin/simulator-setting', rowInfo.rowData.id]).then();
     }
+
+    if (rowInfo.type === 'view'){
+      this.onViewResults();
+      this.btnOpenModalResult.nativeElement.click();
+    }
+
   }
 
   onAddRegister() {
@@ -185,6 +197,46 @@ export class SimulatorsComponent implements OnInit {
 
   onFilter(event: SimulatorInfo[]) {
     this.data = event;
+  }
+
+  onViewResults(){
+    if (this.users.length == 0){
+      this.loading = true;
+      this.queryDbService
+        .getDocsWhereAnd<User>('users',{
+          field: 'isActive',
+          operator: '==',
+          value: true,
+          field1: 'role',
+          operator1: '!=',
+          value1: 'admin',
+        })
+        .subscribe(users => {
+          this.users = users;
+          console.log(users);
+          this.filterResultsBySimulator();
+          this.loading = false;
+      })
+    }else{
+      this.filterResultsBySimulator();
+    }
+  }
+
+  private filterResultsBySimulator(){
+    this.usersResult = [];
+    for (const user of this.users) {
+      const resFound = user.statisticsBySimulator.find(i => i.simulatorId === this.selected.id);
+      if (resFound){
+        this.usersResult.push({
+          idCard: user.identificationCard,
+          student: user.lastname + ' ' + user.name,
+          attemps: resFound.attemps,
+          lastResult: resFound.hits + ' / ' + resFound.total,
+          average: resFound.average.toFixed(2) + ' / 10'
+        })
+      }
+    }
+    console.log(this.usersResult);
   }
 
   showToast(

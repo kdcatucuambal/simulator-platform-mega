@@ -23,7 +23,6 @@ export class QueryDbService {
   }
 
   addDoc<T>(collectionName: string, data: T) {
-    console.log('adding doc')
     const promiseRef = this.db.collection(collectionName).add(data);
     return from(promiseRef);
   }
@@ -60,6 +59,34 @@ export class QueryDbService {
     operator: WhereFilterOp,
     value: any): Observable<T[]> {
     const promiseRef = this.db.collection(collectionName).where(field, operator, value).get();
+    return from(promiseRef).pipe(
+      map(actions => {
+        return actions.docs.map(item => {
+          const data = item.data();
+          const id = item.id;
+          return {id, ...data} as unknown as T
+        })
+      })
+    )
+  }
+
+  getDocsWhereAnd<T>(
+    collectionName: string,
+    whereData: {
+      field: string,
+      operator: WhereFilterOp,
+      value: any,
+      field1: string,
+      operator1: WhereFilterOp,
+      value1: any
+    }
+
+  ){
+    const promiseRef = this.db
+      .collection(collectionName)
+      .where(whereData.field, whereData.operator, whereData.value)
+      .where(whereData.field1, whereData.operator1, whereData.value1)
+      .get();
     return from(promiseRef).pipe(
       map(actions => {
         return actions.docs.map(item => {
@@ -135,6 +162,23 @@ export class QueryDbService {
       }
     }
     return forkJoin(observables$)
+  }
+
+  getCollectionSize(collectionName: string){
+    const promiseRef = this.db.collection(collectionName).get();
+    return from(promiseRef).pipe(
+      map(actions => {
+        return actions.size;
+      })
+    )
+  }
+
+  getCollectionsSize(collectionsName: string[]){
+    const observevables$: Observable<number>[] = [];
+    for (const collName of collectionsName) {
+      observevables$.push(this.getCollectionSize(collName))
+    }
+    return forkJoin<number[]>(observevables$);
   }
 
   getQuestionsForRandomSimulator(data: TopicForRandomSimulator[]){

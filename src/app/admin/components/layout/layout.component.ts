@@ -45,6 +45,13 @@ export class LayoutComponent implements OnInit {
         {title: 'Administrar', link: 'resources'}
       ],
       icon: 'mx-2 bi bi-laptop-fill'
+    },
+    {
+      header: 'Usuarios',
+      options: [
+        {title: 'Estudiantes', link: 'students'}
+      ],
+      icon: 'mx-2 bi bi-people-fill'
     }
   ];
 

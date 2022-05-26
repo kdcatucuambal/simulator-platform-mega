@@ -18,13 +18,13 @@ export class ProfileComponent implements OnInit {
   initialLetters = '';
   userProfile: User = {
     created: null,
-    email: "kevin@gmail.com",
-    identificationCard: "14545",
+    email: "",
+    identificationCard: "",
     isActive: false,
-    lastname: "Torres",
-    name: "Luis",
+    lastname: "",
+    name: "",
     observation: "",
-    phone: "09877",
+    phone: "",
     role: "student"
   }
 

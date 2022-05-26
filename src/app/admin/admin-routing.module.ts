@@ -13,6 +13,7 @@ import {SimulatorsComponent} from "./pages/simulators/simulators.component";
 import {ResourcesComponent} from "./pages/resources/resources.component";
 import {AdminAuthGuard} from "../guards/admin-auth.guard";
 import {RandomSimulatorComponent} from "./pages/random-simulator/random-simulator.component";
+import {StudentsComponent} from "./pages/students/students.component";
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'simulators',
         component: SimulatorsComponent
+      },
+      {
+        path: 'students',
+        component: StudentsComponent
       },
       {
         path: 'random-simulator',

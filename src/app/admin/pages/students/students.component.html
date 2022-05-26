@@ -1,0 +1,241 @@
+<p-toast position="top-right"></p-toast>
+
+<div id="main">
+  <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-12">
+        <h4 class="my-4 font-bold"><i class="bi bi-columns-gap"></i> Textos<i class="bi bi-chevron-right"></i>Cursos
+        </h4>
+      </div>
+      <div class="col-12">
+        <app-table
+          [columns]="columns"
+          [data]="data"
+          [rows]="10"
+          [title]="'Listado de estudiantes matriculados'"
+          [totalRecords]="data.length"
+          [loading]="loading"
+          [fieldId]="'id'"
+          [fieldsToFilter]="['identificationCard', 'lastname', 'name', 'email']"
+          (onActionOption)="onActionOption($event)"
+          (onAddRegister)="onAddRegister()"
+          [canAdd]="false"
+          [canView]="true"
+          [canReset]="true"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="staticBackdrop"
+       data-bs-backdrop="static"
+       data-bs-keyboard="false"
+       tabindex="-1"
+       aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{titleModal}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="carId"
+                  placeholder="Ingrese su cédula"
+                  [maxLength]="10"
+                  aria-describedby="validate-cardId"
+                  [(ngModel)]="selected.identificationCard"
+                  [ngClass]="{'is-invalid': submited && !selected.identificationCard}"
+                >
+                <label for="carId">Cédula *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo"
+                       [(ngModel)]="selected.email"  [ngClass]="{'is-invalid': submited && !selected.email}">
+                <label for="email">Correo *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name-register" placeholder="Ingrese su nombre"
+                       [(ngModel)]="selected.name"  [ngClass]="{'is-invalid': submited && !selected.name}">
+                <label for="name-register">Nombre *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="lastname-register" placeholder="Ingrese su apellido"
+                       [(ngModel)]="selected.lastname"  [ngClass]="{'is-invalid': submited && !selected.lastname}">
+                <label for="lastname-register">Apellido *</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="phone-register" placeholder="Ingrese su teléfono"
+                       [(ngModel)]="selected.phone"  [ngClass]="{'is-invalid': submited && !selected.phone}">
+                <label for="phone-register">Celular *</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label mx-2">¿Activo?</label>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autocomplete="off"
+                  (change)="onChangeRadio(false)"
+                  [disabled]="loading"
+                  [checked]="!selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio1">NO</label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autocomplete="off"
+                  (change)="onChangeRadio(true)"
+                  [disabled]="loading"
+                  [checked]="selected.isActive">
+                <label class="btn btn-outline-primary" for="btnradio2" >SI</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                        [(ngModel)]="selected.course"  [ngClass]="{'is-invalid': submited && !selected.course}">
+                  <option selected value="">Seleccione un curso</option>
+                  <option *ngFor="let course of courses" [id]="course.id"
+                          [value]="course.id">{{course.title + ' - ' + course.description}}</option>
+                </select>
+                <label for="floatingSelect">Curso a inscribirse *</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeModal class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button [disabled]="loading" type="button"
+                  (click)="onSave()"
+                  class="btn btn-primary">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+            </div>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade"
+     id="staticBackdrop1"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel1">Restablecer contraseña</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h3>¿Confirmar que desea restablecer la contraseña a {{selected.email}}?</h3>
+          <p>Se enviará un correo al usuario para que restablezca la contraseña</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeModalReset class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button [disabled]="loading" type="button"
+                (click)="onResetPassword()"
+                class="btn btn-primary">
+          <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+          </div>
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade"
+     id="staticBackdrop2"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel2"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel2">Estadísitcas del estudiante</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <h4 class="text-center">{{this.selected.name + ' ' + this.selected.lastname}}</h4>
+            <h4 class="text-center">{{this.gradeLabel}}</h4>
+            <h4 *ngIf="selected.course" class="text-center">{{this.selected.course.title}}</h4>
+          </div>
+          <div class="col-12 p-5">
+            <h4 class="font-bold text-center">Porcentaje de aciertos por tema</h4>
+            <p-chart
+              type="bar"
+              [data]="basicData"
+              [responsive]="true"
+              height="350px"
+            ></p-chart>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeModalStat class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button
+  type="button"
+  #openModal
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop">
+</button>
+
+<button
+  type="button"
+  #openModalReset
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop1">
+</button>
+
+<button
+  type="button"
+  #openModalStat
+  [hidden]="true"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop2">
+</button>

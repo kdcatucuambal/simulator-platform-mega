@@ -2,8 +2,58 @@
   <app-header-admin (onSidebar)="onSidebar($event)"></app-header-admin>
   <div class="container-fluid mt-3">
     <div class="row">
-      <div class="col-12">
-        <h1>HOME</h1>
+      <div class="col-12 col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header text-center"><strong>Número de temas</strong></div>
+          <div class="card-body">
+            <h1 *ngIf="sizes" class="text-center animate__animated animate__fadeInDown">{{sizes[4]}}</h1>
+          </div>
+        </div>
+      </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card text-white bg-primary mb-3">
+            <div class="card-header text-center"><strong>Número de cursos</strong></div>
+            <div class="card-body">
+              <h1 *ngIf="sizes"  class="text-center animate__animated animate__fadeInDown">{{sizes[2]}}</h1>
+            </div>
+          </div>
+        </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header text-center"><strong>Número de preguntas</strong></div>
+          <div class="card-body">
+            <h1 class="text-center animate__animated animate__fadeInDown">{{sizes[5]}}</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header text-center"><strong>Número de estudiantes</strong></div>
+          <div class="card-body">
+            <h1 *ngIf="sizes"  class="text-center animate__animated animate__fadeInDown">{{sizes[0]}}</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header text-center"><strong>Número de simuladores</strong></div>
+          <div class="card-body">
+            <h1 *ngIf="sizes"  class="text-center animate__animated animate__fadeInDown">{{sizes[3]}}</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header text-center"><strong>Número de recursos</strong></div>
+          <div class="card-body">
+            <h1 *ngIf="sizes"  class="text-center animate__animated animate__fadeInDown">{{sizes[1]}}</h1>
+          </div>
+        </div>
       </div>
     </div>
   </div>
