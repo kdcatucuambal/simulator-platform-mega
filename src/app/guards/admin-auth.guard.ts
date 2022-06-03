@@ -21,7 +21,6 @@ export class AdminAuthGuard implements CanActivate {
     state: RouterStateSnapshot): Promise<boolean> {
 
     const user = await firstValueFrom(this.authService.getCurrentUser());
-    console.log(user)
     const userData = this.authService.currentUserData;
 
 

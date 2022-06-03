@@ -7,6 +7,7 @@ import {Area, QuestionInfo, SimulatorInfo} from "../../../models/Models";
 import {AuthService} from "../../../services/firestore/auth.service";
 import {SimulatorResultService, TopicsSaved} from "../../services/simulator-result.service";
 import {OnExit} from "../../../guards/exit.guard";
+import {MessageService} from "primeng/api";
 
 export interface IQuestion {
   description: string,
@@ -22,7 +23,8 @@ export interface IQuestion {
 @Component({
   selector: 'app-simulator',
   templateUrl: './simulator.component.html',
-  styleUrls: ['./simulator.component.scss']
+  styleUrls: ['./simulator.component.scss'],
+  providers: [MessageService]
 })
 export class SimulatorComponent implements OnInit, OnExit {
 
@@ -62,7 +64,8 @@ export class SimulatorComponent implements OnInit, OnExit {
     private timerService: TimerService,
     private queryDbService: QueryDbService,
     private authService: AuthService,
-    private simulatorResultService: SimulatorResultService
+    private simulatorResultService: SimulatorResultService,
+    private messageService: MessageService,
   ) {
   }
 
@@ -185,12 +188,20 @@ export class SimulatorComponent implements OnInit, OnExit {
 
     this.timerService.onTimer().subscribe({
       next: (data) => {
+        if (data.timer == 59){
+          this.showToast('warn', 'Aviso', 'Te queda un minuto para terminar el simulador!')
+        }
+        console.log(data.timer)
         this.label = data.label;
       },
       error: (err) => {
-        console.log(err)
+
       },
       complete: () => {
+        this.simulatorResultService.questions = this.questions;
+        this.simulator.time = new Date();
+        this.simulatorResultService.simulator = this.simulator;
+        this.simulatorResultService.userInfo = this.authService.currentUserData;
         const {
           totalCorrectsPerTopics,
           totalQuestionsPerTopics,
@@ -213,10 +224,6 @@ export class SimulatorComponent implements OnInit, OnExit {
   }
 
   finishSimuator() {
-    this.simulatorResultService.questions = this.questions;
-    this.simulator.time = new Date();
-    this.simulatorResultService.simulator = this.simulator;
-    this.simulatorResultService.userInfo = this.authService.currentUserData;
     this.timerService.finishTime();
   }
 
@@ -249,6 +256,15 @@ export class SimulatorComponent implements OnInit, OnExit {
     });
     const topicsString = JSON.stringify(topics);
     localStorage.setItem('pmg-topics', topicsString);
+  }
+
+  showToast(severity = 'success', summary = 'Acción realizada', detail = 'Acción realizada') {
+    this.messageService.add(
+      {
+        severity,
+        summary,
+        detail
+      });
   }
 
 }

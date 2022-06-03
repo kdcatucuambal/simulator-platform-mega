@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('loginComponent')
+
   }
 
   onShowPassword() {
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
           this.email = '';
         },
         complete: () => {
-          console.log('Completed')
+
         }
       })
 
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
 
   onLogout() {
     this.authService.logout().subscribe(() => {
-      console.log('logout')
+
     })
   }
 

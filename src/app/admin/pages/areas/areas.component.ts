@@ -85,7 +85,6 @@ export class AreasComponent implements OnInit {
       this.queryDbService
         .deleteDoc('areas',`${rowInfo.rowData.id}`)
         .subscribe(()=>{
-          console.log('deleted')
           this.areas = this.areas.filter(item=> item.id != rowInfo.rowData.id);
           this.loading = false;
           this.showToast('success', 'Información', 'Dato eliminado correctamente');
@@ -119,7 +118,6 @@ export class AreasComponent implements OnInit {
     this.loading = true;
     this.queryDbService.getAllDocs<Area>('areas')
       .subscribe(data=>{
-        console.log(data)
         this.areas = data;
         this.loading = false;
       })
@@ -177,7 +175,6 @@ export class AreasComponent implements OnInit {
   }
 
   onFilter(event: Area[]){
-    console.log(event)
     this.areas = event;
   }
 

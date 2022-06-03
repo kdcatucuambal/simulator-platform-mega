@@ -213,7 +213,6 @@ export class SimulatorsComponent implements OnInit {
         })
         .subscribe(users => {
           this.users = users;
-          console.log(users);
           this.filterResultsBySimulator();
           this.loading = false;
       })
@@ -236,7 +235,6 @@ export class SimulatorsComponent implements OnInit {
         })
       }
     }
-    console.log(this.usersResult);
   }
 
   showToast(

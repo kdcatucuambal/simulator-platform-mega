@@ -31,7 +31,7 @@ export class TestComponent implements OnInit {
 
   deleteFile(){
     this.storageService.deleteFile('wwEBUZGjzg6w22EzWO3U', '6aNaaY4nq4WomMEC1iP5Mb').subscribe(()=>{
-      console.log('deleted')
+
     });
   }
 

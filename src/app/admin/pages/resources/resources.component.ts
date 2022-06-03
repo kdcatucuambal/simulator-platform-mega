@@ -118,7 +118,6 @@ export class ResourcesComponent implements OnInit {
     this.loading = true;
     this.storageService.getAllFiles().subscribe(data => {
       this.data = data;
-      console.log(this.data)
       this.loading = false;
     })
   }

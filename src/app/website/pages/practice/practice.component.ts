@@ -64,7 +64,6 @@ export class PracticeComponent implements OnInit {
   }
 
   onSaveVote(data: {value: boolean, question: QuestionInfo}){
-    console.log("practice: ", data.value)
     const currentAuthId = this.authService.currentUserData.id;
 
     const exist = data.question.votes.find((element) => {

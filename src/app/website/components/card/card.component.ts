@@ -5,6 +5,7 @@ export interface Card{
   description: string,
   backgroundColor?: string,
   textColor?: string,
+  isResource?: boolean,
   imgUrl?: string,
   isCourse: boolean,
   isActive?: boolean,
@@ -29,7 +30,7 @@ export class CardComponent implements OnInit {
   }
 
   onImageError(event){
-    console.log(event)
+
   }
 
 }

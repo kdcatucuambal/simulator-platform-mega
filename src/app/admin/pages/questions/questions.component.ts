@@ -193,8 +193,22 @@ export class QuestionsComponent implements OnInit {
 
     if (!this.validateService.object(rest, ['description'])) {
       this.submited = true;
+      this.showToast('error', 'Datos requeridos', 'Todos los campos son requeridos!');
       return;
     }
+
+    const auxOptions = rest.options.map(item => {
+      return this.validateService.htmlToText(item).trim();
+    })
+
+    if (auxOptions.includes('')){
+      this.submited = true;
+      this.showToast('error', 'Datos requeridos', 'Todos los campos son requeridos!');
+      return;
+    }
+
+
+
     this.loading = true;
     this.btnCloseModal.nativeElement.click();
     if (id == '') {

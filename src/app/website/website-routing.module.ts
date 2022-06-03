@@ -15,6 +15,9 @@ import {ResultsComponent} from "./pages/results/results.component";
 import {TestComponent} from "./components/test/test.component";
 import {GuardLoginGuard} from "../guards/guard-login.guard";
 import {ExercisesComponent} from "./pages/exercises/exercises.component";
+import {ResourcesComponent} from "./pages/resources/resources.component";
+import {PolicyAndPrivacyComponent} from "./pages/policy-and-privacy/policy-and-privacy.component";
+import {TermsAndConditionsComponent} from "./pages/terms-and-conditions/terms-and-conditions.component";
 
 const routes: Routes = [
   {
@@ -62,10 +65,22 @@ const routes: Routes = [
       {
         path: 'ejercicios',
         component: ExercisesComponent
+      },
+      {
+        path: 'recursos',
+        component: ResourcesComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'politicas_y_privacidad',
+        component: PolicyAndPrivacyComponent
+      },
+      {
+        path: 'terminos_y_condiciones',
+        component: TermsAndConditionsComponent
       }
     ]
   },
-
   {
     path: 'resultados',
     component: ResultsComponent,

@@ -60,7 +60,6 @@ export class SimulatorResultService {
   }
 
   set userInfo(user: User){
-    console.log(user)
     const userValue = JSON.stringify(user);
     const userEncrypted = CryptoJS.AES.encrypt(userValue, this.secretKey).toString();
     localStorage.setItem('pmg-user-data', userEncrypted);

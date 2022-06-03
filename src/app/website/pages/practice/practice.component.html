@@ -1,9 +1,9 @@
 <app-loader *ngIf="loading"></app-loader>
 <ng-template [ngIf]="!loading">
-  <div class="container">
+  <div class="container-lg">
     <h3 class="text-center mt-4 font-bold text-uppercase">{{topicTitle}}</h3>
     <div class="row">
-      <div class="col-8 mx-auto">
+      <div class="col-sm-10 col-12 mx-auto">
         <app-question-card
           *ngFor="let question of questions" [question]="question"
           (onVote)="onSaveVote($event)"

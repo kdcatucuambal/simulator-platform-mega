@@ -47,8 +47,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(this.email, this.password).subscribe(data => {
-      console.log(data);
-      console.log('loggin');
+
     })
 
   }
@@ -79,13 +78,13 @@ export class LoginComponent implements OnInit {
       observation: ''
     }).subscribe({
       next: (() => {
-        console.log('created ')
+
       }),
       error: (err) => {
-        console.log(err)
+
       },
       complete: () => {
-        console.log('complete')
+
       }
     })
   }

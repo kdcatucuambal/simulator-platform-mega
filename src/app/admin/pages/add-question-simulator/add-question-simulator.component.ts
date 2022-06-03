@@ -159,7 +159,6 @@ export class AddQuestionSimulatorComponent implements OnInit {
   }
 
   onChangeTopic() {
-    console.log(this.areaSelected)
     //this.selected.subtopicId = this.areaSelected;
   }
 

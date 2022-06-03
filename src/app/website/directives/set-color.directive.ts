@@ -10,7 +10,7 @@ export class SetColorDirective {
   constructor(
     private element: ElementRef<HTMLDivElement>
   ) {
-    console.log(this.element.nativeElement.children)
+
   }
 
 

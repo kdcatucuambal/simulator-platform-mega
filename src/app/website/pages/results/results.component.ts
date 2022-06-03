@@ -46,7 +46,6 @@ export class ResultsComponent implements OnInit {
     this.questions = this.simulatorResultService.questions;
     this.simulator = this.simulatorResultService.simulator;
     this.user = this.simulatorResultService.userInfo;
-    console.log(this.user)
     const {totalCorrectsPerTopics, totalQuestionsPerTopics, grade} = this.simulatorResultService.getInfoFromResult();
     this.grade = grade;
     this.value = `${this.url}-${this.user.identificationCard}-${this.grade}`

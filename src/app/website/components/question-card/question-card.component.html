@@ -13,7 +13,7 @@
       <div class="col-12">
         <div class="container">
           <div class="row">
-            <div *ngFor="let option of question.options; let i = index" class="col-6 my-2">
+            <div *ngFor="let option of question.options; let i = index" class="col-12 col-sm-6 my-2">
               <button (click)="onClickOption(i)"
                       class="btn {{flags[i] ?  btnStatus : 'btn-option'}} w-100">
                 <quill-view-html [content]="question.options[i]"></quill-view-html>

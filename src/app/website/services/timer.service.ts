@@ -5,7 +5,8 @@ interface Time{
   hours: number,
   minutes: number,
   seconds: number,
-  label: string
+  label: string,
+  timer: number
 }
 
 @Injectable({
@@ -26,7 +27,8 @@ export class TimerService {
     hours: 0,
     label: '',
     minutes: 0,
-    seconds: 0
+    seconds: 0,
+    timer: 0
   }
 
 
@@ -67,6 +69,7 @@ export class TimerService {
     this.time.seconds = remainingSeconds;
     this.time.minutes = minutes;
     this.time.hours = hours;
+    this.time.timer = this.timeInSeconds;
     this.time.label = `${hours < 10 ? '0' + hours : hours} : ${minutes < 10 ? '0' + minutes : minutes} : ${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`
     this.timeInSeconds--;
   }

@@ -55,8 +55,7 @@ export class HomeComponent implements OnInit {
       });
 
       this.coursesCard = (data[2] as Card[]).map(course => {
-        course.isCourse = true;
-        return course;
+        return {...course, isCourse: true, path: `/registro`};
       });
 
       this.alert = ((data[3] as AlertInfo[])[0]);

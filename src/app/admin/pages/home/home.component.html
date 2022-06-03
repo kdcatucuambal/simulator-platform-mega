@@ -24,7 +24,7 @@
         <div class="card text-white bg-primary mb-3">
           <div class="card-header text-center"><strong>Número de preguntas</strong></div>
           <div class="card-body">
-            <h1 class="text-center animate__animated animate__fadeInDown">{{sizes[5]}}</h1>
+            <h1 *ngIf="sizes" class="text-center animate__animated animate__fadeInDown">{{sizes[5]}}</h1>
           </div>
         </div>
       </div>

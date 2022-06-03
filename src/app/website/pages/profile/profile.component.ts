@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   basicData: any = null;
   labelName = '';
   initialLetters = '';
+  gradeLabel = '';
   userProfile: User = {
     created: null,
     email: "",
@@ -66,11 +67,16 @@ export class ProfileComponent implements OnInit {
     if (this.userProfile.statisticsByTopic && this.userProfile.statisticsByTopic.length > 0) {
       const labels = [];
       const hits = [];
+      let grade = 0;
       for (const item of this.userProfile.statisticsByTopic) {
         const topicFound = this.topics.find(t => t.id == item.topicId);
         labels.push(topicFound.title);
-        hits.push(Math.trunc(item.hitPercentage));
+        const hit = Math.trunc(item.hitPercentage);
+        hits.push(hit);
+        grade = grade + hit;
       }
+      grade = (grade / hits.length) * 0.1;
+      this.gradeLabel = grade.toFixed(2) + ' / 10';
       this.basicData = {
         labels,
         datasets: [
@@ -126,6 +132,10 @@ export class ProfileComponent implements OnInit {
         this.userProfile = user;
         this.labelName = this.authService.userLabelName;
         this.initialLetters = this.authService.userInitialLetters;
+        const dateToAny = this.userProfile.created as any;
+        if (isNaN(Date.parse(dateToAny))){
+          this.userProfile.created = dateToAny.toDate();
+        }
         this.fillChartBarData();
         this.loading = false;
       })

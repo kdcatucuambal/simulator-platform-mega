@@ -1,4 +1,8 @@
 {
+  "projects": {
+    "default": "plataforma-megapro",
+    "plataforma-megapro": "plataforma-megapro"
+  },
   "targets": {
     "simulator-platform-mega": {
       "hosting": {
@@ -7,8 +11,5 @@
         ]
       }
     }
-  },
-  "projects": {
-    "default": "simulator-platform-mega"
   }
 }

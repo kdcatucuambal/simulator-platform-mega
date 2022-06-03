@@ -256,7 +256,6 @@ export class StudentsComponent implements OnInit {
 
   onResetPassword() {
     this.loading = true;
-    console.log("Hello culos");
     this.btnCloseModalReset.nativeElement.click();
     this.authService.resetPassword(this.selected.email).subscribe(() => {
       this.loading = false;

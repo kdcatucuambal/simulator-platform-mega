@@ -99,8 +99,6 @@ export class RegisterComponent implements OnInit {
        this.saveSuccess = true;
        this.submited = false;
        this.errorSave = false;
-       console.log('registered')
-       console.log(d)
      },
      error: (e)=>{
        this.message = 'Al parecer este correo ya se encuentra registrado. Ponte en contacto con Megapro para obtener información.'

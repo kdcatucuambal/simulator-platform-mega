@@ -118,3 +118,12 @@ export interface InfoBySimulator{
   average: number
 }
 
+
+export interface Resource{
+  id?: string,
+  title: string,
+  description: string,
+  url: string,
+  name: string,
+  isActive: boolean
+}

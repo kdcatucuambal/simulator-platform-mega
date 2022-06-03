@@ -75,7 +75,6 @@ export class AuthService {
   authStatusListener() {
     //this.fireAuth.setPersistence('session').then
     this.fireAuth.onAuthStateChanged((user) => {
-      console.log(user)
       if (user) {
         this.queryDbService
           .getDocsWhere<User>('users', 'email', '==', user.email)
@@ -118,21 +117,29 @@ export class AuthService {
     simulatorId: string,
     topicsTaken: TopicsSaved[]
   ) {
+    console.log(totalCorrectsPerTopic)
+    console.log(totalQuestionsPerTopic)
+    console.log(grade)
+    console.log(simulatorId)
+    console.log(topicsTaken)
+    //grade son los aciertos
     const {statisticsByTopic, statisticsBySimulator, id} = this.currentUserData;
     const simulatorDone = statisticsBySimulator.find(item => item.simulatorId == simulatorId);
+    const total = totalQuestionsPerTopic.reduce((prev, next) => (prev + next));
+    const hits = totalCorrectsPerTopic.reduce((prev, next) => (prev + next));
     // Calculate to simulator
     if (simulatorDone) {
-      simulatorDone.average = (simulatorDone.average + grade) / 2;
+      //TODO: Check grade
+
+      simulatorDone.average = ((simulatorDone.average) + (grade * 10 / total)) / 2;
       simulatorDone.attemps++;
       simulatorDone.hits = totalCorrectsPerTopic.reduce((prev, next) => (prev + next)); //aciertos
       simulatorDone.total = totalQuestionsPerTopic.reduce((prev, next) => (prev + next));
     } else {
-      const total = totalQuestionsPerTopic.reduce((prev, next) => (prev + next));
-      const hits = totalCorrectsPerTopic.reduce((prev, next) => (prev + next));
       const statisticsFromSimulator: InfoBySimulator = {
         total,
         hits,
-        average: grade,
+        average: (grade * 10) / total,
         attemps: 1,
         simulatorId: simulatorId
       }

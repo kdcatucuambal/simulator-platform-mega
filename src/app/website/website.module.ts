@@ -34,6 +34,10 @@ import {NgxQRCodeModule} from "@techiediaries/ngx-qrcode";
 import { StatusResultPipe } from './pipes/status-result.pipe';
 import { LikesPipe } from './pipes/likes.pipe';
 import { ExercisesComponent } from './pages/exercises/exercises.component';
+import { ResourcesComponent } from './pages/resources/resources.component';
+import {ToastModule} from "primeng/toast";
+import { PolicyAndPrivacyComponent } from './pages/policy-and-privacy/policy-and-privacy.component';
+import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
 
 
 @NgModule({
@@ -63,7 +67,10 @@ import { ExercisesComponent } from './pages/exercises/exercises.component';
     ResultsComponent,
     StatusResultPipe,
     LikesPipe,
-    ExercisesComponent
+    ExercisesComponent,
+    ResourcesComponent,
+    PolicyAndPrivacyComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +87,8 @@ import { ExercisesComponent } from './pages/exercises/exercises.component';
     ReactiveFormsModule,
     FormsModule,
     ChartModule,
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    ToastModule
   ]
 })
 export class WebsiteModule { }
