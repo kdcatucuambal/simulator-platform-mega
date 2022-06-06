@@ -6,6 +6,7 @@ import {ToolbarModule} from "primeng/toolbar";
 import {FormsModule} from "@angular/forms";
 import { CutTextPipe } from './pipes/cut-text.pipe';
 import {LoaderComponent} from "./components/loader/loader.component";
+import { LazyTableComponent } from './components/lazy-table/lazy-table.component';
 
 
 
@@ -13,7 +14,8 @@ import {LoaderComponent} from "./components/loader/loader.component";
   declarations: [
     TableComponent,
     CutTextPipe,
-    LoaderComponent
+    LoaderComponent,
+    LazyTableComponent
   ],
   imports: [
     CommonModule,
@@ -21,10 +23,11 @@ import {LoaderComponent} from "./components/loader/loader.component";
     ToolbarModule,
     FormsModule
   ],
-  exports: [
-    TableComponent,
-    LoaderComponent,
-    CutTextPipe
-  ]
+    exports: [
+        TableComponent,
+        LoaderComponent,
+        CutTextPipe,
+        LazyTableComponent
+    ]
 })
 export class SharedModule { }

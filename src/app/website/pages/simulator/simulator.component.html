@@ -8,7 +8,7 @@
 ></app-sidebar-simulator>
 <div id="main">
 
-  <app-header-simulator (onEventFinish)="finishSimuator()" [title]="title"></app-header-simulator>
+  <app-header-simulator (onEventFinish)="finishSimuator()" [showFinish]="render == 1" [title]="title"></app-header-simulator>
 
 <div *ngIf="!loading && render == 0" class="container-fluid">
   <div class="row my-5">

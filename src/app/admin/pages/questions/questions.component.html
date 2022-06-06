@@ -5,18 +5,21 @@
   <div class="container-fluid mt-3">
     <div class="row">
       <div class="col-12">
-        <app-table
+        <app-lazy-table
+          #lazy_table
           [columns]="columns"
           [data]="data"
           [rows]="10"
           [title]="'Listado de preguntas: ' + currentAreaName"
-          [totalRecords]="data.length"
+          [totalRecords]="totalRecords"
           [loading]="loading"
           [fieldId]="'id'"
           [fieldsToFilter]="['descriptionWithoutFormat']"
           (onActionOption)="onActionOption($event)"
           (onAddRegister)="onAddRegister()"
-        ></app-table>
+          (onLazy)="onLazyQuestions($event)"
+        >
+        </app-lazy-table>
       </div>
     </div>
   </div>

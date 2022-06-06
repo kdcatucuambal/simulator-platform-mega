@@ -191,7 +191,6 @@ export class SimulatorComponent implements OnInit, OnExit {
         if (data.timer == 59){
           this.showToast('warn', 'Aviso', 'Te queda un minuto para terminar el simulador!')
         }
-        console.log(data.timer)
         this.label = data.label;
       },
       error: (err) => {

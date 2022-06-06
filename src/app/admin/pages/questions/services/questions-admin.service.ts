@@ -38,7 +38,7 @@ export class QuestionsAdminService {
   delete(collectionName: string, id: string): Observable<any> {
     const responseDeleteDoc$ = this.queryDbService.deleteDoc(collectionName, id).pipe(
       switchMap(() => {
-        return this.queryDbService.getAllDocs<QuestionInfo>(collectionName);
+        return this.queryDbService.getAllDocsOrderBy<QuestionInfo>(collectionName, 'index', 'asc');
       }),
       switchMap<QuestionInfo[], any>((data) => {
         const batch = this.queryDbService.executeBath();

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-header-simulator',
@@ -8,8 +8,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class HeaderSimulatorComponent implements OnInit {
 
   @Input() title = '';
+  @Input() showFinish = false;
   show = false;
   @Output() onEventFinish = new EventEmitter();
+  @ViewChild('closeDeleteModal') btnCloseDeleteModal!: ElementRef<HTMLButtonElement>;
+  @ViewChild('openDeleteModal') btnOpenDeleteModal!: ElementRef<HTMLButtonElement>;
 
   constructor() { }
 
@@ -37,6 +40,12 @@ export class HeaderSimulatorComponent implements OnInit {
 
   onFinish(){
     this.onEventFinish.emit('')
+    this.btnCloseDeleteModal.nativeElement.click();
   }
+
+  onShowModalDelete(){
+    this.btnOpenDeleteModal.nativeElement.click();
+  }
+
 
 }

@@ -1,13 +1,14 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
-import { switchMap, throwError} from "rxjs";
+import {switchMap, throwError} from "rxjs";
 import {Area, QuestionInfo, SubTopicInfo} from "../../../models/Models";
 import {Column, OutputType} from "../../../shared/components/table/table.component";
 import {ValidateService} from "../../../services/validate/validate.service";
 import {MessageService} from "primeng/api";
 import {QuillModules} from "ngx-quill";
 import {QuestionsAdminService} from "./services/questions-admin.service";
+import {LazyTableComponent} from "../../../shared/components/lazy-table/lazy-table.component";
 
 
 @Component({
@@ -22,10 +23,10 @@ export class QuestionsComponent implements OnInit {
     toolbar: {
       container: [
         ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }],
-        [{ script: 'sub'}, { script: 'super' }],
-        [{ align: [] }],
-        [{ list: 'ordered'}, { list: 'bullet' }],
+        [{color: []}],
+        [{script: 'sub'}, {script: 'super'}],
+        [{align: []}],
+        [{list: 'ordered'}, {list: 'bullet'}],
         ['formula'],
         ['clean'],
         ['image'],
@@ -35,6 +36,8 @@ export class QuestionsComponent implements OnInit {
       }
     }
   }
+
+  @ViewChild('lazy_table') lazyTable: LazyTableComponent;
 
   loading = true;
   submited = false;
@@ -68,6 +71,13 @@ export class QuestionsComponent implements OnInit {
   areas: Area[] = [];
   currentAreaName = '';
   subtopics: SubTopicInfo[] = [];
+  totalRecords = 0;
+  lazyData = {
+    take: 10,
+    skip: 1,
+  }
+  firstRender = true;
+  first = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -86,7 +96,6 @@ export class QuestionsComponent implements OnInit {
         if (this.questionsId) {
           return this.queryDbService.getCollectionsWhere([
             {collectionName: 'areas', where: false},
-            {collectionName: this.questionsId, where: false},
             {
               collectionName: 'subtopics', where: true,
               whereData: {field: 'topicId', operator: '==', value: this.questionsId}
@@ -98,11 +107,16 @@ export class QuestionsComponent implements OnInit {
       })
     ).subscribe(data => {
       this.areas = data[0] as Area[];
-      this.data = data[1] as QuestionInfo[];
-      this.subtopics = data[2] as SubTopicInfo[];
+      //this.data = data[1] as QuestionInfo[];
+      this.subtopics = data[1] as SubTopicInfo[];
       const areaFound = this.areas.find(i => i.id == this.questionsId);
+      this.totalRecords = areaFound.questions;
       this.currentAreaName = areaFound.title;
-      this.loading = false;
+      if (!this.firstRender) {
+        this.lazyData.skip = 1;
+        this.lazyTable.reset();
+        this.getLazyQuestions(this.lazyData.skip, this.lazyData.take);
+      }
     })
 
 
@@ -110,6 +124,21 @@ export class QuestionsComponent implements OnInit {
 
   onSearch() {
     this.loading = true;
+  }
+
+  getLazyQuestions(skip, take) {
+    this.loading = true;
+    this.queryDbService.getPiecesOfCollection<QuestionInfo>(this.questionsId, skip, take)
+      .subscribe(data => {
+        this.data = data;
+        this.loading = false;
+        this.firstRender = false;
+      });
+  }
+
+  onLazyQuestions(event) {
+    this.lazyData.skip = event['first'] + 1;
+    this.getLazyQuestions(this.lazyData.skip, 10);
   }
 
   onSidebar(value: boolean) {
@@ -139,11 +168,16 @@ export class QuestionsComponent implements OnInit {
       this.questionsAdminService
         .delete(this.questionsId, `${rowInfo.rowData.id}`)
         .subscribe(() => {
-          this.data = this.data.filter(item => item.id != rowInfo.rowData.id);
-          this.loading = false;
-          this.showToast('success', 'Información', 'Dato eliminado correctamente');
+          this.totalRecords = this.totalRecords - 1;
+          this.queryDbService
+            .getPiecesOfCollection<QuestionInfo>(this.questionsId, this.lazyData.skip, this.lazyData.take)
+            .subscribe(data => {
+              this.data = data;
+              this.loading = false;
+              this.showToast('success', 'Información', 'Dato eliminado correctamente');
+            });
         })
-    }else{
+    } else {
       this.submited = false;
       this.titleModal = 'Editar registro';
       this.btnOpenModal.nativeElement.click();
@@ -201,48 +235,46 @@ export class QuestionsComponent implements OnInit {
       return this.validateService.htmlToText(item).trim();
     })
 
-    if (auxOptions.includes('')){
+    if (auxOptions.includes('')) {
       this.submited = true;
       this.showToast('error', 'Datos requeridos', 'Todos los campos son requeridos!');
       return;
     }
 
 
-
     this.loading = true;
     this.btnCloseModal.nativeElement.click();
+
     if (id == '') {
-
-      this.questionsAdminService.add(this.questionsId, rest).subscribe((response)=>{
-        this.data.push({
-          id: response.id,
-          ...rest
-        });
-        this.loading = false;
-        this.showToast('success', 'Información', 'Dato creado correctamente');
+      this.questionsAdminService.add(this.questionsId, rest).subscribe(() => {
+        this.totalRecords = this.totalRecords + 1;
+        this.queryDbService
+          .getPiecesOfCollection<QuestionInfo>(this.questionsId, this.lazyData.skip, this.lazyData.take)
+          .subscribe(data => {
+            this.data = data;
+            this.loading = false;
+            this.showToast(
+              'success',
+              'Información',
+              'Dato agregado correctamente');
+          });
       })
-
     } else {
       this.questionsAdminService
         .update(this.questionsId, `${id}`, rest)
         .subscribe(() => {
-          this.data = this.data.map(item => {
-            if (item.id == id) {
-              return {
-                ...this.selected
-              }
-            } else {
-              return item;
-            }
-          });
-          this.loading = false;
-          this.showToast(
-            'success',
-            'Información',
-            'Dato actualizado correctamente');
+          this.queryDbService
+            .getPiecesOfCollection<QuestionInfo>(this.questionsId, this.lazyData.skip, this.lazyData.take)
+            .subscribe(data => {
+              this.data = data;
+              this.loading = false;
+              this.showToast(
+                'success',
+                'Información',
+                'Dato actualizado correctamente');
+            });
         })
     }
-
   }
 
   onFilter(event: QuestionInfo[]) {
@@ -268,14 +300,13 @@ export class QuestionsComponent implements OnInit {
   }
 
 
-
 }
 
 function imageHandler(this: any) {
   const tooltip = this.quill.theme.tooltip;
   const originalSave = tooltip.save;
   const originalHide = tooltip.hide;
-  tooltip.save = function(this: any) {
+  tooltip.save = function (this: any) {
     const range = this.quill.getSelection(true);
     const value = this.textbox.value;
     if (value) {

@@ -4,6 +4,10 @@ import {QueryDbService} from "./query-db.service";
 import {InfoBySimulator, InfoByTopic, User} from "../../models/Models";
 import {BehaviorSubject, catchError, finalize, from, map, Observable, skip, switchMap, throwError} from "rxjs";
 import {TopicsSaved} from "../../website/services/simulator-result.service";
+import {getAuth} from "firebase/auth";
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -117,11 +121,6 @@ export class AuthService {
     simulatorId: string,
     topicsTaken: TopicsSaved[]
   ) {
-    console.log(totalCorrectsPerTopic)
-    console.log(totalQuestionsPerTopic)
-    console.log(grade)
-    console.log(simulatorId)
-    console.log(topicsTaken)
     //grade son los aciertos
     const {statisticsByTopic, statisticsBySimulator, id} = this.currentUserData;
     const simulatorDone = statisticsBySimulator.find(item => item.simulatorId == simulatorId);

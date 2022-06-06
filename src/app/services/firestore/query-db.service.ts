@@ -41,6 +41,20 @@ export class QueryDbService {
     )
   }
 
+  getAllDocsOrderBy<T>(collectionName: string, fieldPath: string, directionStr: 'asc' | 'desc'): Observable<T[]> {
+    const promiseRef = this.db.collection(collectionName).orderBy(fieldPath, directionStr).get();
+    return from(promiseRef).pipe(
+      map(actions => {
+        return actions.docs.map(item => {
+          const data = item.data();
+          const id = item.id;
+          return {id, ...data} as unknown as T
+        })
+      })
+    )
+  }
+
+
   getDocById<T>(collectionName: string, id: string): Observable<T> {
     const promiseRef = this.db.collection(collectionName).doc(id).get();
     return from(promiseRef).pipe(

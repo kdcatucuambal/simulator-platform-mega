@@ -1,23 +1,13 @@
-import {Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
-
-
-export interface Column{
-  field: string,
-  header: string,
-  type: 'text' | 'html-active'
-}
-
-export interface OutputType<T>{
-  rowData: T,
-  type: string
-}
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Column, OutputType} from "../table/table.component";
+import {Table} from "primeng/table";
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'app-lazy-table',
+  templateUrl: './lazy-table.component.html',
+  styleUrls: ['./lazy-table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class LazyTableComponent implements OnInit {
 
   @Input('columns') columns: Column[] = [];
   @Input('data') data: any[] = [];
@@ -27,6 +17,7 @@ export class TableComponent implements OnInit {
   @Input('totalRecords') totalRecords: number = 0;
   @Output('onActionOption') onActionOption = new EventEmitter<OutputType<any>>();
   @Output('onAddRegister') onAddRegister = new EventEmitter();
+  @Output('onLazy') onLazy = new EventEmitter();
   @Input('loading') loading = false;
   @ViewChild('closeDeleteModal') btnCloseDeleteModal!: ElementRef<HTMLButtonElement>;
   @ViewChild('openDeleteModal') btnOpenDeleteModal!: ElementRef<HTMLButtonElement>;
@@ -43,6 +34,8 @@ export class TableComponent implements OnInit {
   itemRef: any = null;
   isFilter = false;
 
+
+  @ViewChild('table') table: Table;
 
   constructor() { }
 
@@ -96,5 +89,14 @@ export class TableComponent implements OnInit {
   onRegister(){
     this.onAddRegister.emit();
   }
+
+  loadData(event){
+    this.onLazy.emit(event);
+  }
+
+  reset(){
+    this.table.first = 0;
+  }
+
 
 }

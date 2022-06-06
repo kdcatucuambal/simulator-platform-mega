@@ -1,0 +1,114 @@
+<div class="p-card">
+  <p-toolbar *ngIf="canAdd">
+    <ng-template pTemplate="left">
+      <button (click)="onRegister()" class="btn btn-primary">Agregar</button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #table
+    styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm"
+    [value]="isFilter ? dataFiltered:data"
+    responsiveLayout="scroll"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [columns]="columns"
+    [lazy]="true"
+    (onLazyLoad)="loadData($event)"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} preguntas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+        <div class="row">
+          <div class="col-8 my-auto">
+            {{title}}
+          </div>
+          <div *ngIf="showSearch" class="col-4">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="search"
+                placeholder="Escribir para buscar"
+                aria-label="Escribir para buscar"
+                aria-describedby="button-addon2"
+                (keyup)="onKeyUp()"
+              >
+              <button class="btn btn-outline-secondary" (click)="onFilter()" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th class="text-center" *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+        <th *ngIf="canDelete || canEdit" class="text-center">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td class="text-center" *ngFor="let col of columns">
+          <span *ngIf="col.type == 'text'">{{ rowData[col.field] | cutText: col['field']  }}</span>
+          <div *ngIf="col.type == 'html-active'" >
+            <span *ngIf="rowData[col.field]" class="badge bg-success">Activo</span>
+            <span *ngIf="!rowData[col.field]" class="badge bg-danger">Inactivo</span>
+          </div>
+
+        </td>
+        <td *ngIf="canDelete || canEdit" class="text-center">
+          <button *ngIf="canSetting" (click)="onAction(rowData, 'redirect')"
+                  class="btn btn-warning btn-sm mx-1"><i class="bi bi-gear-fill"></i></button>
+          <button *ngIf="canEdit" (click)="onAction(rowData, 'edit')"
+                  class="btn btn-primary btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
+          <button *ngIf="canDelete" (click)="onAction(rowData, 'delete')"
+                  class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash3-fill"></i></button>
+          <button *ngIf="canView" (click)="onAction(rowData, 'view')"
+                  class="btn btn-info btn-sm mx-1"><i class="bi bi-eye-fill"></i></button>
+          <button *ngIf="canReset" (click)="onAction(rowData, 'reset')"
+                  class="btn btn-info btn-sm mx-1"><i class="bi bi-arrow-repeat"></i></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Button trigger modal -->
+<button
+  #openDeleteModal
+  [hidden]="true"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#deleteModal">
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Desea eliminar el registro?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          #closeDeleteModal
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">NO</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onConfirm()"
+        >SI</button>
+      </div>
+    </div>
+  </div>
+</div>
