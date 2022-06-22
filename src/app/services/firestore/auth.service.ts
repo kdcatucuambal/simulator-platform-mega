@@ -2,11 +2,8 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {QueryDbService} from "./query-db.service";
 import {InfoBySimulator, InfoByTopic, User} from "../../models/Models";
-import {BehaviorSubject, catchError, finalize, from, map, Observable, skip, switchMap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, from, map, Observable, skip, switchMap, throwError} from "rxjs";
 import {TopicsSaved} from "../../website/services/simulator-result.service";
-import {getAuth} from "firebase/auth";
-
-
 
 
 @Injectable({
@@ -97,6 +94,7 @@ export class AuthService {
   }
 
   register(user: User) {
+    const {password, ...rest} = user;
     const createdObsRef = from(this.fireAuth.createUserWithEmailAndPassword(user.email, user.password));
     return createdObsRef.pipe(
       switchMap(created => {
@@ -105,7 +103,9 @@ export class AuthService {
       switchMap(() => {
         return this.logout();
       }),
-      switchMap(() => this.queryDbService.addDoc<User>('users', user))
+      switchMap(
+        () => this.queryDbService.addDoc<User>('users', rest)
+      )
     )
   }
 

@@ -222,7 +222,9 @@ export class QuestionsComponent implements OnInit {
       .keys(this.selected)
       .forEach(k =>
         this.selected[k] = typeof this.selected[k] == 'string' ? this.selected[k].trim() : this.selected[k]);
+
     this.selected.descriptionWithoutFormat = this.validateService.htmlToText(this.selected.description);
+
     const {id, ...rest} = this.selected;
 
     if (!this.validateService.object(rest, ['description'])) {
@@ -232,15 +234,14 @@ export class QuestionsComponent implements OnInit {
     }
 
     const auxOptions = rest.options.map(item => {
-      return this.validateService.htmlToText(item).trim();
-    })
+      return item.trim();
+    });
 
     if (auxOptions.includes('')) {
       this.submited = true;
       this.showToast('error', 'Datos requeridos', 'Todos los campos son requeridos!');
       return;
     }
-
 
     this.loading = true;
     this.btnCloseModal.nativeElement.click();

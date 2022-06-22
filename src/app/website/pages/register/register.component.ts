@@ -31,8 +31,7 @@ export class RegisterComponent implements OnInit {
   submited = false;
   errorSave = false;
   saveSuccess = false;
-
-  message = ''
+  message = '';
 
   constructor(
     private queryDbService: QueryDbService,
@@ -54,7 +53,7 @@ export class RegisterComponent implements OnInit {
 
   createUser() {
     this.submited = false;
-    this.user.course = this.courses.find((item)=> item.id == this.courseSelected)
+    this.user.course = this.courses.find((item) => item.id == this.courseSelected)
 
     Object
       .keys(this.user)
@@ -65,48 +64,46 @@ export class RegisterComponent implements OnInit {
     if (!this.validateService.object(
       this.user,
       ['password', 'phone', 'identificationCard', 'email', 'lastname', 'name'],
-      )){
+    )) {
       this.message = 'Todos los campos son obligatorios'
       this.submited = true;
       return;
     }
 
-    if (this.courseSelected == ''){
+    if (this.courseSelected == '') {
       this.message = 'Todos los campos son obligatorios'
       this.submited = true;
       return;
     }
 
-   if (!this.validateService.validateEmail(this.user.email)){
-     this.user.email = '';
-     this.message = 'El correo ingresado no es válido'
-     this.submited = true;
-     return;
-   }
+    if (!this.validateService.validateEmail(this.user.email)) {
+      this.user.email = '';
+      this.message = 'El correo ingresado no es válido'
+      this.submited = true;
+      return;
+    }
 
-   if (this.user.password.length < 6){
-     this.user.password = '';
-     this.message = 'La contraseña debe tener mínimo 6 dígitos';
-     this.submited = true;
-     return;
-   }
+    if (this.user.password.length < 6) {
+      this.user.password = '';
+      this.message = 'La contraseña debe tener mínimo 6 dígitos';
+      this.submited = true;
+      return;
+    }
 
-   this.user.created = new Date();
+    this.user.created = new Date();
 
-
-   this.authService.register(this.user).subscribe({
-     next: (d)=>{
-       this.saveSuccess = true;
-       this.submited = false;
-       this.errorSave = false;
-     },
-     error: (e)=>{
-       this.message = 'Al parecer este correo ya se encuentra registrado. Ponte en contacto con Megapro para obtener información.'
-       this.submited = true;
-       this.errorSave = true;
-     }
-   })
-
+    this.authService.register(this.user).subscribe({
+      next: (d) => {
+        this.saveSuccess = true;
+        this.submited = false;
+        this.errorSave = false;
+      },
+      error: (e) => {
+        this.message = 'Al parecer este correo ya se encuentra registrado. Ponte en contacto con Megapro para obtener información.'
+        this.submited = true;
+        this.errorSave = true;
+      }
+    })
   }
 
 }

@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-6">
                   <button (click)="onAddRegister()" class="btn btn-primary float-end">Agregar pregunta</button>
-                  <button (click)="onSaveNewOrder()" class="btn btn-success float-end mx-2">Guardar orden</button>
+                  <button (click)="onSaveNewOrder()" *ngIf="questions.length != 0" class="btn btn-success float-end mx-2">Guardar orden</button>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">{{'Title'}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel">Agregar o actualizar pregunta</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

@@ -43,7 +43,8 @@ export class StudentsComponent implements OnInit {
     lastname: '',
     observation: '',
     phone: '',
-    role: 'student'
+    role: 'student',
+    course: {id: '',  type: '', title: '', textColor: '',backgroundColor: '',description: ''}
   };
   search = '';
   data: User[] = [];
@@ -157,7 +158,12 @@ export class StudentsComponent implements OnInit {
       {collectionName: 'courses', where: true, whereData: {field: 'isActive', operator: '==', value: true}},
       {collectionName: 'areas', where: false}
     ]).subscribe(colls => {
-      this.data = colls[0] as User[];
+      this.data = (colls[0] as User[]).map(user => {
+        if (user.course) return user;
+
+        user.course = {id: '', type: '', title: '', backgroundColor: '', textColor: '', description: ''}
+        return user;
+      });
       this.courses = colls[1] as Course[];
       this.topics = colls[2] as Area[];
       this.loading = false;
@@ -168,7 +174,7 @@ export class StudentsComponent implements OnInit {
     this.selected.isActive = value;
   }
 
-  fillChartBarData(){
+  fillChartBarData() {
     if (this.selected.statisticsByTopic) {
       this.gradeLabel = '0 / 10';
       const labels = [];
@@ -181,7 +187,7 @@ export class StudentsComponent implements OnInit {
         grade = grade + item.hitPercentage;
       }
 
-      if (this.selected.statisticsByTopic.length>0){
+      if (this.selected.statisticsByTopic.length > 0) {
         this.gradeLabel = (grade / this.selected.statisticsByTopic.length / 10).toFixed(2) + ' / 10';
       }
 
@@ -204,13 +210,14 @@ export class StudentsComponent implements OnInit {
   }
 
   onSave() {
+
     Object
       .keys(this.selected)
       .forEach(k =>
         this.selected[k] = typeof this.selected[k] == 'string' ? this.selected[k].trim() : this.selected[k]);
     const {id, ...rest} = this.selected;
 
-    if (!this.validateService.object(rest, ['password', 'phone', 'identificationCard', 'email', 'lastname', 'name'])) {
+    if (!this.validateService.object(rest, ['phone', 'identificationCard', 'email', 'lastname', 'name'])) {
       this.submited = true;
       return;
     }
@@ -262,7 +269,6 @@ export class StudentsComponent implements OnInit {
       this.showToast();
     });
   }
-
 
   showToast(severity = 'success', summary = 'Acción realizada', detail = 'Acción realizada') {
     this.messageService.add(

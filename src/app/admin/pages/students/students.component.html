@@ -117,7 +117,7 @@
             <div class="col-12">
               <div class="form-floating">
                 <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
-                        [(ngModel)]="selected.course"  [ngClass]="{'is-invalid': submited && !selected.course}">
+                        [(ngModel)]="selected.course.id"  [ngClass]="{'is-invalid': submited && !selected.course}">
                   <option selected value="">Seleccione un curso</option>
                   <option *ngFor="let course of courses" [id]="course.id"
                           [value]="course.id">{{course.title + ' - ' + course.description}}</option>
@@ -134,7 +134,7 @@
                   class="btn btn-primary">
             <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
             </div>
-            Guardar
+            Guardars
           </button>
         </div>
       </div>

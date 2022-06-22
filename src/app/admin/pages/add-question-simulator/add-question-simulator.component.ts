@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {generate} from "short-uuid"
 import {of, switchMap} from "rxjs";
 import {QueryDbService} from "../../../services/firestore/query-db.service";
@@ -116,7 +116,7 @@ export class AddQuestionSimulatorComponent implements OnInit {
         return this.queryDbService.getDocById<SimulatorInfo>('simulators', this.simulatorId);
       }),
       switchMap(simulator => {
-        this.simulatorInfo = simulator;
+        this.simulatorInfo = simulator as SimulatorInfo;
         if (this.simulatorInfo.questions == '') {
           return of<SimulatorsQuestions>({questions: []});
         } else {
@@ -191,6 +191,16 @@ export class AddQuestionSimulatorComponent implements OnInit {
 
     if (!this.validateService.object(rest, ['description'])) {
       this.submited = true;
+      return;
+    }
+
+    const auxOptions = rest.options.map(item => {
+      return item.trim();
+    });
+
+    if (auxOptions.includes('')) {
+      this.submited = true;
+      this.showToast('error', 'Datos requeridos', 'Todos los campos son requeridos!');
       return;
     }
 
